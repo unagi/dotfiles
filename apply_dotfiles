@@ -31,7 +31,7 @@ cd ~
 
 mkdir -p ${_BACKUPDIR}
 for l in `find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
-    if [ -a `basename $l` ]; then mv `basename $l` ${_BACKUPDIR}; fi
+    if [ -a `basename $l` ]; then mv `basename $l` ${_BACKUPDIR}/; fi
     ln -s $l `basename $l`
 done
 
