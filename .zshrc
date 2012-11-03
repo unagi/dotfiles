@@ -14,8 +14,7 @@ setopt auto_pushd
 setopt correct
 setopt list_packed
 
-autoload predict-on
-predict-on
+setopt print_eight_bit
 
 alias ls='ls --color'
 alias grep='grep --color=auto'
