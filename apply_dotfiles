@@ -1,0 +1,29 @@
+#!/bin/bash
+
+_REPOS="https://github.com/unagi/dotfiles.git"
+_BACKUPDIR=".backup_dotfiles"
+
+_GIT=`which git`
+if [ $? -ne 0 ]; then
+    echo "Please install \"git\" before execute."
+    exit 1
+fi
+
+_VIM=`which vim`
+if [ $? -ne 0 ]; then
+    echo "Please install \"vim\" before execute."
+    exit 1
+fi
+
+cd ~
+${_GIT} clone ${_REPOS}
+
+mkdir -p ${_BACKUPDIR}
+for l in `find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
+    if [ -a `basename $l` ]; then mv `basename $l` ${_BACKUPDIR}; fi
+    ln -s $l `basename $l`
+done
+
+${_VIM} +BundleInsall +qall
+
+exit 0

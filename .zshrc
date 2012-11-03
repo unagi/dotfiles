@@ -3,6 +3,19 @@ compinit
 
 bindkey -v
 
-alias ls='ls --color'
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt hist_ignore_dups
+setopt share_history
 
-# Created by newuser for 4.3.12
+setopt auto_pushd
+
+setopt correct
+setopt list_packed
+
+autoload predict-on
+predict-on
+
+alias ls='ls --color'
+alias grep='grep --color=auto'
