@@ -17,6 +17,10 @@ fi
 
 cd ~
 ${_GIT} clone ${_REPOS}
+cd dotfiles
+${_GIT} submodule init
+${_GIT} submodule update
+cd ~
 
 mkdir -p ${_BACKUPDIR}
 for l in `find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
