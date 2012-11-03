@@ -16,5 +16,12 @@ setopt list_packed
 
 setopt print_eight_bit
 
-alias ls='ls --color'
+case "${OSTYPE}" in
+    freebsd*|darwin*)
+        alias ls='ls -GF'
+        ;;
+    *)
+        alias ls='ls -F --color=auto'
+        ;;
+esac
 alias grep='grep --color=auto'
