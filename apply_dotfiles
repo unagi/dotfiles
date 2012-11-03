@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#
+# apply dotfiles to your home
+#
+# execute your shell:
+# bash < <( curl https://raw.github.com/unagi/dotfiles/master/apply_dotfiles )
+#
+
 _REPOS="https://github.com/unagi/dotfiles.git"
 _BACKUPDIR=".backup_dotfiles"
 
