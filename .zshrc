@@ -16,6 +16,10 @@ setopt list_packed
 
 setopt print_eight_bit
 
+PS1='%{
+%}%F{green}(%n@%m)[%h]%f %F{yellow}%{%}%~%{%}%f
+$ '
+
 case "${OSTYPE}" in
     freebsd*|darwin*)
         alias ls='ls -GF'
