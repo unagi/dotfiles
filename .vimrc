@@ -1,25 +1,9 @@
 set nocompatible
 
-filetype on
-filetype indent on
-filetype plugin on
-
-syntax on
-colorscheme desert
-
-set number
-set ruler
-set laststatus=2
-set title
-set showcmd
-
-set autoindent
-set tabstop=4
-set shiftwidth=4
-set expandtab
 set rtp+=~/dotfiles/.vim/vundle.git/
 call vundle#rc()
 
+Bundle 'unagi/vim-moncf'
 Bundle 'Shougo/neocomplcache'
 " Use neocomplcache.
 let g:NeoComplCache_EnableAtStartup = 1
@@ -58,3 +42,20 @@ Bundle 'Shougo/unite.vim'
 Bundle 'thinca/vim-ref'
 Bundle 'thinca/vim-quickrun'
 
+syntax on
+colorscheme desert
+
+set number
+set ruler
+set laststatus=2
+set title
+set showcmd
+
+set autoindent
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+filetype on
+filetype indent on
+filetype plugin on
