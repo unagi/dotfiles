@@ -29,3 +29,7 @@ case "${OSTYPE}" in
         ;;
 esac
 alias grep='grep --color=auto'
+
+# for local settings
+[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+
