@@ -1,6 +1,7 @@
 if [ -x /usr/local/bin/brew ]; then
     BREW_PREFIX=`brew --prefix`
     fpath=($BREW_PREFIX/share/zsh/functions(N) $BREW_PREFIX/share/zsh/site-functions(N) $fpath)
+    [[ -f `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 fi
 
 autoload -U compinit
@@ -40,8 +41,6 @@ esac
 alias grep='grep --color=auto'
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-[[ -f `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 
 # for local settings
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
