@@ -33,6 +33,7 @@ case "${OSTYPE}" in
     freebsd*|darwin*)
         alias ls='gls --color'
         eval `gdircolors -b`
+        alias svn='colorsvn'
         ;;
     *)
         alias ls='ls -F --color=auto'
@@ -45,3 +46,4 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # for local settings
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
 
+alias refresh='source ~/.zshrc'
