@@ -5,15 +5,24 @@ if [ -x /usr/local/bin/brew ]; then
 fi
 
 autoload -U compinit
-compinit
+compinit -u
 
 bindkey -v
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt hist_ignore_dups
+setopt extended_history
 setopt share_history
+setopt hist_ignore_dups
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^p" history-beginning-search-backward-end
+bindkey "^n" history-beginning-search-forward-end
 
 setopt auto_pushd
 setopt pushd_ignore_dups
@@ -41,6 +50,7 @@ case "${OSTYPE}" in
         ;;
 esac
 alias grep='grep --color=auto'
+alias history='history 1'
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
