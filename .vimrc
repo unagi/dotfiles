@@ -12,6 +12,7 @@ let g:neocomplcache_auto_completion_start_length = 3
 Bundle 'Shougo/unite.vim'
 Bundle 'thinca/vim-ref'
 Bundle 'thinca/vim-quickrun'
+Bundle 'tyru/open-browser.vim'
 
 syntax on
 
@@ -28,6 +29,11 @@ set expandtab
 
 set list
 set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<
+
+let g:quickrun_config = {}
+let g:quickrun_config['markdown'] = {
+    \ 'outputter': 'browser'
+    \ }
 
 filetype on
 filetype indent on

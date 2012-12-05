@@ -44,6 +44,7 @@ case "${OSTYPE}" in
         alias ls='gls --color'
         eval `gdircolors -b`
         alias svn='colorsvn'
+        alias safari='open -a Safari'
         ;;
     *)
         alias ls='ls -F --color=auto'
