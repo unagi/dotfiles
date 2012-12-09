@@ -3,31 +3,37 @@
 #
 # apply dotfiles to your home
 #
-# execute your shell:
-# bash < <( curl https://raw.github.com/unagi/dotfiles/master/apply_dotfiles )
-#
 
 _REPOS="https://github.com/unagi/dotfiles.git"
 _BACKUPDIR=".backup_dotfiles"
 
-_GIT=`which git`
-if [ $? -ne 0 ]; then
-    echo "Please install \"git\" before execute."
-    exit 1
-fi
+cmd_chk() {
+    which $1 > /dev/null
+    [ $? -ne 0 ] && echo "Please install \"$1\" before execute." >&2 && exit 1
+}
 
-_VIM=`which vim`
-if [ $? -ne 0 ]; then
-    echo "Please install \"vim\" before execute."
-    exit 1
-fi
+case "${OSTYPE}" in
+    freebsd*|darwin*)
+        cmd_chk brew
+        ;;
+    *)
+        echo "who"
+        ;;
+esac
 
-cd ~
-${_GIT} clone ${_REPOS}
-cd dotfiles
-${_GIT} submodule init
-${_GIT} submodule update
-cd ~
+cmd_chk git
+cmd_chk vim
+
+exit
+
+if [ ! -d ~/dotfiles ]; then
+    cd ~
+    git clone ${_REPOS}
+    cd dotfiles
+    git submodule init
+    git submodule update
+    cd ~
+fi
 
 mkdir -p ${_BACKUPDIR}
 for l in `find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
@@ -35,6 +41,7 @@ for l in `find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'REA
     ln -s $l `basename $l`
 done
 
-${_VIM} +BundleInsall +qall
+echo "Please exec this command"
+echo "vim +BundleInsall +qall"
 
 exit 0
