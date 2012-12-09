@@ -15,6 +15,7 @@ cmd_chk() {
 case "${OSTYPE}" in
     freebsd*|darwin*)
         cmd_chk brew
+        brew install autojump coreutils colordiff colorsvn nmap wget
         ;;
     *)
         echo "who"
@@ -23,8 +24,6 @@ esac
 
 cmd_chk git
 cmd_chk vim
-
-exit
 
 if [ ! -d ~/dotfiles ]; then
     cd ~
@@ -35,9 +34,13 @@ if [ ! -d ~/dotfiles ]; then
     cd ~
 fi
 
+if [ -d ${_BACKUPDIR} ]; then
+    rm -rf ${_BACKUPDIR}
+fi
+
 mkdir -p ${_BACKUPDIR}
-for l in `find dotfiles/ -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
-    if [ -a `basename $l` ]; then mv `basename $l` ${_BACKUPDIR}/; fi
+for l in `find dotfiles -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
+    [ -a `basename $l` ] && mv `basename $l` ${_BACKUPDIR}/ 
     ln -s $l `basename $l`
 done
 
