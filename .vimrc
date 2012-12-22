@@ -38,3 +38,5 @@ let g:quickrun_config['markdown'] = {
 filetype on
 filetype indent on
 filetype plugin on
+
+autocmd Filetype ruby set ts=2 sts=2 sw=2
