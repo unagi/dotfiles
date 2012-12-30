@@ -56,6 +56,8 @@ alias history='history 1'
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
+export PYTHONSTARTUP=~/.pythonstartup
+
 # for local settings
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
 
