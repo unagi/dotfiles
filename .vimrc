@@ -43,4 +43,5 @@ autocmd Filetype ruby set ts=2 sts=2 sw=2
 autocmd Filetype html set ts=2 sts=2 sw=2
 autocmd Filetype css set ts=2 sts=2 sw=2
 autocmd Filetype yaml set ts=2 sts=2 sw=2
+autocmd Filetype javascript set ts=2 sts=2 sw=2
 set completeopt=menuone
