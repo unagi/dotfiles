@@ -52,6 +52,7 @@ case "${OSTYPE}" in
         ;;
 esac
 alias grep='grep --color=auto'
+alias be='bundle exec'
 alias history='history 1'
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
