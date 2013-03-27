@@ -3,6 +3,10 @@ if [ -x /usr/local/bin/brew ]; then
     fpath=($BREW_PREFIX/share/zsh/functions(N) $BREW_PREFIX/share/zsh/site-functions(N) $fpath)
     [[ -f `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 fi
+which rbenv > /dev/null
+if [ $? -eq 0 ]; then
+    eval "$(rbenv init -)"
+fi
 
 autoload -U compinit
 compinit -u
