@@ -33,6 +33,8 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tyru/open-browser.vim'
 
+NeoBundle 'h1mesuke/unite-outline'
+
 " default settings
 set number
 set ruler

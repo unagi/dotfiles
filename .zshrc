@@ -3,7 +3,7 @@ if [ -x /usr/local/bin/brew ]; then
     fpath=($BREW_PREFIX/share/zsh/functions(N) $BREW_PREFIX/share/zsh/site-functions(N) $fpath)
     [[ -f `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 fi
-which rbenv > /dev/null
+rbenv -v > /dev/null
 if [ $? -eq 0 ]; then
     eval "$(rbenv init -)"
 fi
@@ -56,6 +56,7 @@ case "${OSTYPE}" in
         ;;
 esac
 alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
 alias be='bundle exec'
 alias history='history 1'
 
