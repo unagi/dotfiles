@@ -2,6 +2,10 @@ if [ -x /usr/local/bin/brew ]; then
     BREW_PREFIX=`brew --prefix`
     fpath=($BREW_PREFIX/share/zsh/functions(N) $BREW_PREFIX/share/zsh/site-functions(N) $fpath)
     [[ -f `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+
+    # for Java
+    export JAVA_HOME=/Library/Java/Home
+    export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 fi
 rbenv -v > /dev/null
 if [ $? -eq 0 ]; then
@@ -50,6 +54,7 @@ case "${OSTYPE}" in
         alias svn='colorsvn'
         alias diff='colordiff'
         alias safari='open -a Safari'
+        alias diff='colordiff'
         ;;
     *)
         alias ls='ls -F --color=auto'
