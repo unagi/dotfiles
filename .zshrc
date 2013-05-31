@@ -7,7 +7,9 @@
 #                        __/ |
 #                       |___/
 
-
+# -----------------
+# About Environment
+# -----------------
 if [ -x /usr/local/bin/brew ]; then
     BREW_PREFIX=`brew --prefix`
     fpath=($BREW_PREFIX/share/zsh/functions(N) $BREW_PREFIX/share/zsh/site-functions(N) $fpath)
@@ -16,16 +18,30 @@ if [ -x /usr/local/bin/brew ]; then
     # for Java
     export JAVA_HOME=/Library/Java/Home
     export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
+    export PATH=/usr/local/bin:$PATH
 fi
 rbenv -v > /dev/null
 if [ $? -eq 0 ]; then
     eval "$(rbenv init -)"
 fi
-
-autoload -U compinit
-compinit -u
+export EDITOR=vim
 
 bindkey -v
+
+setopt auto_pushd
+setopt pushd_ignore_dups
+
+setopt auto_list
+setopt list_packed
+setopt print_eight_bit
+
+
+# ----------------
+# About Completion
+# ----------------
+autoload -U compinit
+compinit -u
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 
 # -------------
@@ -47,9 +63,6 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^p" history-beginning-search-backward-end
 bindkey "^n" history-beginning-search-forward-end
 
-setopt auto_pushd
-setopt pushd_ignore_dups
-
 zshaddhistory() {
     local line=${1%%$'\n'}
     local cmd=${line%% *}
@@ -59,11 +72,6 @@ zshaddhistory() {
     && ${cmd} != (man)
     ]]
 }
-
-setopt auto_list
-setopt list_packed
-
-setopt print_eight_bit
 
 export PYTHONSTARTUP=~/.pythonstartup
 
@@ -101,7 +109,6 @@ alias be='bundle exec'
 alias history='history 1'
 alias refresh='source ~/.zshrc'
 
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # for local settings
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine

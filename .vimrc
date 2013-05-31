@@ -8,38 +8,84 @@ if has('vim_starting')
   call neobundle#rc(expand('~/.vim/'))
 endif
 
-NeoBundle 'unagi/vim-moncf'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'kien/ctrlp.vim.git'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'scrooloose/syntastic'
+" -------
+" Plugins
+" -------
+" Plugin neocomplecache
+NeoBundle 'Shougo/neocomplcache', {
+    \ 'autoload' : {
+    \   'insert' : 1,
+    \ }}
+NeoBundle 'Shougo/neosnippet', {
+    \ 'autoload' : {
+    \   'insert' : 1,
+    \ }}
+NeoBundle 'Shougo/neocomplcache-rsense', {
+    \ 'depends' : 'Shougo/neocomplcache',
+    \ 'autoload': { 'filetypes': 'ruby' }}
+NeoBundleLazy 'taichouchou2/rsense-0.3', {
+    \ 'build' : {
+    \   'mac' : 'ruby etc/config.rb > ~/.rsense',
+    \ }}
+let g:neocomplcache#sources#rsense#home_directory = '/usr/local/Cellar/rsense/0.3/libexec'
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_auto_completion_start_length = 3
-NeoBundle 'JSON.vim'
-au! BufRead,BufNewFile *.json set filetype=json
-
-" Plugin key-mappings.
+let g:neocomplcache_enable_underbar_completion = 1
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-
-" SuperTab like snippets behavior.
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For snippet_complete marker.
 if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
 
+" Plugin for endwise
+NeoBundleLazy 'tpope/vim-endwise', {
+    \ 'autoload' : {
+    \    'insert': 1,
+    \ }}
+
+" Plugin ruby
+NeoBundleLazy 'vim-ruby/vim-ruby', {
+    \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
+NeoBundleLazy 'skwp/vim-rspec', {
+    \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
+NeoBundleLazy 'ruby-matchit', {
+    \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
+
+" Plugin for JSON
+NeoBundle 'JSON.vim', {
+    \ 'autoload' : { 'filetypes': 'json' }}
+
+" Plugin jedi
+NeoBundleLazy 'davidhalter/jedi-vim', {
+    \ 'autoload' : { 'filetypes': 'python' }}
+autocmd FileType python let b:did_ftplugin = 1
+let g:jedi#show_function_definition = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#popup_on_dot = 0
+
+" Plugin quickrun
+NeoBundle 'thinca/vim-quickrun'
+let g:quickrun_config = {}
+let g:quickrun_config['markdown'] = {
+    \ 'outputter': 'browser'
+    \ }
+
+" Plugin others
+NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-ref'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'tyru/open-browser.vim'
-
+NeoBundle 'unagi/vim-moncf'
+NeoBundle 'kien/ctrlp.vim.git'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/syntastic'
 NeoBundle 'h1mesuke/unite-outline'
 
+" --------
+" Settings
+" --------
 " default settings
 set number
 set ruler
@@ -54,10 +100,7 @@ set expandtab
 set list
 set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<
 
-let g:quickrun_config = {}
-let g:quickrun_config['markdown'] = {
-    \ 'outputter': 'browser'
-    \ }
+set helplang=ja
 
 " filetype settings
 filetype on
@@ -65,6 +108,7 @@ filetype indent on
 filetype plugin on
 syntax on
 
+au! BufRead,BufNewFile *.json set filetype=json
 autocmd Filetype ruby set ts=2 sts=2 sw=2
 autocmd Filetype html set ts=2 sts=2 sw=2
 autocmd Filetype css set ts=2 sts=2 sw=2
@@ -72,3 +116,4 @@ autocmd Filetype yaml set ts=2 sts=2 sw=2
 autocmd Filetype javascript set ts=2 sts=2 sw=2
 
 set completeopt=menuone
+set backspace=indent,eol,start
