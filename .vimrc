@@ -11,6 +11,9 @@ endif
 " -------
 " Plugins
 " -------
+" Plugin base
+NeoBundle 'Shougo/vimproc'
+
 " Plugin neocomplecache
 NeoBundle 'Shougo/neocomplcache', {
     \ 'autoload' : {
@@ -20,14 +23,6 @@ NeoBundle 'Shougo/neosnippet', {
     \ 'autoload' : {
     \   'insert' : 1,
     \ }}
-NeoBundle 'Shougo/neocomplcache-rsense', {
-    \ 'depends' : 'Shougo/neocomplcache',
-    \ 'autoload': { 'filetypes': 'ruby' }}
-NeoBundleLazy 'taichouchou2/rsense-0.3', {
-    \ 'build' : {
-    \   'mac' : 'ruby etc/config.rb > ~/.rsense',
-    \ }}
-let g:neocomplcache#sources#rsense#home_directory = '/usr/local/Cellar/rsense/0.3/libexec'
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_auto_completion_start_length = 3
 let g:neocomplcache_enable_underbar_completion = 1
@@ -38,6 +33,14 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expan
 if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
+NeoBundle 'Shougo/neocomplcache-rsense', {
+    \ 'depends' : 'Shougo/neocomplcache',
+    \ 'autoload': { 'filetypes': 'ruby' }}
+NeoBundleLazy 'taichouchou2/rsense-0.3', {
+    \ 'build' : {
+    \   'mac' : 'ruby etc/config.rb > ~/.rsense',
+    \ }}
+let g:neocomplcache#sources#rsense#home_directory = '/usr/local/Cellar/rsense/0.3/libexec'
 
 " Plugin for endwise
 NeoBundleLazy 'tpope/vim-endwise', {
@@ -52,10 +55,6 @@ NeoBundleLazy 'skwp/vim-rspec', {
     \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
 NeoBundleLazy 'ruby-matchit', {
     \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
-
-" Plugin for JSON
-NeoBundle 'JSON.vim', {
-    \ 'autoload' : { 'filetypes': 'json' }}
 
 " Plugin jedi
 NeoBundleLazy 'davidhalter/jedi-vim', {
@@ -72,16 +71,29 @@ let g:quickrun_config['markdown'] = {
     \ 'outputter': 'browser'
     \ }
 
+" Plugin for filer
+NeoBundle 'scrooloose/nerdtree'
+let file_name = expand("%:p")
+if has('vim_starting') && file_name == ""
+    autocmd VimEnter * execute 'NERDTree ./'
+endif
+
+" Plugin for syntax check
+NeoBundle 'scrooloose/syntastic'
+let g:syntastic_enable_signs = 1
+let g:syntastic_enable_highlighting = 1
+
+" Plugin for JSON
+NeoBundle 'JSON.vim', {
+    \ 'autoload' : { 'filetypes': 'json' }}
+
 " Plugin others
 NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'unagi/vim-moncf'
-NeoBundle 'kien/ctrlp.vim.git'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'h1mesuke/unite-outline'
+"NeoBundle 'Shougo/unite.vim'
+"NeoBundle 'kien/ctrlp.vim.git'
+"NeoBundle 'h1mesuke/unite-outline'
 
 " --------
 " Settings
@@ -96,11 +108,11 @@ set autoindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
-
 set list
 set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<
-
 set helplang=ja
+set completeopt=menuone
+set backspace=indent,eol,start
 
 " filetype settings
 filetype on
@@ -114,6 +126,3 @@ autocmd Filetype html set ts=2 sts=2 sw=2
 autocmd Filetype css set ts=2 sts=2 sw=2
 autocmd Filetype yaml set ts=2 sts=2 sw=2
 autocmd Filetype javascript set ts=2 sts=2 sw=2
-
-set completeopt=menuone
-set backspace=indent,eol,start

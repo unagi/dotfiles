@@ -25,14 +25,13 @@ esac
 cmd_chk git
 cmd_chk vim
 
+cd ~
 if [ ! -d ~/dotfiles ]; then
-    cd ~
     git clone ${_REPOS}
-    cd dotfiles
-    git submodule init
-    git submodule update
-    cd ~
 fi
+cd dotfiles
+git submodule update --init --recursive
+cd ~
 
 if [ -d ${_BACKUPDIR} ]; then
     rm -rf ${_BACKUPDIR}

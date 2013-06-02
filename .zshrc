@@ -20,10 +20,6 @@ if [ -x /usr/local/bin/brew ]; then
     export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
     export PATH=/usr/local/bin:$PATH
 fi
-rbenv -v > /dev/null
-if [ $? -eq 0 ]; then
-    eval "$(rbenv init -)"
-fi
 export EDITOR=vim
 
 bindkey -v
