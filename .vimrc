@@ -48,6 +48,8 @@ NeoBundleLazy 'tpope/vim-endwise', {
     \    'insert': 1,
     \ }}
 
+NeoBundle 'h1mesuke/vim-alignta'
+
 " Plugin ruby
 NeoBundleLazy 'vim-ruby/vim-ruby', {
     \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }

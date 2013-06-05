@@ -18,7 +18,6 @@ if [ -x /usr/local/bin/brew ]; then
     # for Java
     export JAVA_HOME=/Library/Java/Home
     export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
-    export PATH=/usr/local/bin:$PATH
 fi
 export EDITOR=vim
 
