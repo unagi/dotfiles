@@ -93,6 +93,7 @@ NeoBundle 'JSON.vim', {
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'unagi/vim-moncf'
+NeoBundle 'hallison/vim-markdown'
 "NeoBundle 'Shougo/unite.vim'
 "NeoBundle 'kien/ctrlp.vim.git'
 "NeoBundle 'h1mesuke/unite-outline'
