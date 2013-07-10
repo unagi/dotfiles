@@ -52,12 +52,6 @@ setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt hist_reduce_blanks
 
-autoload history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^p" history-beginning-search-backward-end
-bindkey "^n" history-beginning-search-forward-end
-
 zshaddhistory() {
     local line=${1%%$'\n'}
     local cmd=${line%% *}
@@ -83,6 +77,8 @@ function prompt-git-current-branch {
 
     if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
         return
+    elif [[ ! -d .git ]]; then
+        return
     fi
     name=$(basename "`git symbolic-ref HEAD 2> /dev/null`")
     if [[ -z $name ]]; then
@@ -102,9 +98,9 @@ function prompt-git-current-branch {
 }
 setopt prompt_subst
 
-PS1='%{
+PROMPT='%{
 %}%F{green}(%n@%m)[%h]%f %F{yellow}%{%}%~%{%}%f `prompt-git-current-branch`
-$ '
+%(?.$.%F{red}$%f) '
 
 
 # -------------
@@ -126,7 +122,7 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias be='bundle exec'
 alias history='history 1'
-alias refresh='source ~/.zshrc'
+alias reload='source ~/.zshrc'
 
 
 # for local settings
