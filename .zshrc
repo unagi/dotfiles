@@ -36,14 +36,19 @@ setopt print_eight_bit
 # ----------------
 autoload -U compinit
 compinit -u
+setopt magic_equal_subst
+setopt hist_expand
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
+zstyle ':completion:*:default' menu select=1
 
 # ------------
 # Load plugins
 # ------------
 source ~/dotfiles/zsh.d/history
 source ~/dotfiles/zsh.d/prompt
+
+# for local settings
+[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
 
 
 # -------------
@@ -66,7 +71,3 @@ alias egrep='egrep --color=auto'
 alias be='bundle exec'
 alias history='history 1'
 alias reload='source ~/.zshrc'
-
-
-# for local settings
-[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine

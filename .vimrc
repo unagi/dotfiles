@@ -130,3 +130,9 @@ autocmd Filetype html set ts=2 sts=2 sw=2
 autocmd Filetype css set ts=2 sts=2 sw=2
 autocmd Filetype yaml set ts=2 sts=2 sw=2
 autocmd Filetype javascript set ts=2 sts=2 sw=2
+
+" tab settings
+nmap <Tab> [Tag]
+map <silent> [Tag]c :tablast <bar> tabnew<CR>
+map <silent> [Tag]<RIGHT> :tabnext<CR>
+map <silent> [Tag]<LEFT> :tabprevious<CR>
