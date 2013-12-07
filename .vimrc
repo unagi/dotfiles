@@ -57,6 +57,8 @@ NeoBundleLazy 'skwp/vim-rspec', {
     \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
 NeoBundleLazy 'ruby-matchit', {
     \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
+NeoBundleLazy 'ngmy/vim-rubocop', {
+    \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
 
 " Plugin jedi
 NeoBundleLazy 'davidhalter/jedi-vim', {
@@ -94,9 +96,6 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'unagi/vim-moncf'
 NeoBundle 'hallison/vim-markdown'
-"NeoBundle 'Shougo/unite.vim'
-"NeoBundle 'kien/ctrlp.vim.git'
-"NeoBundle 'h1mesuke/unite-outline'
 
 " --------
 " Settings
@@ -130,6 +129,7 @@ autocmd Filetype html set ts=2 sts=2 sw=2
 autocmd Filetype css set ts=2 sts=2 sw=2
 autocmd Filetype yaml set ts=2 sts=2 sw=2
 autocmd Filetype javascript set ts=2 sts=2 sw=2
+autocmd Filetype json set ts=2 sts=2 sw=2
 
 " tab settings
 nmap <Tab> [Tag]

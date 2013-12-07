@@ -62,6 +62,11 @@ case "${OSTYPE}" in
         alias safari='open -a Safari'
         alias diff='colordiff'
         ;;
+    cygwin*)
+        export CYGWIN="tty nodosfilewarning"
+        alias ls='ls -F --color=auto'
+        alias knife='c:/opscode/chef/bin/knife'
+        ;;
     *)
         alias ls='ls -F --color=auto'
         ;;
