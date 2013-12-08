@@ -50,6 +50,11 @@ NeoBundleLazy 'tpope/vim-endwise', {
 
 NeoBundle 'h1mesuke/vim-alignta'
 
+NeoBundle 'itchyny/lightline.vim'
+let g:lightline = {
+    \ 'colorscheme': 'solarized'
+    \ }
+
 " Plugin ruby
 NeoBundleLazy 'vim-ruby/vim-ruby', {
     \ 'autoload' : { 'filetypes': ['ruby', 'eruby', 'haml'] } }
