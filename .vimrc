@@ -2,11 +2,10 @@ set nocompatible
 filetype off
 colorscheme desert
 
-set rtp+=~/dotfiles/.vim/neobundle
 if has('vim_starting')
-  set runtimepath+=~/dotfiles/.vim/neobundle
-  call neobundle#rc(expand('~/.vim/'))
+  set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
+call neobundle#rc(expand('~/.vim/'))
 
 " -------
 " Plugins
@@ -101,6 +100,8 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'unagi/vim-moncf'
 NeoBundle 'hallison/vim-markdown'
+NeoBundle 'Yggdroot/indentLine'
+let g:indentLine_color_term = 239
 
 " --------
 " Settings

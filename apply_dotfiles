@@ -28,6 +28,8 @@ cmd_chk vim
 cd ~
 if [ ! -d ~/dotfiles ]; then
     git clone ${_REPOS}
+    mkdir -p ~/.vim/bundle
+    git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 fi
 cd dotfiles
 git submodule update --init --recursive
