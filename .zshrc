@@ -31,6 +31,13 @@ setopt list_packed
 setopt print_eight_bit
 
 
+# ------------
+# Load plugins
+# ------------
+source ~/dotfiles/zsh.d/history
+source ~/dotfiles/zsh.d/prompt
+
+
 # ----------------
 # About Completion
 # ----------------
@@ -40,12 +47,6 @@ setopt magic_equal_subst
 setopt hist_expand
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:default' menu select=1
-
-# ------------
-# Load plugins
-# ------------
-source ~/dotfiles/zsh.d/history
-source ~/dotfiles/zsh.d/prompt
 
 # for local settings
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
