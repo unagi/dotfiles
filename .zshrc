@@ -78,5 +78,6 @@ esac
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias be='bundle exec'
+alias bes='bundle exec spring'
 alias history='history 1'
 alias reload='source ~/.zshrc'

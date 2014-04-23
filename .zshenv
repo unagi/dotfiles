@@ -1,4 +1,4 @@
-export PATH=$HOME/.pyenv/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.pyenv/bin:$HOME/.rbenv/bin:/usr/local/bin:$PATH
 which rbenv > /dev/null
 if [ $? -eq 0 ]; then
     eval "$(rbenv init -)"
