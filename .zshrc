@@ -71,6 +71,10 @@ case "${OSTYPE}" in
             alias $i="cocot $i"
         done
         ;;
+    linux-gnu*)
+        alias diff='colordiff'
+        alias ls='ls -F --color=auto'
+        ;;
     *)
         alias ls='ls -F --color=auto'
         ;;

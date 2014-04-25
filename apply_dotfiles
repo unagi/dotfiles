@@ -14,8 +14,15 @@ cmd_chk() {
 
 case "${OSTYPE}" in
     freebsd*|darwin*)
+        echo "setup for MacOSX"
         cmd_chk brew
         brew install autojump coreutils colordiff colorsvn nmap wget
+        ;;
+    linux*)
+        if [ `lsb_release --short --id` == "Ubuntu" ]; then
+            echo "setup for Ubuntu"
+            sudo apt-get install -y autojump colordiff curl
+        fi
         ;;
     *)
         echo "who"
@@ -41,11 +48,10 @@ fi
 
 mkdir -p ${_BACKUPDIR}
 for l in `find dotfiles -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
-    [ -a `basename $l` ] && mv `basename $l` ${_BACKUPDIR}/ 
+    [ -a `basename $l` ] && mv `basename $l` ${_BACKUPDIR}/
     ln -s $l `basename $l`
 done
 
-echo "Please exec this command"
-echo "vim +BundleInsall +qall"
+echo "Launch vim, run :NeoBundleInstall"
 
 exit 0
