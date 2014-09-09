@@ -19,6 +19,9 @@ if [ -x /usr/local/bin/brew ]; then
     export JAVA_HOME=/Library/Java/Home
     export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 fi
+if [ -e /usr/share/autojump/autojump.zsh ]; then
+    source /usr/share/autojump/autojump.zsh
+fi
 export EDITOR=vim
 
 bindkey -v
@@ -74,6 +77,8 @@ case "${OSTYPE}" in
     linux-gnu*)
         alias diff='colordiff'
         alias ls='ls -F --color=auto'
+        alias pbcopy='xsel --clipboard --input'
+        alias pbpaste='xsel --clipboard --output'
         ;;
     *)
         alias ls='ls -F --color=auto'
