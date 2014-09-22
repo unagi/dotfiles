@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+# I cannot compile cocot....
+
+$@ | iconv -f cp932 -t utf-8

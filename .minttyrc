@@ -1,11 +1,11 @@
 BoldAsFont=no
 Columns=120
 Rows=36
-Font=Inconsolata
+Font=Ricty Diminished
 FontHeight=12
 Transparency=low
 CursorType=block
-FontSmoothing=full
+FontSmoothing=partial
 BoldAsColour=no
 Term=xterm-256color
 Black=7,54,66

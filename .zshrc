@@ -37,7 +37,6 @@ setopt print_eight_bit
 source ~/dotfiles/zsh.d/history
 source ~/dotfiles/zsh.d/prompt
 
-
 # ----------------
 # About Completion
 # ----------------
@@ -67,6 +66,10 @@ case "${OSTYPE}" in
         export CYGWIN="tty nodosfilewarning"
         alias ls='ls -F --color=auto'
         alias knife='c:/opscode/chef/bin/knife'
+        WINCMD=(ipconfig netstat ping tracert)
+        for i in $WINCMD; do
+            alias $i="cocot $i"
+        done
         ;;
     *)
         alias ls='ls -F --color=auto'
