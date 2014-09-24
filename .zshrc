@@ -39,6 +39,7 @@ setopt print_eight_bit
 # ------------
 source ~/dotfiles/zsh.d/history
 source ~/dotfiles/zsh.d/prompt
+source ~/dotfiles/zsh.d/ssh-agent
 
 # ----------------
 # About Completion
@@ -73,6 +74,7 @@ case "${OSTYPE}" in
         for i in $WINCMD; do
             alias $i="cocot $i"
         done
+        alias ssh='use-ssh-agent-on-cygwin'
         ;;
     linux-gnu*)
         alias diff='colordiff'
