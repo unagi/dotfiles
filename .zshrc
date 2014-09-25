@@ -33,6 +33,12 @@ setopt auto_list
 setopt list_packed
 setopt print_eight_bit
 
+# ------------
+# Docker
+# ------------
+if [ -x "/cygdrive/c/Program Files/Boot2Docker for Windows/start.sh" ]; then
+    alias boot2docker="/cygdrive/c/Program\ Files/Boot2Docker\ for\ Windows/start.sh"
+fi
 
 # ------------
 # Load plugins
