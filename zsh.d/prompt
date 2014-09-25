@@ -27,6 +27,14 @@ function prompt-git-current-branch {
 }
 setopt prompt_subst
 
-PROMPT='%{
+case ${UID} in
+    0)
+        PROMPT_MARK=#
+        ;;
+    *)
+        PROMPT_MARK=$
+        ;;
+    esac
+PROMPT="%{
 %}%F{green}(%n@%m)[%h]%f %F{yellow}%{%}%~%{%}%f `prompt-git-current-branch`
-%(?.$.%F{red}$%f) '
+%(?.${PROMPT_MARK}.%F{red}${PROMPT_MARK}%f) "
