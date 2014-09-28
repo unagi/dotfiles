@@ -10,13 +10,23 @@ _BACKUPDIR=".backup_dotfiles"
 cmd_chk() {
     which $1 > /dev/null
     [ $? -ne 0 ] && echo "Please install \"$1\" before execute." >&2 && exit 1
+    echo "command $1 found"
 }
 
+echo "install basic packages..."
 case "${OSTYPE}" in
     freebsd*|darwin*)
         echo "setup for MacOSX"
         cmd_chk brew
-        brew install autojump coreutils colordiff colorsvn nmap wget
+        INSTALLS=("autojump" "coreutils" "colordiff" "colorsvn" "nmap" "wget")
+        for t in ${INSTALLS[@]}; do
+            brew list $t >/dev/null
+            if [ $? -eq 1 ]; then
+                brew install $t
+            else
+                echo "skip install: $t"
+            fi
+        done
         ;;
     linux*)
         if [ `lsb_release --short --id` == "Ubuntu" ]; then
@@ -28,30 +38,40 @@ case "${OSTYPE}" in
         echo "who"
         ;;
 esac
+echo ""
 
-cmd_chk git
-cmd_chk vim
+echo "check needle commands..."
+NEED_COMMANDS=("git" "vim")
+for c in ${NEED_COMMANDS[@]}; do
+    cmd_chk $c
+done
 
+# exec git clone
 cd ~
 if [ ! -d ~/dotfiles ]; then
     git clone ${_REPOS}
+else
+    echo "dotfiles is already installed"
+fi
+if [ ! -d ~/.vim/bundle ]; then
     mkdir -p ~/.vim/bundle
     git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+else
+    echo "neobundle is already installed"
 fi
+
 cd dotfiles
 git submodule update --init --recursive
 cd ~
 
-if [ -d ${_BACKUPDIR} ]; then
-    rm -rf ${_BACKUPDIR}
+if [ ! -d ${_BACKUPDIR} ]; then
+    mkdir -p ${_BACKUPDIR}
+    for l in `find dotfiles -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
+        [ -a `basename $l` ] && mv `basename $l` ${_BACKUPDIR}/
+        ln -s $l `basename $l`
+    done
 fi
 
-mkdir -p ${_BACKUPDIR}
-for l in `find dotfiles -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
-    [ -a `basename $l` ] && mv `basename $l` ${_BACKUPDIR}/
-    ln -s $l `basename $l`
-done
-
-echo "Launch vim, run :NeoBundleInstall"
+exec vim +NeoBundleInstall
 
 exit 0
