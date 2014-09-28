@@ -81,6 +81,7 @@ case "${OSTYPE}" in
             alias $i="cocot $i"
         done
         alias ssh='use-ssh-agent-on-cygwin'
+        alias open='explorer'
         ;;
     linux-gnu*)
         alias diff='colordiff'
