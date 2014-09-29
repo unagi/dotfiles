@@ -4,7 +4,7 @@
 # apply dotfiles to your home
 #
 
-_REPOS="https://github.com/unagi/dotfiles.git"
+_REPOS="git@github.com:unagi/dotfiles.git"
 _BACKUPDIR=".backup_dotfiles"
 
 cmd_chk() {
