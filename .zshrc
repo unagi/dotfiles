@@ -10,18 +10,20 @@
 # -----------------
 # About Environment
 # -----------------
+source ~/dotfiles/zsh.d/util
+
 if [ -x /usr/local/bin/brew ]; then
     BREW_PREFIX=`brew --prefix`
     fpath=($BREW_PREFIX/share/zsh/functions(N) $BREW_PREFIX/share/zsh/site-functions(N) $fpath)
-    [[ -f `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
+    load_if_exists `brew --prefix`/etc/autojump.sh
 
     # for Java
     export JAVA_HOME=/Library/Java/Home
     export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
+else
+    load_if_exists /usr/share/autojump/autojump.zsh
 fi
-if [ -e /usr/share/autojump/autojump.zsh ]; then
-    source /usr/share/autojump/autojump.zsh
-fi
+
 export EDITOR=vim
 
 bindkey -v
@@ -58,7 +60,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:default' menu select=1
 
 # for local settings
-[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+load_if_exists ~/.zshrc.mine
 
 
 # -------------
@@ -96,6 +98,5 @@ esac
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias be='bundle exec'
-alias bes='bundle exec spring'
 alias history='history 1'
 alias reload='source ~/.zshrc'

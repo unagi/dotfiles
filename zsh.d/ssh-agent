@@ -1,12 +1,20 @@
 # vim: ft=zsh
 
-function use-ssh-agent-on-cygwin {
-    local args="$@"
+SSH_AGENT_INFO=~/.ssh/.agent-info
+load_if_exists $SSH_AGENT_INFO
+
+start-ssh-agent() {
     ssh-add -l >& /dev/null
-    if [ $? = 2 ]; then
+    if [ $? -ne 0 ]; then
         echo "ssh-agent starting..."
-        eval `ssh-agent`
+        echo `ssh-agent` > $SSH_AGENT_INFO
+        source $SSH_AGENT_INFO
         ssh-add ~/.ssh/id_rsa
     fi
+}
+
+use-ssh-agent-on-cygwin() {
+    local args="$@"
+    start-ssh-agent
     ssh $args
 }
