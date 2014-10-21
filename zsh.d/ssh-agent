@@ -14,7 +14,6 @@ start-ssh-agent() {
 }
 
 use-ssh-agent-on-cygwin() {
-    local args="$@"
     start-ssh-agent
-    ssh $args
+    /usr/bin/ssh $@
 }
