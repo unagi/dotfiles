@@ -13,7 +13,4 @@ start-ssh-agent() {
     fi
 }
 
-use-ssh-agent-on-cygwin() {
-    start-ssh-agent
-    /usr/bin/ssh $@
-}
+start-ssh-agent

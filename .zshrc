@@ -82,7 +82,6 @@ case "${OSTYPE}" in
         for i in $WINCMD; do
             alias $i="cocot $i"
         done
-        alias ssh='use-ssh-agent-on-cygwin'
         alias open='explorer'
         ;;
     linux-gnu*)
