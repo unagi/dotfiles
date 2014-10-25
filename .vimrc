@@ -55,6 +55,10 @@ NeoBundle 'itchyny/lightline.vim'
 let g:lightline = {
     \ 'colorscheme': 'solarized'
     \ }
+let g:lightline.tabline = {
+    \ 'left': [ [ 'tabs' ] ],
+    \ 'right': [ [ 'close' ] ]
+    \ }
 
 " Plugin ruby
 NeoBundleLazy 'vim-ruby/vim-ruby', {
