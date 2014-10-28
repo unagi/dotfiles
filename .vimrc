@@ -101,6 +101,8 @@ let g:syntastic_enable_highlighting = 1
 NeoBundle 'JSON.vim', {
     \ 'autoload' : { 'filetypes': 'json' }}
 
+NeoBundle 'kchmck/vim-coffee-script'
+
 " Plugin others
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'thinca/vim-ref'
