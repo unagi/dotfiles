@@ -137,6 +137,7 @@ filetype plugin on
 syntax on
 
 au! BufRead,BufNewFile *.json set filetype=json
+au! BufRead,BufNewFile *.ejs set filetype=html
 autocmd Filetype ruby set ts=2 sts=2 sw=2
 autocmd Filetype eruby set ts=2 sts=2 sw=2
 autocmd Filetype html set ts=2 sts=2 sw=2
