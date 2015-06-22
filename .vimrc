@@ -74,7 +74,7 @@ NeoBundleLazy 'ngmy/vim-rubocop', {
 NeoBundleLazy 'davidhalter/jedi-vim', {
     \ 'autoload' : { 'filetypes': 'python' }}
 autocmd FileType python let b:did_ftplugin = 1
-let g:jedi#show_function_definition = 0
+let g:jedi#show_call_signatures = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#popup_on_dot = 0
 
@@ -145,6 +145,7 @@ autocmd Filetype yaml set ts=2 sts=2 sw=2
 autocmd Filetype javascript set ts=2 sts=2 sw=2
 autocmd Filetype coffee set ts=2 sts=2 sw=2
 autocmd Filetype json set ts=2 sts=2 sw=2
+autocmd Filetype php set noexpandtab ts=4 sts=4 sw=4
 
 " tab settings
 nmap <Tab> [Tag]
