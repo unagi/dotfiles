@@ -64,6 +64,7 @@ cd dotfiles
 git submodule update --init --recursive
 cd ~
 
+# install .xxx files
 if [ ! -d ${_BACKUPDIR} ]; then
     mkdir -p ${_BACKUPDIR}
     for l in `find dotfiles -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
@@ -73,5 +74,9 @@ if [ ! -d ${_BACKUPDIR} ]; then
 fi
 
 exec vim +NeoBundleInstall
+
+# if use vimproc, make vimproc so
+find ~/.vim/ -name "vimproc*.so"|grep so
+[ $? -ne 0 ] && cd ~/.vim/vimproc; make
 
 exit 0
