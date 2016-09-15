@@ -80,5 +80,8 @@ fi
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh|bash -s -- .vim
 ln -s "${ZDOTDIR:-$HOME}"/dotfiles/vimrc  "${ZDOTDIR:-$HOME}"/.vimrc
 
+# enable pyenv+virtualenv
+ln -s "${ZDOTDIR:-$HOME}"/dotfiles/pyenv "${ZDOTDIR:-$HOME}"/.pyenv
+ln -s "${ZDOTDIR:-$HOME}"/dotfiles/pyenv-virtualenv "${ZDOTDIR:-$HOME}"/.pyenv/plugins/pyenv-virtualenv
 
 exit 0
