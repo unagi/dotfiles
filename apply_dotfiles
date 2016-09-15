@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 #
 # apply dotfiles to your home
@@ -13,11 +13,18 @@ cmd_chk() {
     echo "command $1 found"
 }
 
+# shell check
+echo "checking shell..."
+ps $$|grep zsh > /dev/null
+[ $? -ne 0 ] && echo "Please use zsh before execute." >&2 && exit 1
+
+# prepare basic packages
 echo "install basic packages..."
 case "${OSTYPE}" in
     freebsd*|darwin*)
         echo "setup for MacOSX"
         cmd_chk brew
+        brew update
         INSTALLS=("autojump" "coreutils" "colordiff" "colorsvn" "nmap" "wget")
         for t in ${INSTALLS[@]}; do
             brew list $t >/dev/null
@@ -29,7 +36,7 @@ case "${OSTYPE}" in
         done
         ;;
     linux*)
-        if [ `lsb_release --short --id` == "Ubuntu" ]; then
+        if [ `lsb_release --short --id | grep 'Ubuntu'` ]; then
             echo "setup for Ubuntu"
             sudo apt-get install -y autojump colordiff curl
         fi
@@ -46,37 +53,32 @@ for c in ${NEED_COMMANDS[@]}; do
     cmd_chk $c
 done
 
-# exec git clone
+# git clone dotfiles
 cd ~
 if [ ! -d ~/dotfiles ]; then
-    git clone ${_REPOS}
+    git clone --recursive ${_REPOS}
 else
     echo "dotfiles is already installed"
 fi
-if [ ! -d ~/.vim/bundle ]; then
-    mkdir -p ~/.vim/bundle
-    git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
-else
-    echo "neobundle is already installed"
-fi
-
-cd dotfiles
-git submodule update --init --recursive
-cd ~
 
 # install .xxx files
+echo "enable dotfiles..."
 if [ ! -d ${_BACKUPDIR} ]; then
-    mkdir -p ${_BACKUPDIR}
-    for l in `find dotfiles -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
-        [ -a `basename $l` ] && mv `basename $l` ${_BACKUPDIR}/
-        ln -s $l `basename $l`
+    setopt EXTENDED_GLOB
+    ln -s "${ZDOTDIR:-$HOME}"/dotfiles/prezto  "${ZDOTDIR:-$HOME}"/.zprezto
+    for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+        ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
     done
 fi
+    #mkdir -p ${_BACKUPDIR}
+    #for l in `find dotfiles -mindepth 1 -maxdepth 1 ! -name '.git*' -a ! -name 'README' -a ! -name 'apply_dotfiles'`; do
+    #    [ -a `basename $l` ] && mv `basename $l` ${_BACKUPDIR}/
+    #    ln -s $l `basename $l`
+    #done
 
-exec vim +NeoBundleInstall
+# install vim plugin manager
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh|bash -s -- .vim
+ln -s "${ZDOTDIR:-$HOME}"/dotfiles/vimrc  "${ZDOTDIR:-$HOME}"/.vimrc
 
-# if use vimproc, make vimproc so
-find ~/.vim/ -name "vimproc*.so"|grep so
-[ $? -ne 0 ] && cd ~/.vim/vimproc; make
 
 exit 0
