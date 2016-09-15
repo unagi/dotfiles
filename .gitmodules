@@ -1,3 +1,9 @@
 [submodule "prezto"]
 	path = prezto
 	url = git@github.com:unagi/prezto.git
+[submodule "pyenv"]
+	path = pyenv
+	url = https://github.com/yyuu/pyenv
+[submodule "pyenv-virtualenv"]
+	path = pyenv-virtualenv
+	url = https://github.com/yyuu/pyenv-virtualenv.git
