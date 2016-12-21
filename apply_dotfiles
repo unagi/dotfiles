@@ -55,6 +55,9 @@ done
 
 # git clone dotfiles
 cd ~
+ssh-add .ssh/id_rsa
+[ $? -ne 0 ] && echo "RSA key not found..." >&2 && exit 1
+
 if [ ! -d ~/dotfiles ]; then
     git clone --recursive ${_REPOS}
 else
@@ -79,6 +82,9 @@ fi
 # install vim plugin manager
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh|bash -s -- .vim
 ln -s "${ZDOTDIR:-$HOME}"/dotfiles/vimrc  "${ZDOTDIR:-$HOME}"/.vimrc
+
+#TODO
+# compile vimproc
 
 # enable pyenv+virtualenv
 ln -s "${ZDOTDIR:-$HOME}"/dotfiles/pyenv "${ZDOTDIR:-$HOME}"/.pyenv
