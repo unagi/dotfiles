@@ -1,0 +1,4 @@
+language: python
+before_script:
+  - 'sudo apt-get install -y git vim'
+script: apply_dotfiles
