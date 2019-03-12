@@ -16,3 +16,11 @@ on_i = 1
 [[plugins]]
 repo = 'davidhalter/jedi-vim'
 on_ft = 'python'
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_ft = 'typescript'
+
+[[plugins]]
+repo = 'vim-utils/vim-ruby-fold'
+on_ft = 'ruby'

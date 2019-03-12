@@ -28,7 +28,7 @@ if dein#check_install()
 endif
 
 filetype off
-colorscheme desert
+colorscheme gruvbox
 
 
 " --------
@@ -49,6 +49,7 @@ set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<
 set helplang=ja
 set completeopt=menuone
 set backspace=indent,eol,start
+set background=dark
 
 " filetype settings
 filetype on
