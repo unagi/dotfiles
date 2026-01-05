@@ -1,0 +1,15 @@
+# Claude Code - 機密情報・一時ファイルの除外
+.claude/.credentials.json
+.claude/history.jsonl
+.claude/debug
+.claude/file-history
+.claude/ide
+.claude/plans
+.claude/plugins
+.claude/projects
+.claude/session-env
+.claude/shell-snapshots
+.claude/stats-cache.json
+.claude/statsig
+.claude/telemetry
+.claude/todos
