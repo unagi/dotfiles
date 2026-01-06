@@ -13,3 +13,6 @@
 .claude/statsig
 .claude/telemetry
 .claude/todos
+
+/README.md
+/LICENSE
