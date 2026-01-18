@@ -120,6 +120,7 @@
 ---
 
 ## Git運用
+- mainへの直接pushはinitial commit以外では原則禁止
 - コミットメッセージ形式: Conventional Commits
 - 含める情報: 変更理由 / 影響範囲 / 破壊的変更の有無
 

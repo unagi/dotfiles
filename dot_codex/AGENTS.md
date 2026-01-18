@@ -5,10 +5,11 @@
 ## 進め方（基本）
 - まず現状把握：`git status` / 差分確認 / 関連ファイル検索。
 - プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
-  → 言語別指示（`@~/.claude/languages/`）に従って実行。
+  → 言語別指示に従って実行（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
 
 ## Git運用（commit〜PR）
+- mainへのpushはinitial commit以外では原則禁止
 - ブランチ作成 → 変更 → テスト → commit → push → PR作成までを一通り実施できる前提で動く。
 - コミットメッセージは「変更理由 + 影響範囲 + 破壊的変更の有無」を含める（Conventional Commits推奨）。
 
