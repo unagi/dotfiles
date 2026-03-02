@@ -7,10 +7,12 @@
 - プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
   → 言語別指示に従って実行（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
 - 開発共通ガイドを先に確認：`cat ~/.codex/common/development.md`。
+- プロジェクト用指示ファイルの整備を依頼された場合は、`cat ~/.codex/common/project-instructions-guideline.md` を参照する。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
 
 ## このリポジトリ固有（chezmoi制約）
 - このリポジトリは `chezmoi` の source であり、ディレクトリ名が復元先パスに直結する。
+- このリポジトリのスコープは「ユーザーグローバル設定」の管理であり、プロジェクトローカル指示は各プロジェクト側を優先する。
 - 復元先マッピング（不変）:
   - `dot_codex/` → `~/.codex/`
   - `private_dot_claude/` → `~/.claude/`

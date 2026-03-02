@@ -9,15 +9,22 @@
 - **Claude Code設定** - AIコーディングアシスタントの個人設定
   - グローバル指示（CLAUDE.md）
   - 開発共通ガイド（common/development.md）
+  - プロジェクト用指示ファイル整備ガイド（common/project-instructions-guideline.md）
   - 言語別設計方針（Python, Node.js, Java）
   - カスタムエージェント・コマンド
   - パーミッション設定
 - **Codex設定**
   - グローバル指示（AGENTS.md）
   - 開発共通ガイド（common/development.md）
+  - プロジェクト用指示ファイル整備ガイド（common/project-instructions-guideline.md）
   - 言語別設計方針（Python, Node.js, Java）
 - **source-onlyテンプレート**
   - `.chezmoitemplates/` に共通ガイド本文を配置し、Claude/Codex双方に展開
+
+## スコープ
+
+- このリポジトリの主目的は、`~/.codex/` と `~/.claude/` のユーザーグローバル設定を管理・配布することです。
+- プロジェクトローカルの指示ファイル（`AGENTS.md` など）は各プロジェクト側が正本であり、本リポジトリでは整備ガイドを提供します。
 
 ## セットアップ
 
@@ -98,7 +105,8 @@ chezmoi status
 ├── .chezmoitemplates/              # source-onlyテンプレート（デプロイ対象外）
 │   └── agent/
 │       ├── common/
-│       │   └── development.md
+│       │   ├── development.md
+│       │   └── project-instructions-guideline.md
 │       └── languages/
 │           ├── java.md
 │           ├── node.md
@@ -113,7 +121,8 @@ chezmoi status
 ├── dot_codex/                      # ~/.codex/ にデプロイされる
 │   ├── AGENTS.md                   # グローバル指示（本リポジトリでは .chezmoiignore 対象）
 │   ├── common/
-│   │   └── development.md.tmpl
+│   │   ├── development.md.tmpl
+│   │   └── project-instructions-guideline.md.tmpl
 │   └── languages/
 │       ├── java.md.tmpl
 │       ├── node.md.tmpl
@@ -121,7 +130,8 @@ chezmoi status
 └── private_dot_claude/             # ~/.claude/ にデプロイされる
     ├── CLAUDE.md                   # グローバル指示
     ├── common/
-    │   └── development.md.tmpl
+    │   ├── development.md.tmpl
+    │   └── project-instructions-guideline.md.tmpl
     ├── encrypted_settings.local.json.age # パーミッション・環境変数（暗号化）
     ├── agents/                     # カスタムエージェント
     ├── commands/                   # カスタムコマンド

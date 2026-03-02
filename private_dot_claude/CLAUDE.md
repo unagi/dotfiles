@@ -141,6 +141,7 @@
 
 ## 開発共通ガイド
 - @~/.claude/common/development.md
+- @~/.claude/common/project-instructions-guideline.md
 
 ---
 
