@@ -8,9 +8,16 @@
 
 - **Claude Code設定** - AIコーディングアシスタントの個人設定
   - グローバル指示（CLAUDE.md）
+  - 開発共通ガイド（common/development.md）
   - 言語別設計方針（Python, Node.js, Java）
   - カスタムエージェント・コマンド
   - パーミッション設定
+- **Codex設定**
+  - グローバル指示（AGENTS.md）
+  - 開発共通ガイド（common/development.md）
+  - 言語別設計方針（Python, Node.js, Java）
+- **source-onlyテンプレート**
+  - `.chezmoitemplates/` に共通ガイド本文を配置し、Claude/Codex双方に展開
 
 ## セットアップ
 
@@ -88,6 +95,14 @@ chezmoi status
 
 ```
 ~/dotfiles/
+├── .chezmoitemplates/              # source-onlyテンプレート（デプロイ対象外）
+│   └── agent/
+│       ├── common/
+│       │   └── development.md
+│       └── languages/
+│           ├── java.md
+│           ├── node.md
+│           └── python.md
 ├── .chezmoi.toml.tmpl              # chezmoi設定（暗号化設定含む）
 ├── .chezmoiignore                  # chezmoi管理対象外ファイル
 ├── .gitignore                      # Git追跡対象外ファイル
@@ -95,12 +110,22 @@ chezmoi status
 ├── .gitattributes                  # Git属性
 ├── LICENSE                         # MITライセンス
 ├── README.md                       # このファイル
+├── dot_codex/                      # ~/.codex/ にデプロイされる
+│   ├── AGENTS.md                   # グローバル指示（本リポジトリでは .chezmoiignore 対象）
+│   ├── common/
+│   │   └── development.md.tmpl
+│   └── languages/
+│       ├── java.md.tmpl
+│       ├── node.md.tmpl
+│       └── python.md.tmpl
 └── private_dot_claude/             # ~/.claude/ にデプロイされる
     ├── CLAUDE.md                   # グローバル指示
-    ├── encrypted_settings.json.age # パーミッション・環境変数（暗号化）
+    ├── common/
+    │   └── development.md.tmpl
+    ├── encrypted_settings.local.json.age # パーミッション・環境変数（暗号化）
     ├── agents/                     # カスタムエージェント
     ├── commands/                   # カスタムコマンド
-    └── languages/                  # 言語別設計方針
+    └── languages/                  # 言語別設計方針（source-onlyテンプレートから展開）
 ```
 
 ## セキュリティ

@@ -139,6 +139,11 @@
 
 ---
 
+## 開発共通ガイド
+- @~/.claude/common/development.md
+
+---
+
 ## 言語別設計方針
 - Python: @~/.claude/languages/python.md
 - Node.js: @~/.claude/languages/node.md

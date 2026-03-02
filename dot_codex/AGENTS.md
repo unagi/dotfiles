@@ -6,7 +6,21 @@
 - まず現状把握：`git status` / 差分確認 / 関連ファイル検索。
 - プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
   → 言語別指示に従って実行（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
+- 開発共通ガイドを先に確認：`cat ~/.codex/common/development.md`。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
+
+## このリポジトリ固有（chezmoi制約）
+- このリポジトリは `chezmoi` の source であり、ディレクトリ名が復元先パスに直結する。
+- 復元先マッピング（不変）:
+  - `dot_codex/` → `~/.codex/`
+  - `private_dot_claude/` → `~/.claude/`
+- 上記マッピングに関わるディレクトリ/ファイルの移動・リネーム・削除は、明示指示がない限り実施しない。
+- 共通化が必要な場合は「復元先を変えずに」実施する（例: `.chezmoitemplates/` の活用）。
+- chezmoiで管理したいファイル以外（リポジトリ保守用ファイル等）は、必ず `.chezmoiignore` に追加する。
+- chezmoi管理ファイルを変更したら、完了前に必ず以下で検証する。
+  - `chezmoi managed`
+  - `chezmoi apply --dry-run --verbose`
+- 想定外の復元先追加/削除や大きな差分が出た場合は、作業を止めて方針確認する。
 
 ## Git運用（commit〜PR）
 - mainへのpushはinitial commit以外では原則禁止

@@ -1,4 +1,4 @@
-# Claude Code - 機密情報・一時ファイルの除外
+# Claude/Codex - 機密情報・一時ファイルの除外
 .claude/.credentials.json
 .claude/history.jsonl
 .claude/debug
@@ -14,6 +14,7 @@
 .claude/statsig
 .claude/telemetry
 .claude/todos
+.codex/AGENTS.md
 
 /README.md
 /LICENSE
