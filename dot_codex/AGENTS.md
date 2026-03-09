@@ -4,33 +4,24 @@
 
 ## 進め方（基本）
 - まず現状把握：`git status` / 差分確認 / 関連ファイル検索。
-- プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
-  → 言語別指示に従って実行（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
 - 開発共通ガイドを先に確認：`cat ~/.codex/common/development.md`。
-- プロジェクト用指示ファイルの整備を依頼された場合は、`cat ~/.codex/common/project-instructions-guideline.md` を参照する。
+- プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
+  → 該当する言語別指示だけを読む（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
+- プロジェクト用指示ファイルの整備・更新・レビューを依頼された場合は、`cat ~/.codex/common/project-instructions-guideline.md` を参照する。
+- Web調査は時間がかかるタスクなので、複数URLの調査が必要な場合は、`cat ~/.codex/common/multi-agent.md` による並列・高速化をして実行する。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
-
-## このリポジトリ固有（chezmoi制約）
-- このリポジトリは `chezmoi` の source であり、ディレクトリ名が復元先パスに直結する。
-- このリポジトリのスコープは「ユーザーグローバル設定」の管理であり、プロジェクトローカル指示は各プロジェクト側を優先する。
-- 復元先マッピング（不変）:
-  - `dot_codex/` → `~/.codex/`
-  - `private_dot_claude/` → `~/.claude/`
-- 上記マッピングに関わるディレクトリ/ファイルの移動・リネーム・削除は、明示指示がない限り実施しない。
-- 共通化が必要な場合は「復元先を変えずに」実施する（例: `.chezmoitemplates/` の活用）。
-- chezmoiで管理したいファイル以外（リポジトリ保守用ファイル等）は、必ず `.chezmoiignore` に追加する。
-- chezmoi管理ファイルを変更したら、完了前に必ず以下で検証する。
-  - `chezmoi managed`
-  - `chezmoi apply --dry-run --verbose`
-- 想定外の復元先追加/削除や大きな差分が出た場合は、作業を止めて方針確認する。
 
 ## Git運用（commit〜PR）
 - mainへのpushはinitial commit以外では原則禁止
-- ブランチ作成 → 変更 → テスト → commit → push → PR作成までを一通り実施できる前提で動く。
+- コミットは、今のスレッドで作成した専用作業ブランチなら個別確認不要。
+- `main` やその他の持続的なブランチでのコミットは事前確認を必須とする。
+- push / PR作成 / PRへのコメントは、必ずユーザー確認と承認を取ってから実行する。
 - コミットメッセージは「変更理由 + 影響範囲 + 破壊的変更の有無」を含める（Conventional Commits推奨）。
 
 ## 安全
-- トークン/秘密情報は出力しない。ログに残る操作（push/PR作成/権限付与）は実行前に要点を確認してから。
+- トークン/秘密情報は出力しない。
+- ネットワーク接続や権限昇格を前提にしない。必要になった場合は、必要性と影響を説明したうえでユーザー確認を取る。
+- ログに残る操作（push / PR作成 / PRへのコメント / 持続的ブランチでのcommit）は、実行前に要点を確認してから行う。
 
 ## ドキュメント参照（Context7）
 - 手順：プロジェクト実バージョン確認 → Context7でその版を確認 → 版前提を明示。

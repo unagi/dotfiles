@@ -11,6 +11,9 @@
 *.sh text
 *.bash text
 
+# Preserve Windows line endings for IME keymap files.
+GoogleIME/keymap.txt text eol=crlf
+
 # Denote binary files
 *.png binary
 *.jpg binary
