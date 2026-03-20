@@ -8,7 +8,7 @@
 - プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
   → 該当する言語別指示だけを読む（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
 - プロジェクト用指示ファイルの整備・更新・レビューを依頼された場合は、`cat ~/.codex/common/project-instructions-guideline.md` を参照する。
-- Web調査は時間がかかるタスクなので、複数URLの調査が必要な場合は、`cat ~/.codex/common/multi-agent.md` による並列・高速化をして実行する。
+- 並列化が有効なタスク（lint複数ファイル修正・独立した調査・Web調査）は、`cat ~/.codex/common/sub-agent.md` を参照してサブエージェントを活用する。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
 
 ## Git運用（commit〜PR）
