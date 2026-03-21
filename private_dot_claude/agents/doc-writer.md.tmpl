@@ -1,0 +1,11 @@
+---
+name: doc-writer
+description: |
+  ドキュメントを抜本的に編集・再構成するworker。
+  場当たり的な追記による肥大化・冗長化を防ぐため、ドキュメント全体を俯瞰して
+  構造から見直す必要がある場合に親エージェントから起動される。
+tools: Read, Edit, Grep, Glob, Bash
+model: opus
+---
+
+{{ include ".chezmoitemplates/agent/roles/doc-writer.md" }}

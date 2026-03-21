@@ -1,0 +1,11 @@
+---
+name: security-reviewer
+description: |
+  実装・設計のセキュリティ分析を担うworker。
+  脆弱性の見落としコストが高い変更（認証・認可・入力処理・外部連携等）に対して
+  親エージェントから起動される。修正は行わない。
+tools: Read, Grep, Glob
+model: opus
+---
+
+{{ include ".chezmoitemplates/agent/roles/security-reviewer.md" }}

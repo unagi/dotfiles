@@ -1,0 +1,11 @@
+---
+name: lint-fixer
+description: |
+  単一ファイルのlint/静的解析エラーを修正するworker。
+  複数ファイルにlint問題がある場合に親エージェントから起動される。
+  1 worker = 1ファイルを原則とする。
+tools: Read, Edit, Bash
+model: haiku
+---
+
+{{ include ".chezmoitemplates/agent/roles/lint-fixer.md" }}

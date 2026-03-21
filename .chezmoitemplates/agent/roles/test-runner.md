@@ -1,12 +1,3 @@
----
-name: test-runner
-description: |
-  指定されたテスト対象のテストを実行し、結果を返すworker。
-  lint-fixerによる修正後の確認や、並列テスト実行が必要な場合に親エージェントから起動される。
-tools: Read, Bash
-model: haiku
----
-
 # 役割
 指定されたテスト対象（ファイル・モジュール・テストケース）を実行し、
 Pass/Fail と失敗内容を構造化して返す。修正は行わない。

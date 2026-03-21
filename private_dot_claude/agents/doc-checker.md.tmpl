@@ -1,0 +1,11 @@
+---
+name: doc-checker
+description: |
+  実装とドキュメントの乖離を検知するworker。
+  git logで最近の変更を確認し、対応するドキュメントが追従しているか検査する。
+  修正は行わない。
+tools: Read, Grep, Glob, Bash
+model: haiku
+---
+
+{{ include ".chezmoitemplates/agent/roles/doc-checker.md" }}

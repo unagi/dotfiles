@@ -107,6 +107,10 @@ chezmoi status
 │       ├── common/
 │       │   ├── development.md
 │       │   └── project-instructions-guideline.md
+│       ├── roles/
+│       │   ├── architect.md
+│       │   ├── implementer.md
+│       │   └── ...
 │       └── languages/
 │           ├── java.md
 │           ├── node.md
@@ -120,6 +124,7 @@ chezmoi status
 ├── README.md                       # このファイル
 ├── dot_codex/                      # ~/.codex/ にデプロイされる
 │   ├── AGENTS.md                   # グローバル指示（本リポジトリでは .chezmoiignore 対象）
+│   ├── agents/                     # Codex custom agents（TOMLテンプレート）
 │   ├── common/
 │   │   ├── development.md.tmpl
 │   │   └── project-instructions-guideline.md.tmpl
@@ -129,14 +134,21 @@ chezmoi status
 │       └── python.md.tmpl
 └── private_dot_claude/             # ~/.claude/ にデプロイされる
     ├── CLAUDE.md                   # グローバル指示
+    ├── agents/                     # Claude custom agents（共通本文をinclude）
     ├── common/
     │   ├── development.md.tmpl
     │   └── project-instructions-guideline.md.tmpl
     ├── encrypted_settings.local.json.age # パーミッション・環境変数（暗号化）
-    ├── agents/                     # カスタムエージェント
     ├── commands/                   # カスタムコマンド
     └── languages/                  # 言語別設計方針（source-onlyテンプレートから展開）
 ```
+
+## エージェント定義の管理方針
+
+- ロール本文の正本は `.chezmoitemplates/agent/roles/` に置く
+- Claude 用エージェントは `private_dot_claude/agents/*.md.tmpl` で frontmatter の差分だけを持つ
+- Codex 用エージェントは `dot_codex/agents/*.toml.tmpl` で TOML とモデル指定の差分だけを持つ
+- ロールの意味内容を変更する場合は、まず `.chezmoitemplates/agent/roles/` を更新する
 
 ## セキュリティ
 

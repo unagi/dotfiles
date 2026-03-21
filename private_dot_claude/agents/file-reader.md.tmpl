@@ -1,0 +1,11 @@
+---
+name: file-reader
+description: |
+  調査フェーズのworker。単一ファイルを読み、要点を構造化して返す。
+  複数ファイルの並列調査が必要な場合に親エージェントから起動される。
+  1 worker = 1ファイルを原則とする。
+tools: Read, Grep
+model: haiku
+---
+
+{{ include ".chezmoitemplates/agent/roles/file-reader.md" }}

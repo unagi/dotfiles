@@ -1,0 +1,10 @@
+---
+name: test-runner
+description: |
+  指定されたテスト対象のテストを実行し、結果を返すworker。
+  lint-fixerによる修正後の確認や、並列テスト実行が必要な場合に親エージェントから起動される。
+tools: Read, Bash
+model: haiku
+---
+
+{{ include ".chezmoitemplates/agent/roles/test-runner.md" }}

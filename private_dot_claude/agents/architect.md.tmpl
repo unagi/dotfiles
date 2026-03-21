@@ -1,0 +1,11 @@
+---
+name: architect
+description: |
+  設計判断・API設計・モジュール構造の決定を担うworker。
+  間違えると後続実装全体に波及する重要な設計選択が必要な場合に
+  親エージェントから起動される。実装は行わない。
+tools: Read, Grep, Glob
+model: opus
+---
+
+{{ include ".chezmoitemplates/agent/roles/architect.md" }}

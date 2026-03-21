@@ -1,0 +1,11 @@
+---
+name: web-researcher
+description: |
+  Web調査のworker。単一URLの取得と構造化要約を担当する。
+  複数URLの並列調査が必要な場合に親エージェントから起動される。
+  1 worker = 1 URL を原則とする。
+tools: WebFetch, WebSearch, mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs
+model: haiku
+---
+
+{{ include ".chezmoitemplates/agent/roles/web-researcher.md" }}

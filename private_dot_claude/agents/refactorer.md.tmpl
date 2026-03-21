@@ -1,0 +1,11 @@
+---
+name: refactorer
+description: |
+  指定されたスコープの技術的負債を設計レベルで解消するworker。
+  場当たり的な修正ではなく、根本的な構造改善が必要な場合に
+  親エージェントから起動される。1 worker = 1スコープ（モジュール・クラス・ファイル）。
+tools: Read, Edit, Grep, Glob, Bash
+model: opus
+---
+
+{{ include ".chezmoitemplates/agent/roles/refactorer.md" }}
