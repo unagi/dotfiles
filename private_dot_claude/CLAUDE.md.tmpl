@@ -1,0 +1,98 @@
+# グローバル指示
+
+{{ include ".chezmoitemplates/agent/common-rules/language.md" }}
+
+---
+
+{{ include ".chezmoitemplates/agent/common-rules/basic-principles.md" }}
+
+---
+
+## 作業開始プロトコル
+
+### 新規タスク・複雑なタスクの場合
+1. **計画フェーズ**（コードを書く前に必ず実施）
+   - タスクの理解を1-2文で要約し、認識齟齬がないか確認
+   - 影響範囲（変更対象ファイル、依存関係）を列挙
+   - 実装アプローチを提示
+2. **承認後に実装フェーズへ移行**
+
+### 曖昧な指示を受けた場合
+- 解釈の選択肢を提示し、どれが意図に近いか確認
+- 「おそらくこうだろう」で進めない
+
+### 深い分析が必要な場合
+- 指示に「think hard」「ultrathink」を含めることで拡張思考モードを使用可能
+- 複雑な設計判断、根本原因分析、複数アプローチの比較時に有効
+
+### 質問フェーズと実行フェーズの分離
+- 不明点・確認事項は**実行を開始する前に**まとめて質問する
+- 一度実行を開始したら、途中で質問を挟まず完走する
+- 実行中に想定外の事態が発生した場合は、自律リカバリを試みず**即時停止**する
+  - 停止時は「どこで・何が原因で止まったか」を報告して終了
+  - リカバリ方法の判断はユーザーに委ねる
+
+---
+
+{{ include ".chezmoitemplates/agent/common-rules/caution-levels.md" }}
+
+---
+
+{{ include ".chezmoitemplates/agent/common-rules/problem-solving.md" }}
+
+### 失敗からのリカバリ
+- 実装が上手くいかない場合、新規ファイル追加ではなく既存ファイルの修正で対応
+- **実行開始後**は自律的なリカバリ試行を行わない（「質問フェーズと実行フェーズの分離」参照）
+- 実行前の計画段階で懸念がある場合は、着手前に相談する
+
+---
+
+{{ include ".chezmoitemplates/agent/common-rules/work-scope.md" }}
+
+---
+
+{{ include ".chezmoitemplates/agent/common-rules/tdd.md" }}
+
+---
+
+{{ include ".chezmoitemplates/agent/common-rules/lint.md" }}
+
+---
+
+## Bash実行方針
+- 連結コマンド（`;` `&&` `||`）を避け、独立した Bash 呼び出しに分割する
+- 理由: Claude Code のパーミッションシステムは連結コマンドを単一ユニットとして評価するため、個別の allow ルールが無力化される
+- カレントディレクトリは常にワークスペース内に維持する
+- `-C /path` や絶対パス指定はCDがズレているサイン。補正ではなくCDを `cd` で正してからコマンドを実行する
+- CDがワークスペース外にある状態はセーフでない操作とみなす
+
+---
+
+## Git運用
+{{ include ".chezmoitemplates/agent/common-rules/git-base.md" }}
+
+---
+
+## 安全
+{{ include ".chezmoitemplates/agent/common-rules/safety-base.md" }}
+
+---
+
+## ドキュメント参照
+- 実装提案前に公式ドキュメントで一次情報を確認
+- 参照したバージョンを明示（例：v2.1.0 前提）
+- プロジェクトの実バージョン（pyproject.toml / package.json等）を先に確認
+
+---
+
+## 開発共通ガイド
+- @~/.claude/common/development.md
+- @~/.claude/common/project-instructions-guideline.md
+- @~/.claude/common/sub-agent.md
+
+---
+
+## 言語別設計方針
+- Python: @~/.claude/languages/python.md
+- Node.js: @~/.claude/languages/node.md
+- Java: @~/.claude/languages/java.md

@@ -1,3 +1,6 @@
+# Serena MCP - ローカルインデックス・キャッシュ
+.serena/
+
 # Claude Code - 機密情報・一時ファイルの除外（二重安全策）
 .claude/.credentials.json
 .claude/history.jsonl

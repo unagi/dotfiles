@@ -1,6 +1,4 @@
-## 言語
-- 返答は常に日本語（簡潔・丁寧）。
-- コマンド/設定例はコピペ可能な形で提示。
+{{ include ".chezmoitemplates/agent/common-rules/language.md" }}
 
 ## 進め方（基本）
 - まず現状把握：`git status` / 差分確認 / 関連ファイル検索。
@@ -11,15 +9,18 @@
 - 並列化が有効なタスク（lint複数ファイル修正・独立した調査・Web調査）は、`cat ~/.codex/common/sub-agent.md` を参照してサブエージェントを活用する。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
 
+{{ include ".chezmoitemplates/agent/common-rules/caution-levels.md" }}
+
+{{ include ".chezmoitemplates/agent/common-rules/problem-solving.md" }}
+
 ## Git運用（commit〜PR）
-- mainへのpushはinitial commit以外では原則禁止
+{{ include ".chezmoitemplates/agent/common-rules/git-base.md" }}
 - コミットは、今のスレッドで作成した専用作業ブランチなら個別確認不要。
 - `main` やその他の持続的なブランチでのコミットは事前確認を必須とする。
 - push / PR作成 / PRへのコメントは、必ずユーザー確認と承認を取ってから実行する。
-- コミットメッセージは「変更理由 + 影響範囲 + 破壊的変更の有無」を含める（Conventional Commits推奨）。
 
 ## 安全
-- トークン/秘密情報は出力しない。
+{{ include ".chezmoitemplates/agent/common-rules/safety-base.md" }}
 - ネットワーク接続や権限昇格を前提にしない。必要になった場合は、必要性と影響を説明したうえでユーザー確認を取る。
 - ログに残る操作（push / PR作成 / PRへのコメント / 持続的ブランチでのcommit）は、実行前に要点を確認してから行う。
 
@@ -34,6 +35,8 @@
 - ファイル閲覧は `batcat`（無ければ `cat`）。
 - 差分確認は `git status -sb` → `git diff`（`delta` 無ければ素のまま）。
 - 迷ったら `fzf` を挟む（`rg ... | fzf` / `fdfind ... | fzf`）。
+
+{{ include ".chezmoitemplates/agent/common-rules/tdd.md" }}
 
 ## 進め方（TDD / カバレッジ厳格プロジェクト）
 - 原則: 1サイクルを小さく回す（Red → Green → Refactor）。大きい変更は縦スライスで分割する。
@@ -56,6 +59,9 @@
   - まず関連テストだけでGreenにする → その後にプロジェクト標準の lint/test/coverage を実行
   - カバレッジ閾値に関わる分岐は「企画」時点でテスト対象として明記する
 
+{{ include ".chezmoitemplates/agent/common-rules/lint.md" }}
+
+{{ include ".chezmoitemplates/agent/common-rules/work-scope.md" }}
 
 ## Web参照（curl連発防止：この環境は lynx/w3m あり）
 - まずローカル一次情報（`--help` / `man` / repo内README/Docs）を優先。
