@@ -148,6 +148,7 @@ chezmoi status
 - ロール本文の正本は `.chezmoitemplates/agent/roles/` に置く
 - Claude 用エージェントは `private_dot_claude/agents/*.md.tmpl` で frontmatter の差分だけを持つ
 - Codex 用エージェントは `dot_codex/agents/*.toml.tmpl` で TOML とモデル指定の差分だけを持つ
+- Codex 用モデル選択は `docs/codex-agent-model-selection.md` の松竹梅方針に従う
 - ロールの意味内容を変更する場合は、まず `.chezmoitemplates/agent/roles/` を更新する
 
 ## セキュリティ
