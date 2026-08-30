@@ -38,10 +38,6 @@
 # リポジトリのクローン
 git clone <your-repo-url> ~/dotfiles
 
-# age秘密鍵を配置（別の端末から安全にコピー）
-mkdir -p ~/.config/chezmoi
-# ~/.config/chezmoi/key.txt に秘密鍵をコピー
-
 # chezmoiで設定を適用
 chezmoi init --apply --source ~/dotfiles
 ```
@@ -138,7 +134,6 @@ chezmoi status
     ├── common/
     │   ├── development.md.tmpl
     │   └── project-instructions-guideline.md.tmpl
-    ├── encrypted_settings.local.json.age # パーミッション・環境変数（暗号化）
     ├── commands/                   # カスタムコマンド
     └── languages/                  # 言語別設計方針（source-onlyテンプレートから展開）
 ```
@@ -158,36 +153,15 @@ chezmoi status
 以下のファイルは**リポジトリに含まれません**（機密情報保護）：
 
 - `.credentials.json` - API認証情報
+- `settings.local.json` - 端末固有のClaude Code権限設定
 - `history.jsonl` - コマンド実行履歴
 - `projects/`, `session-env/`, `file-history/` など - 一時ファイル・キャッシュ
 
 除外設定は `.chezmoiignore` および `.gitignore` で二重管理されています。
 
-### 暗号化されたファイル
+### 端末固有の設定
 
-以下のファイルは**age暗号化**されてリポジトリに含まれます：
-
-- `settings.json` - パーミッション設定・環境変数（公開したくないが端末間で同期したい）
-
-**仕組み：**
-- リポジトリには暗号化済みファイル（`encrypted_*.age`）をコミット
-- age秘密鍵（`~/.config/chezmoi/key.txt`）は各端末で個別管理
-- `chezmoi apply` 時に自動的に復号して配置
-
-**秘密鍵の管理：**
-```bash
-# 秘密鍵の確認（初回セットアップ時）
-cat ~/.config/chezmoi/key.txt
-
-# 別端末への移動：USBメモリ、パスワードマネージャー、安全なファイル転送等を使用
-# ⚠️ この鍵を失うと暗号化ファイルを復号できなくなります
-```
-
-**暗号化ファイルの追加：**
-```bash
-# 新しいファイルを暗号化して追加
-chezmoi add --encrypt ~/.claude/new-sensitive-file.json
-```
+`~/.claude/settings.local.json` は、OS、ホームディレクトリ、パッケージマネージャー、ローカルの許可方針に依存するため chezmoi では管理しません。各端末で直接管理します。
 
 ## トラブルシューティング
 

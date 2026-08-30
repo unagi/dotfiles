@@ -1,7 +1,11 @@
 name = "implementer"
 description = "渡された仕様・計画をもとに、スコープ内で実装とテスト確認を完結させるagent。"
-model = "gpt-5.4"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/roles/implementer.md" }}
+
+Codex 固有の委譲規約:
+- 必要な場合だけ、独立したテスト実行を test-runner、単一ファイルの lint 修正を lint-fixer に委譲してよい。
+- 設計判断や実装スコープの決定を子エージェントへ委譲しない。
 """

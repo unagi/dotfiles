@@ -1,7 +1,7 @@
 # AIエージェント 許可設定ポリシー
 
 このドキュメントは、Claude Code などの AI エージェントに対する操作許可の考え方と設定方針を定めます。
-`~/.claude/settings.local.json` の実装根拠として機能します。
+`~/.claude/settings.local.json` は各端末で直接管理し、本ドキュメントを実装根拠として使用します。
 
 ---
 
@@ -73,6 +73,5 @@ ask    → permissions.ask
 deny   → permissions.deny
 ```
 
-OS ごとの差異（Temp パスなど）は chezmoi テンプレートで吸収する。
-設定ファイルの実体は dotfiles リポジトリの
-`private_dot_claude/encrypted_settings.local.json.tmpl.age` で管理する。
+`settings.local.json` は OS、ホームディレクトリ、パッケージマネージャー、ローカルの許可方針に依存するため、chezmoi では配布しない。
+各端末でこのポリシーに沿って設定し、端末固有の差分はリポジトリへ取り込まない。

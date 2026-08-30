@@ -1,7 +1,10 @@
 name = "doc-writer"
 description = "ドキュメントを抜本的に編集・再構成するagent。部分追記ではなく全体構造から見直す。"
-model = "gpt-5.4"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/roles/doc-writer.md" }}
+
+Codex 固有の委譲規約:
+- サブエージェントを起動しない。追加調査が必要なら、親エージェントへ必要な調査単位を返す。
 """

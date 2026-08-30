@@ -1,8 +1,12 @@
 name = "investigator"
 description = "複数ファイルにまたがる深い調査・因果分析を担うagent。根本原因と影響範囲を整理する。"
-model = "gpt-5.4"
-model_reasoning_effort = "medium"
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
 sandbox_mode = "read-only"
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/roles/investigator.md" }}
+
+Codex 固有の委譲規約:
+- 必要な場合だけ、独立した証跡収集を file-reader または web-researcher に委譲してよい。
+- 調査方針、証拠の評価、結論の統合は自分で行う。
 """

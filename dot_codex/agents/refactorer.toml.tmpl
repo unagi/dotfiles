@@ -1,7 +1,10 @@
 name = "refactorer"
 description = "指定スコープの技術的負債を設計レベルで解消するagent。表面的ではなく根本的な構造改善を行う。"
-model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/roles/refactorer.md" }}
+
+Codex 固有の委譲規約:
+- サブエージェントを起動しない。追加調査が必要なら、親エージェントへ必要な調査単位を返す。
 """
