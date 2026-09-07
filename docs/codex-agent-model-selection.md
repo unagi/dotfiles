@@ -8,12 +8,61 @@
 
 ## 階層と責任
 
+### 全体ツリー
+
+全18定義（parent 10・worker 7・advisor 1）の使い分けを示す。`/`で並べたparentは案件難易度による選択肢で、両方を常時起動する意味ではない。workerも必要な能力帯と作業量に応じて選び、同じ定義を複数parentから利用できる。各枝のadvisorは同じ1定義であり、必要時だけ起動する。
+
 ```text
-メイン（対話・案件状態）
-└─ parent（案件の判断・統合・検証）
-   ├─ worker（独立した担当範囲を完遂）
-   └─ advisor（難所の再分析・反証、必要時のみ）
+メイン（Lunaを想定：対話・ヒアリング・案件状態の保持）
+├─ 一般調査 parent
+│  research-lead（1Lt / Terra high）/ research-lead-sol（Maj / Sol high）
+│  ├─ Research worker：主力。論点・候補・情報源群ごとに調査・分析
+│  ├─ Implementation worker：補助。実現性確認、変更禁止
+│  └─ advisor（Col / Astra medium）：難所の分析
+├─ 高度調査・仮説立案 parent
+│  advanced-research-lead（Col / Astra medium）
+│  ├─ Research worker：主力。希少事例・反証・組織制約の検討
+│  ├─ Implementation worker：補助。技術的実現性確認、変更禁止
+│  └─ advisor（Col / Astra medium）：独立した反証
+├─ 金融・市場分析 parent
+│  finance-lead（Maj / Sol high）
+│  ├─ market-data-worker-luna（2Lt / Luna medium）：数値取得・品質確認
+│  ├─ Research worker：決算・開示・企業・マクロ・政治・市場反応の分析
+│  └─ advisor（Col / Astra medium）：難所の分析
+├─ 設計 parent
+│  architect（Maj / Sol high）
+│  ├─ Implementation worker：コード構造・局所設計・反証、変更禁止
+│  ├─ Research worker：外部仕様・制約の確認
+│  └─ advisor（Col / Astra medium）：難所の分析
+├─ 設計・実装 parent
+│  implementation-lead（1Lt / Terra high）/ implementation-lead-sol（Maj / Sol high）
+│  ├─ Implementation worker：主力。独立した機能・ディレクトリの変更・検証
+│  ├─ Research worker：補助。対象版の公式仕様・移行手順の確認
+│  └─ advisor（Col / Astra medium）：難所の分析
+├─ 案件救援・構造改善 parent
+│  recovery-lead（Maj / Sol high）
+│  ├─ Implementation worker：主力。現状調査・合意済み方針の改善・検証
+│  ├─ Research worker：補助。外部仕様・既知の制約の確認
+│  └─ advisor（Col / Astra medium）：難所の分析
+└─ レビュー・コード原因調査 parent
+   review-lead（1Lt / Terra high）/ review-lead-sol（Maj / Sol high）
+   ├─ Implementation worker：主力。独立した範囲の調査・レビュー、変更禁止
+   ├─ Research worker：補助。判断根拠となる外部仕様の確認
+   └─ advisor（Col / Astra medium）：難所の分析
+
+上記で共有するworkerの能力帯（parentが担当範囲の難易度から選択）
+Research worker
+├─ research-worker-luna（2Lt / Luna medium）
+├─ research-worker-terra（1Lt / Terra high）
+└─ research-worker-sol（Maj / Sol high）
+Implementation worker
+├─ implementation-worker-luna（2Lt / Luna medium）
+├─ implementation-worker-terra（1Lt / Terra high）
+└─ implementation-worker-sol（Maj / Sol high）
 ```
+
+Researchを主力とするparentのImplementation補助は通常1〜2件が目安。上図は委譲先の目安で、全枝の同時起動を要求しない。少量ならparentが直接実施する。調査・設計から書き込みを伴う試作・実装へ進む場合は、メイン経由で実装parentへ引き継ぐ。worker/advisorはすべて末端であり、再委譲しない。
+
 
 - メイン直轄は parent のみとする。worker、advisor は parent が起動する。
 - worker と advisor は再委譲しない。parent の配下に別の parent は置かない。
@@ -58,7 +107,7 @@ worker は工程を分けるための小さな役ではない。parent は、十
 
 | 系統 | エージェント | モデル / effort | 担当範囲 |
 | --- | --- | --- | --- |
-| Data | `data-worker-luna` | Luna / medium | 定義済みの市場数値を取得・正規化・品質確認する。解釈はparentへ返す |
+| Market Data | `market-data-worker-luna` | Luna / medium | 定義済みの市場数値を取得・正規化・品質確認する。解釈はparentへ返す |
 | Research | `research-worker-luna` | Luna / medium | 明確な論点について、情報収集、照合・分析、根拠付き報告まで行う |
 | Research | `research-worker-terra` | Terra / high | 複雑な仕様、版差、資料間の矛盾を含む論点を同じ範囲で完遂する |
 | Research | `research-worker-sol` | Sol / high | 高リスクまたは難解な論点で、反証、適用条件、不確実性まで分析する |
@@ -77,14 +126,6 @@ worker は工程を分けるための小さな役ではない。parent は、十
 50 件程度の Web 調査は総量であり、同時起動数ではない。実行時に利用可能な枠で段階的に処理し、各段階で parent が根拠・不足・矛盾を統合する。エスカレーション時は新規 worker の起動を止め、advisor 用の枠を確保する。書き込みは、所有範囲と受入条件が明確で相互依存しない変更境界だけ並列化する。
 
 ## 金融分析とデータ取得
-
-```text
-メイン（Lunaを想定）
-└─ finance-lead（Sol/high、Maj）
-   ├─ data-worker-luna（Luna/medium、2Lt）: 定義済み数値の取得・品質確認
-   ├─ research-worker-{luna,terra,sol}: 決算・開示・企業情報・マクロ・政治の分析
-   └─ advisor（Astra/medium、Col）: 必要時の難所分析
-```
 
 金融parentは対象、市場、通貨、期間、時間足、調整、許容鮮度、必要ならEPS/PERの定義を決める。DataとResearchを独立したまとまりで並行させ、少量なら自分で取得する。金融知識を要する解釈と、条件確定後の数値取得を分けることでDataを軽量化する。量だけでモデルを上げない。
 
@@ -118,6 +159,8 @@ Data workerと金融parentはsandboxを固定せず実行環境の権限を継�
 | `doc-checker.toml` | `implementation-worker-luna`（レビューのみ） |
 | `lint-fixer.toml` | `implementation-worker-luna` |
 | `test-runner.toml` | `implementation-worker-luna`（検証のみ） |
+
+PR途中の `data-worker-luna.toml` を既に適用した場合も、`market-data-worker-luna.toml` へ参照を更新し、旧ファイルを個別確認して整理する。
 
 この表は旧依頼の移行用であり、今後も工程単位でworkerを起動する推奨ではない。小さな確認はparentで行い、まとまった担当成果の一部として必要な工程をworkerに含める。
 
