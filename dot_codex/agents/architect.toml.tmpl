@@ -1,11 +1,26 @@
 name = "architect"
-description = "設計判断・API設計・モジュール構造の決定を担うagent。重要な設計選択が必要な場合に使う。実装は行わない。"
+description = "設計判断・API設計・モジュール構造の決定を担うagent。メイン直轄の設計parent。重要な設計選択が必要な場合に使う。実装は行わない。"
 model = "gpt-5.6-sol"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
+nickname_candidates = [
+  "Maj Architect-Lead-01",
+  "Maj Architect-Lead-02",
+  "Maj Architect-Lead-03",
+  "Maj Architect-Lead-04",
+  "Maj Architect-Lead-05",
+  "Maj Architect-Lead-06",
+  "Maj Architect-Lead-07",
+  "Maj Architect-Lead-08",
+  "Maj Architect-Lead-09",
+  "Maj Architect-Lead-10",
+  "Maj Architect-Lead-11",
+  "Maj Architect-Lead-12",
+]
 developer_instructions = """
-{{ include ".chezmoitemplates/agent/roles/architect.md" }}
+{{ include ".chezmoitemplates/agent/roles/architect.md" | replace "implementer" "実装担当" }}
 
-Codex 固有の委譲規約:
-- サブエージェントを起動しない。追加調査が必要なら、親エージェントへ必要な調査単位を返す。
+{{ include ".chezmoitemplates/agent/codex/parent.md" }}
+設計には実装単位、受入条件、失敗条件、検証方法を含める。
+コード構造や設計の反証はImplementation workerへ変更禁止で依頼する。外部仕様はResearch workerへ依頼する。実装はメイン経由で implementation-lead に引き継ぐ。
 """

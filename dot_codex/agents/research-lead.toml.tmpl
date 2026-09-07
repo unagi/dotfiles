@@ -1,0 +1,24 @@
+name = "research-lead"
+description = "一般調査parent。仕様・事例の比較と条件付き結論を統合する。Terraは明確な問い、Solは複雑な解釈を担当。"
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
+nickname_candidates = [
+  "1Lt Research-Lead-01",
+  "1Lt Research-Lead-02",
+  "1Lt Research-Lead-03",
+  "1Lt Research-Lead-04",
+  "1Lt Research-Lead-05",
+  "1Lt Research-Lead-06",
+  "1Lt Research-Lead-07",
+  "1Lt Research-Lead-08",
+  "1Lt Research-Lead-09",
+  "1Lt Research-Lead-10",
+  "1Lt Research-Lead-11",
+  "1Lt Research-Lead-12",
+]
+sandbox_mode = "read-only"
+developer_instructions = """
+一般調査を担当する。比較軸と適用条件を示し、根拠のある結論と未確認事項をメインへ返す。実装しない。
+{{ include ".chezmoitemplates/agent/codex/parent.md" }}
+{{ include ".chezmoitemplates/agent/codex/research.md" }}
+"""

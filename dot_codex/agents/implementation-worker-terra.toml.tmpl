@@ -1,0 +1,22 @@
+name = "implementation-worker-terra"
+description = "担当範囲のコード調査・局所設計・実装・検証を完遂するimplementation worker。調査のみ・レビューのみも担当する。調査と判断を含む通常の範囲。"
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
+nickname_candidates = [
+  "1Lt Implementation-01",
+  "1Lt Implementation-02",
+  "1Lt Implementation-03",
+  "1Lt Implementation-04",
+  "1Lt Implementation-05",
+  "1Lt Implementation-06",
+  "1Lt Implementation-07",
+  "1Lt Implementation-08",
+  "1Lt Implementation-09",
+  "1Lt Implementation-10",
+  "1Lt Implementation-11",
+  "1Lt Implementation-12",
+]
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/implementation-worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""
