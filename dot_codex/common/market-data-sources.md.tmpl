@@ -1,0 +1,90 @@
+# 市場データ取得台帳
+
+最終確認: 2026-09-07。日足中心の分析用。取得成功は将来の提供・鮮度・利用許諾を保証しない。この台帳は取得経路の選択を省力化するための静的資産で、生データや認証情報は保存しない。
+
+## 選択と再利用
+
+- parentが対象、市場、期間、時間足、通貨・単位、調整、価格種別、許容鮮度、利用目的を指定する。価格と利回り、現物と先物、実績と予想を混ぜない。
+- 利用可能な契約済み提供元と利用目的が指定されていれば優先する。それ以外は下表の実測済み経路から選ぶ。キー必須の候補は認証・契約が利用可能なときだけ使う。
+- 毎回取得先を検索し直さない。同一依頼内の取得結果と生レスポンスを再利用し、最新データが必要なときだけ更新する。使用版・識別子・返却スキーマ・観測日時は毎回確認する。
+- スキーマ変更、空データ、期限切れ、取得失敗、対象追加、版変更、利用目的変更があれば該当経路だけ再調査する。承認・ネットワークエラーは環境の規則に従い、迂回しない。失敗を契機に無限リトライしない。
+- 意味が異なる代替（先物から現物、終値から参考レート、公式利回りからETF価格等）はparentへ判断を返す。欠損を架空のOHLCやゼロで埋めない。
+
+## 取得先と適用範囲
+
+| 対象 | 最初の候補・識別子例 | アクセスと留意点 | 確認状況 |
+| --- | --- | --- | --- |
+| 日米株の日足OHLCV | yfinance / Yahoo Finance: `7203.T`, `AAPL` | 認証キーなしで試行成功。銘柄・市場・通貨を確認。出来高、企業行動、調整列を分離 | 2銘柄実測 |
+| 主要為替の日足OHLC | 同上: `JPY=X`（USD/JPY）, `EURUSD=X` | 基準通貨1単位あたりの相手通貨額。取引所一元の約定値ではない。Volumeを市場全体の取引量と解釈しない | 2ペア実測 |
+| 原油・金の日足OHLCV | 同上: `CL=F`, `GC=F` | WTI原油・金の先物系列。現物価格と呼ばない。限月・ロール・価格単位を確認し、特定限月の長期系列と同一視しない | 2系列実測 |
+| 暗号資産の日足OHLC | 同上: `BTC-USD`, `ETH-USD` | Yahoo側の系列。取引所固有の足とは区別。24時間市場でも未確定・欠損がある | 2系列実測、欠損あり |
+| 暗号資産の取引所別OHLCV | Coinbase Exchange public candles / `BTC-USD` | 公開REST。USDとUSDTを区別。対象商品が取引所で提供されるか確認 | BTC実測 |
+| 米国債利回り | US TreasuryのDaily Treasury Par Yield Curve Rates CSV | キー不要。年限別par yield、単位%。債券価格・約定OHLCではない | 2026年CSV実測 |
+| 日本国債金利 | 財務省「国債金利情報」のCSV | キー不要。年限別金利、単位%。全履歴ファイルの末尾と最新掲載を照合 | 全履歴CSV実測 |
+| 為替参考レート | ECB euro foreign exchange reference rates XML | キー不要。EUR基準の日次参考レート。OHLCの代替にはしない | 履歴XML実測 |
+| 日本株の契約データ | J-Quants API V2 / equities bars daily | APIキー・プランが必要。Freeは12週間遅延。市場当日データには使えない | 公式資料のみ、認証取得未検証 |
+| 各国金利・マクロ時系列 | FRED API / 例 `DGS10` | APIキーが必要。系列の定義・頻度・改定・単位を個別確認。DGS10は米10年constant maturity yield | 公式資料のみ、認証取得未検証 |
+
+未実測の追加候補: Yahooの `GBPUSD=X`, `AUDUSD=X`, `NZDUSD=X`, `CHF=X`, `CAD=X`, `EURJPY=X`、Brent `BZ=F`、銀 `SI=F`。これらは採用前に識別子・通貨方向・商品性と返却データを検証する。他国国債は対象国の財務省・中央銀行または契約データを確認し、日米の取得成功を一般化しない。
+
+## yfinanceの固定手順
+
+確認版は [yfinance 1.7.0](https://pypi.org/project/yfinance/1.7.0/)。[公式API資料](https://ranaroussi.github.io/yfinance/reference/api/yfinance.download.html)とインストール済み版を照合する。無指定の調整設定に依存しない。
+
+1. 既存の承認済みPython環境を使う。未導入ならプロジェクト規則に従って導入を扱い、毎回インストールしない。キャッシュ先は許可された作業領域に設定する。
+2. `Ticker(symbol).history(start=..., end=..., interval="1d", auto_adjust=False, back_adjust=False, actions=True, repair=False, keepna=True, timeout=15)` を基本とする。startは含み、endは含まない。時刻・営業日境界も指定する。
+3. 空結果と必須列を検証し、Open/High/Low/Close、Adj Close、Dividends、Stock Splitsを別々に保持する。`auto_adjust=False`を「分割前の取引所生値」と断定しない。調整系列が必要ならparentの定義に従い別列で扱う。
+4. 修復・補間・バック調整を無断で有効にしない。欠損を残して報告し、要求期間を満たすか確認する。イントラデイの保持期間を日足へ一般化しない。
+
+[プロジェクトの説明](https://ranaroussi.github.io/yfinance/)はYahoo非公認で、Yahooデータの個人利用を前提としている。ライブラリのコードライセンスとデータの利用権は別。組織利用・再配布・商用成果物へ流用できると推定せず、用途に合う契約済み提供元をparentが選ぶ。
+
+## 公開データの具体的な取得経路
+
+### Coinbase
+
+[公式candles仕様](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-candles):
+`https://api.exchange.coinbase.com/products/BTC-USD/candles`
+
+`granularity=86400`、UTCの`start`と`end`を両方指定する。最大300本なので長期は期間を分割する。配列順は `[time, low, high, open, close, volume]`。通常のOHLC順と取り違えない。返却順や範囲外の足に依存せず、時刻でソート・重複除去・範囲抽出する。取引がない区間の足が欠ける場合があり、全期間の連続性を保証しない。
+
+### 米国財務省
+
+[公式金利データ案内](https://home.treasury.gov/interest-rates-data-csv-archive)。2026年で実測したCSV:
+`https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/2026/all?type=daily_treasury_yield_curve&field_tdr_date_value=2026&page&_format=csv`
+
+対象年をパスとパラメータの両方に設定する。他年は取得後に範囲を検証する。UTF-8 BOMを考慮し、Dateと年限列を列名で読む。列位置固定は禁止。par yield、real yield、bill rate等を混在させない。降順で返ることがあるため日付で正規化する。
+
+### 日本財務省
+
+[国債金利情報](https://www.mof.go.jp/jgbs/reference/interest_rate/index.htm)の掲載リンクを正本とする。実測した全履歴CSV:
+`https://www.mof.go.jp/jgbs/reference/interest_rate/data/jgbcm_all.csv`
+
+CP932、先頭の説明行と次の見出し行を区別する。基準日は`S49.9.24`、`R8.8.31`等の和暦であり、昭和・平成・令和を明示変換する。`-`は欠損。年限列は名前で取得する。全履歴の末尾が要求時点より古い場合は掲載ページの最新データを確認し、未確認の値を最新として返さない。
+
+### ECB
+
+[公式参考レート](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html)、履歴XML:
+`https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml`
+
+XML名前空間、`time`、`currency`、`rate`を読む。原則営業日16時頃CETの公表で取引用価格ではない。同日のJPY/EURをUSD/EURで割ればJPY/USDを算出できるが、派生参考値と表示する。休日や欠けた日付を勝手に補完しない。
+
+### 認証が必要な候補
+
+[J-Quants公式](https://jpx-jquants.com/): V2の `https://api.jquants.com/v2/equities/bars/daily`、`x-api-key`、例 `code=86970&date=20230324`。V1のトークン手順と混同しない。個人向けプランの遅延・履歴範囲・利用条件を確認する。
+
+[FRED API](https://fred.stlouisfed.org/docs/api/fred/)は[APIキーが必要](https://fred.stlouisfed.org/docs/api/api_key.html)。[DGS10](https://fred.stlouisfed.org/series/DGS10)等のメタデータを先に読む。国債par yieldとconstant maturity系列は定義を確認して比較する。認証不要に見える非公式経路を固定の代替として約束しない。
+
+## 品質確認と返却契約
+
+- 依頼識別子と解決した銘柄・市場、出所URL/endpointと取得パラメータ（秘密値除外）、ライブラリ版、取得時刻UTC、観測時点、要求範囲と実取得範囲、タイムゾーン、通貨・単位、価格種別・年限・調整条件を残す。
+- 空結果、欠損列・値、重複、日付順、要求範囲外、取引カレンダーと許容鮮度を確認する。OHLCが揃う行ではLow ≤ Open/Close ≤ Highを検証する。全資産の価格が正とは仮定しない（原油先物等）。
+- 最新足は取引時間中・日境界未到達なら未確定として分離する。OHLCが非欠損というだけで確定足と判断しない。データ提供側のタイムゾーンを市場所在地から推測して上書きしない。
+- FX等のゼロ出来高を世界市場の出来高と扱わない。国債金利にOHLCVを要求しない。PER等はparent指定の価格時点・実績/予想EPS・連結範囲・単位を確認し、提供元の指標を独自計算値と混同しない。決算書の読解が必要ならResearchへ戻す。
+- 結果は「取得成功／部分成功／取得不可」、件数、欠損・未確定・遅延、検証内容、成果ファイルと再現手順、parentの判断が必要な点を簡潔に返す。取得できた事実と分析に使える品質を区別する。
+
+## 接続確認記録（2026-09-07、将来の可用性保証ではない）
+
+- yfinance 1.7.0、直近5日・日足: `7203.T`, `AAPL`, `JPY=X`, `EURUSD=X`, `CL=F`, `GC=F`, `BTC-USD`, `ETH-USD` は各5行取得。前6系列はOHLC非欠損5行、BTC/ETHは各4行。欠損原因は未特定。確定足判定とは別の検査結果。
+- Treasury 2026年CSV: HTTP 200、171観測、最新2026-09-04。財務省全履歴CSV: HTTP 200、末尾R8.8.31（2026-08-31）。後者の最新掲載ファイルは別途未検証。
+- ECB履歴XML: HTTP 200、最新2026-09-04。Coinbase BTC-USD: HTTP 200、日足6行（要求start 2026-09-01 UTC / end 2026-09-06 UTC）。境界を正規化して利用する。
+- J-QuantsとFREDは公式仕様確認まで。APIキー・契約に基づく取得、他国金利、追加候補、長期全件・全限月、リアルタイム性は未検証。

@@ -8,7 +8,7 @@
 - childの報告は証拠として評価する。必要な結合検証を行い、未実行の検証を成功扱いしない。矛盾を無理に一つの結論へ揃えない。
 
 # workerの使い分け
-- workerはResearch / Implementationの2系統×Luna / Terra / Solの3能力帯。工程でなく前提知識で選び、調査から担当成果の検証までを一括して任せる。
+- 汎用workerはResearch / Implementationの2系統×Luna / Terra / Solの3能力帯。工程でなく前提知識で選び、調査から担当成果の検証までを一括して任せる。
 - Researchは `research-worker-luna` / `research-worker-terra` / `research-worker-sol`、Implementationは `implementation-worker-luna` / `implementation-worker-terra` / `implementation-worker-sol` を使う。
 - 明確で単純な範囲はLuna、通常の調査・判断を含む範囲はTerra、複雑な局所設計・分析はSol。量が多いだけで能力帯を上げない。根拠不足や難所が返れば証拠を引き継いで適切な帯へ再配分する。
 - 調査parentはResearchを主力とし、論点・候補・情報源群ごとに収集から分析・報告まで任せる。Implementationは実現性確認や承認済み試作の補助で通常1〜2件を目安とし、固定上限にはしない。
@@ -16,6 +16,8 @@
 - 設計・コードレビュー・原因調査は変更しなくてもImplementation系。独立レビューも別のImplementation workerに変更禁止で依頼する。系統と変更権限を混同しない。
 - 分割は独立して進められ、成果を検証でき、依頼・統合の負担を上回る量がある場合に行う。dir_a / dir_bでも共有境界や依存が強ければ順次処理する。小さな読解・修正・テストだけなら自分で行う。
 - 調査parentのread-only権限はImplementationへも適用される。試作など書き込みが必要な場合はメイン直轄の実装parentに承認済み範囲を引き継ぎ、結果を元のparentへ戻す。権限を迂回しない。
+
+- 金融parentは `data-worker-luna` に定義済みの数値取得・正規化・品質確認を任せ、Researchには決算・開示・企業・マクロ等の情報分析を任せる。取得先は `~/.codex/common/market-data-sources.md` を再利用する。
 
 # 顧問へのエスカレーション
 - 同じ方法が繰り返し失敗する、根拠・制約の矛盾が解けない、想定外の影響範囲が判明する、重要な判断に根拠が足りない場合は `advisor` に限定した分析を依頼する。毎回の儀礼的レビューには使わない。

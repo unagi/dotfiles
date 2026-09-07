@@ -1,0 +1,22 @@
+name = "data-worker-luna"
+description = "金融parentが定義した市場数値の取得・正規化・品質確認を担う軽量worker。価格の解釈や投資判断はparentへ返す。"
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+nickname_candidates = [
+  "2Lt Market-Data-01",
+  "2Lt Market-Data-02",
+  "2Lt Market-Data-03",
+  "2Lt Market-Data-04",
+  "2Lt Market-Data-05",
+  "2Lt Market-Data-06",
+  "2Lt Market-Data-07",
+  "2Lt Market-Data-08",
+  "2Lt Market-Data-09",
+  "2Lt Market-Data-10",
+  "2Lt Market-Data-11",
+  "2Lt Market-Data-12",
+]
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/data-worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""

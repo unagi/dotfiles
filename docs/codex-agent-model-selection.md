@@ -38,6 +38,7 @@
 
 | 案件 | 通常 | 判断が複雑な場合 | parent の責任 |
 | --- | --- | --- | --- |
+| 金融・市場分析 | `finance-lead`（Sol / high） | `advisor` に限定相談 | 数値取得条件を定め、決算・開示・市場反応と時点・仮説を統合する |
 | 一般調査 | `research-lead`（Terra / high） | `research-lead-sol`（Sol / high） | 公式情報・利用者の観測を比較し、条件付きの結論と未確認事項を統合する |
 | 高度調査・仮説立案 | `advanced-research-lead`（Astra / medium） | 同じ parent が `advisor` に独立反証を依頼 | 希少事例や組織制約下で、代替策、成立条件、残余リスク、見直し条件を示す |
 | 設計のみ | `architect`（Sol / high） | `advisor` に限定相談 | 設計判断と実装単位・受入条件を定める。実装はメイン経由で引き継ぐ |
@@ -57,6 +58,7 @@ worker は工程を分けるための小さな役ではない。parent は、十
 
 | 系統 | エージェント | モデル / effort | 担当範囲 |
 | --- | --- | --- | --- |
+| Data | `data-worker-luna` | Luna / medium | 定義済みの市場数値を取得・正規化・品質確認する。解釈はparentへ返す |
 | Research | `research-worker-luna` | Luna / medium | 明確な論点について、情報収集、照合・分析、根拠付き報告まで行う |
 | Research | `research-worker-terra` | Terra / high | 複雑な仕様、版差、資料間の矛盾を含む論点を同じ範囲で完遂する |
 | Research | `research-worker-sol` | Sol / high | 高リスクまたは難解な論点で、反証、適用条件、不確実性まで分析する |
@@ -74,16 +76,32 @@ worker は工程を分けるための小さな役ではない。parent は、十
 
 50 件程度の Web 調査は総量であり、同時起動数ではない。実行時に利用可能な枠で段階的に処理し、各段階で parent が根拠・不足・矛盾を統合する。エスカレーション時は新規 worker の起動を止め、advisor 用の枠を確保する。書き込みは、所有範囲と受入条件が明確で相互依存しない変更境界だけ並列化する。
 
+## 金融分析とデータ取得
+
+```text
+メイン（Lunaを想定）
+└─ finance-lead（Sol/high、Maj）
+   ├─ data-worker-luna（Luna/medium、2Lt）: 定義済み数値の取得・品質確認
+   ├─ research-worker-{luna,terra,sol}: 決算・開示・企業情報・マクロ・政治の分析
+   └─ advisor（Astra/medium、Col）: 必要時の難所分析
+```
+
+金融parentは対象、市場、通貨、期間、時間足、調整、許容鮮度、必要ならEPS/PERの定義を決める。DataとResearchを独立したまとまりで並行させ、少量なら自分で取得する。金融知識を要する解釈と、条件確定後の数値取得を分けることでDataを軽量化する。量だけでモデルを上げない。
+
+[市場データ取得台帳](../dot_codex/common/market-data-sources.md.tmpl)を `~/.codex/common/market-data-sources.md` に配布する。日米株OHLC、為替、原油・金先物、暗号資産、日米国債金利の取得経路、認証条件、品質確認、実測記録を保持し、毎回の取得先探索を避ける。契約が必要なJ-Quants/FREDは資料確認までと明示する。データとキャッシュは配布しない。
+
+Data workerと金融parentはsandboxを固定せず実行環境の権限を継承する。許可された場所で取得結果・キャッシュを作れるが、プロジェクト本体やグローバル環境の変更は担当外とする。Research workerは既存のread-onlyを維持する。
+
 ## 運用上の変更と管理範囲
 
-- worker は Research / Implementation の2系統と、Luna / Terra / Sol の3能力帯で構成する。旧12種類の細分化した child 定義は互換性を維持せず削除し、parent 9 定義、worker 6 定義、advisor 1 定義の合計16定義とする。
+- worker は Research / Implementation の2系統と、Luna / Terra / Sol の3能力帯で構成する。旧12種類の細分化した child 定義は互換性を維持せず削除し、金融用Data workerを加え、parent 10 定義、worker 7 定義、advisor 1 定義の合計18定義とする。
 - Codex 固有の規約の正本は `.chezmoitemplates/agent/codex/` に置く。共有する Claude 本文は変更せず、Codex のみで親子・顧問の振る舞いを追加する。
 - `config.toml` は chezmoi 管理外である。このリポジトリの変更だけでは、メインの Luna 化、`max_depth`、同時実行枠は適用されない。設定する場合は手元の `~/.codex/config.toml` で別途検証する。chezmoi source から旧定義を削除しても、既存の適用先ファイルが自動削除されるとは限らないため、本番適用時に対象を明示して別途確認する。
 
 ## 旧定義からの移行（本番適用時）
 
 1. 適用先の `~/.codex/agents/` と各プロジェクトの `.codex/agents/` を確認し、下表の旧名を参照する指示・設定を新workerへ置き換える。プロジェクト固有定義を無条件に削除しない。
-2. 新16定義とAGENTS・ガイドのchezmoi差分を確認して適用する。表示・起動を確認するまでは旧ファイルを復元可能な状態で保管する。
+2. 新18定義とAGENTS・ガイドのchezmoi差分を確認して適用する。表示・起動を確認するまでは旧ファイルを復元可能な状態で保管する。
 3. 下表に一致する配布済み旧ファイルだけを、ローカル変更の有無と移行完了を確認して明示的に除去する。ディレクトリ全体の削除やexact管理への変更は行わない。このPRでは実行しない。
 
 | 旧ファイル名（agents配下） | 移行先の目安 |
@@ -105,7 +123,7 @@ worker は工程を分けるための小さな役ではない。parent は、十
 
 ## 検証と参照
 
-chezmoi v2.70.3で16定義の展開・TOML解析、必須項目、階級とモデル、表示候補のASCII制約と重複、9 parent / 7 leafの分類と委譲先、2ガイドの展開、Claudeへの規約混入がないことを確認した。旧ロール名への実行用参照が残っていないことも展開結果で確認した。実アプリの起動・表示・消費量は未検証。
+chezmoi v2.70.3で18定義の展開・TOML解析、必須項目、階級とモデル、表示候補のASCII制約と重複、10 parent / 8 leafの分類と委譲先、AGENTSと2共通ガイドの展開、Claudeへの規約混入がないことを確認した。旧ロール名への実行用参照が残っていないことも展開結果で確認した。実アプリの起動・表示・消費量は未検証。
 
 - [公式Subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents)
 - [表示候補の検証処理](https://github.com/openai/codex/blob/main/codex-rs/agent-roles/src/agent_role_config.rs)
