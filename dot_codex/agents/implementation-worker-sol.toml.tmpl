@@ -1,0 +1,22 @@
+name = "implementation-worker-sol"
+description = "担当範囲のコード調査・局所設計・実装・検証を完遂するimplementation worker。調査のみ・レビューのみも担当する。複雑な局所判断や高度な分析を含む範囲。"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
+nickname_candidates = [
+  "Maj Implementation-01",
+  "Maj Implementation-02",
+  "Maj Implementation-03",
+  "Maj Implementation-04",
+  "Maj Implementation-05",
+  "Maj Implementation-06",
+  "Maj Implementation-07",
+  "Maj Implementation-08",
+  "Maj Implementation-09",
+  "Maj Implementation-10",
+  "Maj Implementation-11",
+  "Maj Implementation-12",
+]
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/implementation-worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""

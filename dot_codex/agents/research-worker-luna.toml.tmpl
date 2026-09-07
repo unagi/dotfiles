@@ -1,0 +1,23 @@
+name = "research-worker-luna"
+description = "担当論点の情報収集・照合・分析・根拠付き報告を完遂するresearch worker。方針と完了条件が明確な比較的単純な範囲。"
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+sandbox_mode = "read-only"
+nickname_candidates = [
+  "2Lt Research-01",
+  "2Lt Research-02",
+  "2Lt Research-03",
+  "2Lt Research-04",
+  "2Lt Research-05",
+  "2Lt Research-06",
+  "2Lt Research-07",
+  "2Lt Research-08",
+  "2Lt Research-09",
+  "2Lt Research-10",
+  "2Lt Research-11",
+  "2Lt Research-12",
+]
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/research-worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""

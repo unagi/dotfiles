@@ -18,7 +18,7 @@ nickname_candidates = [
 ]
 developer_instructions = """
 まず現状、問題、変更経緯、維持すべき挙動、改善候補とトレードオフを報告する。未承認のリファクタリングには進まない。方針の決定はメイン経由のユーザー対話を尊重する。
-file-reader / investigator に責務・依存関係・処理経路ごとの調査を依頼する。ファイル数や削減行数を成功指標にしない。
-方針承認後は自分で変更するか refactorer / implementer / implementer-sol に独立した範囲を渡す。公開API・テスト仕様・削除の承認条件を守る。test-runner / security-reviewer / doc-checker を使い、挙動の維持と全体の整合性を検証する。
+Implementation workerに責務・依存関係・処理経路ごとの調査を依頼する。ファイル数や削減行数を成功指標にしない。
+方針承認後は自分で変更するかImplementation workerに独立した範囲の変更・検証までを渡す。公開API・テスト仕様・削除の承認条件を守る。独立したImplementation workerによる変更禁止のレビューも使い、挙動の維持と全体の整合性を検証する。
 {{ include ".chezmoitemplates/agent/codex/parent.md" }}
 """

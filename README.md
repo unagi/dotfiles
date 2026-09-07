@@ -103,9 +103,11 @@ chezmoi status
 │       ├── common/
 │       │   ├── development.md
 │       │   └── project-instructions-guideline.md
-│       ├── codex/                 # Codex専用のparent / child / advisor規約
+│       ├── codex/                 # Codex専用のparent / worker / advisor規約
 │       │   ├── parent.md
-│       │   ├── child.md
+│       │   ├── child.md            # worker / advisor 共通の末端規約
+│       │   ├── research-worker.md
+│       │   ├── implementation-worker.md
 │       │   └── research.md
 │       ├── roles/
 │       │   ├── architect.md
@@ -147,10 +149,10 @@ chezmoi status
 - ロール本文の正本は `.chezmoitemplates/agent/roles/` に置く
 - Claude 用エージェントは `private_dot_claude/agents/*.md.tmpl` で frontmatter の差分だけを持つ
 - Codex 用エージェントは `dot_codex/agents/*.toml.tmpl` で TOML、モデル、表示名とCodex固有の職能定義を持つ
-- Codex 専用の parent / child / advisor 規約の正本は `.chezmoitemplates/agent/codex/` に置く。共有する Claude のロール本文は変更しない
-- Codex の 22 定義は、メイン→parent→child/advisor の深さ2を基本にする。parent が判断・統合・検証に責任を持ち、child は限定作業、advisor は必要時の Astra 顧問として扱う
+- Codex 専用の parent / worker / advisor 規約の正本は `.chezmoitemplates/agent/codex/` に置く。共有する Claude のロール本文は変更しない
+- Codex の 16 定義は、メイン→parent→worker/advisor の深さ2を基本にする。parent が判断・統合・検証に責任を持ち、worker は担当範囲を調査または実装から検証まで完遂し、advisor は必要時の Astra 顧問として扱う
 - モデル、推論量、階級表示、parent の選択は [Codexエージェント編成とモデル選択](docs/codex-agent-model-selection.md) を参照する
-- `config.toml` は chezmoi 管理外であるため、メインモデル、深さ、同時実行枠はこのリポジトリからは変更しない
+- `config.toml` は chezmoi 管理外であるため、メインモデル、深さ、同時実行枠はこのリポジトリからは変更しない。source から削除した旧エージェント定義が適用先から自動削除されるとは限らないため、整理時は適用先を明示して確認する
 
 ## セキュリティ
 

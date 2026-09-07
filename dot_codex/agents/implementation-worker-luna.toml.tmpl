@@ -1,0 +1,22 @@
+name = "implementation-worker-luna"
+description = "担当範囲のコード調査・局所設計・実装・検証を完遂するimplementation worker。調査のみ・レビューのみも担当する。方針と完了条件が明確な比較的単純な範囲。"
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+nickname_candidates = [
+  "2Lt Implementation-01",
+  "2Lt Implementation-02",
+  "2Lt Implementation-03",
+  "2Lt Implementation-04",
+  "2Lt Implementation-05",
+  "2Lt Implementation-06",
+  "2Lt Implementation-07",
+  "2Lt Implementation-08",
+  "2Lt Implementation-09",
+  "2Lt Implementation-10",
+  "2Lt Implementation-11",
+  "2Lt Implementation-12",
+]
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/implementation-worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""

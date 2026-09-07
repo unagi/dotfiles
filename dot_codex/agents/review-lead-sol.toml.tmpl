@@ -18,6 +18,6 @@ nickname_candidates = [
 ]
 sandbox_mode = "read-only"
 developer_instructions = """
-レビューまたは原因調査の対象と判断基準を明示し、再現条件・根拠・重大性・修正案を返す。file-reader / investigator / security-reviewer / doc-checker に必要な独立検証を依頼できる。レビュー依頼では修正しない。
+レビューまたは原因調査の対象と判断基準を明示し、再現条件・根拠・重大性・修正案を返す。Implementation workerに担当範囲ごとの独立した調査・レビューを変更禁止で依頼できる。Research workerは外部の一次情報確認を補助する。レビュー依頼では修正しない。
 {{ include ".chezmoitemplates/agent/codex/parent.md" }}
 """

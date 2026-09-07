@@ -18,9 +18,9 @@ nickname_candidates = [
   "Maj Architect-Lead-12",
 ]
 developer_instructions = """
-{{ include ".chezmoitemplates/agent/roles/architect.md" }}
+{{ include ".chezmoitemplates/agent/roles/architect.md" | replace "implementer" "実装担当" }}
 
 {{ include ".chezmoitemplates/agent/codex/parent.md" }}
 設計には実装単位、受入条件、失敗条件、検証方法を含める。
-調査は file-reader / investigator、反証は security-reviewer に限定委譲できる。実装はメイン経由で implementation-lead に引き継ぐ。
+コード構造や設計の反証はImplementation workerへ変更禁止で依頼する。外部仕様はResearch workerへ依頼する。実装はメイン経由で implementation-lead に引き継ぐ。
 """
