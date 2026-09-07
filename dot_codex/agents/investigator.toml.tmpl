@@ -3,10 +3,22 @@ description = "複数ファイルにまたがる深い調査・因果分析を�
 model = "gpt-5.6-terra"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
+nickname_candidates = [
+  "1Lt Code-Analyst-01",
+  "1Lt Code-Analyst-02",
+  "1Lt Code-Analyst-03",
+  "1Lt Code-Analyst-04",
+  "1Lt Code-Analyst-05",
+  "1Lt Code-Analyst-06",
+  "1Lt Code-Analyst-07",
+  "1Lt Code-Analyst-08",
+  "1Lt Code-Analyst-09",
+  "1Lt Code-Analyst-10",
+  "1Lt Code-Analyst-11",
+  "1Lt Code-Analyst-12",
+]
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/roles/investigator.md" }}
 
-Codex 固有の委譲規約:
-- 必要な場合だけ、独立した証跡収集を file-reader または web-researcher に委譲してよい。
-- 調査方針、証拠の評価、結論の統合は自分で行う。
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
 """

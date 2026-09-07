@@ -3,6 +3,21 @@ description = "実装とドキュメントの乖離を検知するagent。変更
 model = "gpt-5.6-luna"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
+nickname_candidates = [
+  "2Lt Doc-Check-01",
+  "2Lt Doc-Check-02",
+  "2Lt Doc-Check-03",
+  "2Lt Doc-Check-04",
+  "2Lt Doc-Check-05",
+  "2Lt Doc-Check-06",
+  "2Lt Doc-Check-07",
+  "2Lt Doc-Check-08",
+  "2Lt Doc-Check-09",
+  "2Lt Doc-Check-10",
+  "2Lt Doc-Check-11",
+  "2Lt Doc-Check-12",
+]
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/roles/doc-checker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
 """

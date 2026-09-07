@@ -103,6 +103,10 @@ chezmoi status
 │       ├── common/
 │       │   ├── development.md
 │       │   └── project-instructions-guideline.md
+│       ├── codex/                 # Codex専用のparent / child / advisor規約
+│       │   ├── parent.md
+│       │   ├── child.md
+│       │   └── research.md
 │       ├── roles/
 │       │   ├── architect.md
 │       │   ├── implementer.md
@@ -119,7 +123,7 @@ chezmoi status
 ├── LICENSE                         # MITライセンス
 ├── README.md                       # このファイル
 ├── dot_codex/                      # ~/.codex/ にデプロイされる
-│   ├── AGENTS.md                   # グローバル指示（本リポジトリでは .chezmoiignore 対象）
+│   ├── AGENTS.md.tmpl              # グローバル指示テンプレート
 │   ├── agents/                     # Codex custom agents（TOMLテンプレート）
 │   ├── common/
 │   │   ├── development.md.tmpl
@@ -142,9 +146,11 @@ chezmoi status
 
 - ロール本文の正本は `.chezmoitemplates/agent/roles/` に置く
 - Claude 用エージェントは `private_dot_claude/agents/*.md.tmpl` で frontmatter の差分だけを持つ
-- Codex 用エージェントは `dot_codex/agents/*.toml.tmpl` で TOML とモデル指定の差分だけを持つ
-- Codex 用モデル選択は `docs/codex-agent-model-selection.md` の松竹梅方針に従う
-- ロールの意味内容を変更する場合は、まず `.chezmoitemplates/agent/roles/` を更新する
+- Codex 用エージェントは `dot_codex/agents/*.toml.tmpl` で TOML、モデル、表示名とCodex固有の職能定義を持つ
+- Codex 専用の parent / child / advisor 規約の正本は `.chezmoitemplates/agent/codex/` に置く。共有する Claude のロール本文は変更しない
+- Codex の 22 定義は、メイン→parent→child/advisor の深さ2を基本にする。parent が判断・統合・検証に責任を持ち、child は限定作業、advisor は必要時の Astra 顧問として扱う
+- モデル、推論量、階級表示、parent の選択は [Codexエージェント編成とモデル選択](docs/codex-agent-model-selection.md) を参照する
+- `config.toml` は chezmoi 管理外であるため、メインモデル、深さ、同時実行枠はこのリポジトリからは変更しない
 
 ## セキュリティ
 

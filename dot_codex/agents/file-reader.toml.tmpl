@@ -3,9 +3,22 @@ description = "単一ファイルを読み、調査目的に沿った要点を�
 model = "gpt-5.6-luna"
 model_reasoning_effort = "low"
 sandbox_mode = "read-only"
+nickname_candidates = [
+  "2Lt Code-Scout-01",
+  "2Lt Code-Scout-02",
+  "2Lt Code-Scout-03",
+  "2Lt Code-Scout-04",
+  "2Lt Code-Scout-05",
+  "2Lt Code-Scout-06",
+  "2Lt Code-Scout-07",
+  "2Lt Code-Scout-08",
+  "2Lt Code-Scout-09",
+  "2Lt Code-Scout-10",
+  "2Lt Code-Scout-11",
+  "2Lt Code-Scout-12",
+]
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/roles/file-reader.md" }}
 
-Codex 固有の委譲規約:
-- サブエージェントを起動しない。
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
 """

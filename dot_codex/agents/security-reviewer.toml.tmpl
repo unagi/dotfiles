@@ -3,9 +3,22 @@ description = "実装・設計のセキュリティ分析を担うagent。脆弱
 model = "gpt-5.6-sol"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
+nickname_candidates = [
+  "Maj Security-01",
+  "Maj Security-02",
+  "Maj Security-03",
+  "Maj Security-04",
+  "Maj Security-05",
+  "Maj Security-06",
+  "Maj Security-07",
+  "Maj Security-08",
+  "Maj Security-09",
+  "Maj Security-10",
+  "Maj Security-11",
+  "Maj Security-12",
+]
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/roles/security-reviewer.md" }}
 
-Codex 固有の委譲規約:
-- サブエージェントを起動しない。追加調査が必要なら、親エージェントへ必要な調査単位を返す。
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
 """

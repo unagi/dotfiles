@@ -3,9 +3,22 @@ description = "単一URLの取得と構造化要約を担当するWeb調査agent
 model = "gpt-5.6-luna"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
+nickname_candidates = [
+  "2Lt Web-Scout-01",
+  "2Lt Web-Scout-02",
+  "2Lt Web-Scout-03",
+  "2Lt Web-Scout-04",
+  "2Lt Web-Scout-05",
+  "2Lt Web-Scout-06",
+  "2Lt Web-Scout-07",
+  "2Lt Web-Scout-08",
+  "2Lt Web-Scout-09",
+  "2Lt Web-Scout-10",
+  "2Lt Web-Scout-11",
+  "2Lt Web-Scout-12",
+]
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/roles/web-researcher.md" }}
 
-Codex 固有の委譲規約:
-- サブエージェントを起動しない。
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
 """
