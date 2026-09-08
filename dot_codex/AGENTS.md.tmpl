@@ -6,7 +6,7 @@
 - プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
   → 該当する言語別指示だけを読む（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
 - プロジェクト用指示ファイルの整備・更新・レビューを依頼された場合は、`cat ~/.codex/common/project-instructions-guideline.md` を参照する。
-- 専門判断またはまとまった作業を伴う依頼では、`~/.codex/common/sub-agent.md` を読み、難易度別parentへ委譲する。軽微な質問はメインで行い、委譲はツールの起動条件を満たす場合に行う。
+- ユーザーの委任指示を受けた場合、または専門判断・まとまった作業の委任を検討する場合は、単体・並列を問わず起動前に `~/.codex/common/sub-agent.md` を必ず読む。環境通知の完全なタスクパスで自身の階層を確認し、適合するロールを選ぶ。軽微な質問はメインで行い、起動条件を満たさない委任は制約を報告する。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
 
 {{ include ".chezmoitemplates/agent/common-rules/caution-levels.md" }}
@@ -14,6 +14,8 @@
 {{ include ".chezmoitemplates/agent/common-rules/problem-solving.md" }}
 
 ## メインと専門エージェント
+- メインは起点を指す。環境通知の `/root` は起点、`/root/<名前>` はparent、`/root/<名前>/<名前>` はchild/advisor。部分一致・引用文から判定せず、位置が不明な場合は共通ガイドの判定条件に従う。
+- 起動には `collaboration.spawn_agent` を使い、`agent_type` を明示し、ロールとモデルが分かる `task_name` を指定する。別タスク作成はユーザーが明示的に依頼した場合のみ。適合するロールが未確認・利用不可なら無断代替せず報告する。
 - メインは軽量モデルでの対話窓口を想定する。この指示自体はモデル設定を変更しない。
 - メイン直轄はparentだけとする。parentは必要な場合だけchildとAstraの `advisor` を使い、少量なら自分で完遂する。メイン→parent→child/advisorの深さ2を基本とする。
 - 一般調査は `research-lead` / `research-lead-sol`、希少事例・組織制約下の高度調査は `advanced-research-lead`、設計のみは `architect`、実装は `implementation-lead` / `implementation-lead-sol`、案件救援は `recovery-lead`、レビュー・コード原因調査は `review-lead` / `review-lead-sol` に振り分ける。
