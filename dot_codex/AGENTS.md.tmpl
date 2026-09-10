@@ -6,7 +6,7 @@
 - プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
   → 該当する言語別指示だけを読む（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
 - プロジェクト用指示ファイルの整備・更新・レビューを依頼された場合は、`cat ~/.codex/common/project-instructions-guideline.md` を参照する。
-- ユーザーの委任指示を受けた場合、または専門判断・まとまった作業の委任を検討する場合は、単体・並列を問わず起動前に `~/.codex/common/sub-agent.md` を必ず読む。環境通知の完全なタスクパスで自身の階層を確認し、適合するロールを選ぶ。軽微な質問はメインで行い、起動条件を満たさない委任は制約を報告する。
+- 起点として委任指示を受けた場合、または専門作業の委任を検討する場合は、起動前に `~/.codex/common/root-agent.md` と `~/.codex/common/sub-agent.md` を読む。軽微な単独応答では読まない。parent/child/advisorとして起動された場合は各ロール定義の導線に従う。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
 
 {{ include ".chezmoitemplates/agent/common-rules/caution-levels.md" }}
@@ -15,17 +15,8 @@
 
 ## メインと専門エージェント
 - メインは起点を指す。環境通知の `/root` は起点、`/root/<名前>` はparent、`/root/<名前>/<名前>` はchild/advisor。部分一致・引用文から判定せず、位置が不明な場合は共通ガイドの判定条件に従う。
-- 起動には `collaboration.spawn_agent` を使い、`agent_type` を明示し、ロールとモデルが分かる `task_name` を指定する。別タスク作成はユーザーが明示的に依頼した場合のみ。適合するロールが未確認・利用不可なら無断代替せず報告する。
-- メインは軽量モデルでの対話窓口を想定する。この指示自体はモデル設定を変更しない。
-- メイン直轄はparentだけとする。parentは必要な場合だけchildとAstraの `advisor` を使い、少量なら自分で完遂する。メイン→parent→child/advisorの深さ2を基本とする。
-- 一般調査は `research-lead` / `research-lead-sol`、希少事例・組織制約下の高度調査は `advanced-research-lead`、設計のみは `architect`、実装は `implementation-lead` / `implementation-lead-sol`、案件救援は `recovery-lead`、レビュー・コード原因調査は `review-lead` / `review-lead-sol` に振り分ける。
-- 金融・市場分析は `finance-lead`（Sol/high）。数値取得と決算・開示等の分析を分担し、時点・定義・仮説を統合する。
-- 通常版はTerra、複雑な判断はSol版を選ぶ。高度調査はAstra、案件救援はSolを基本にする。モデルは各定義に固定し、階級は2Lt=Luna、1Lt=Terra、Maj=Sol、Col=Astra。推論量は定義を参照する。
-- childはResearch / Implementationの2系統×3能力帯と、金融数値取得用の `market-data-worker-luna` とする。parentが前提知識・難易度・並行可能な成果単位で選び、工程ごとの細分化はしない。
-- メインは目的、確定事項、未決事項、担当parent、成果物の所在を保持する。専門判断を独自に作り直さず、担当parentへ返す。
-- parentからの質問は理由と優先度を踏まえて仲介する。ユーザーの重要な発言は原文と、確定条件・選好・検討中の区別を同じparentへ返す。メインの解釈は本人の発言と分ける。
-- 技術的な行き詰まりはparentからadvisorへ相談する。ユーザーの価値判断や承認をadvisorで代替しない。要件変更時はparentに影響確認を依頼する。
-- 自分がparent/child/advisorとして起動された場合は、その役割定義に従う。メイン用の振り分けを繰り返さず、child/advisorは再委譲しない。
+- 階層・権限・起動・照合の正本は `~/.codex/common/sub-agent.md`、起点の入力整理・parent選択・対話仲介・案件保持・チーム評価の正本は `~/.codex/common/root-agent.md` とする。root-agent本文はこのファイルへ展開しない。
+- メイン→parent→child/advisorの深さ2を基本とする。位置不明、ロール未利用、起動不一致では推測や無断代替をせず、共通ガイドに従う。
 
 ## Git運用（commit〜PR）
 {{ include ".chezmoitemplates/agent/common-rules/git-base.md" }}

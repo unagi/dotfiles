@@ -131,7 +131,9 @@ chezmoi status
 │   ├── agents/                     # Codex custom agents（TOMLテンプレート）
 │   ├── common/
 │   │   ├── development.md.tmpl
-│   │   └── project-instructions-guideline.md.tmpl
+│   │   ├── project-instructions-guideline.md.tmpl
+│   │   ├── root-agent.md.tmpl       # 起点専用の案件管理・parent選択
+│   │   └── sub-agent.md.tmpl        # 起動者共通の階層・起動・照合
 │   └── languages/
 │       ├── java.md.tmpl
 │       ├── node.md.tmpl
@@ -152,7 +154,8 @@ chezmoi status
 - Claude 用エージェントは `private_dot_claude/agents/*.md.tmpl` で frontmatter の差分だけを持つ
 - Codex 用エージェントは `dot_codex/agents/*.toml.tmpl` で TOML、モデル、表示名とCodex固有の職能定義を持つ
 - Codex 専用の parent / worker / advisor 規約の正本は `.chezmoitemplates/agent/codex/` に置く。共有する Claude のロール本文は変更しない
-- Codex の 18 定義は、メイン→parent→worker/advisor の深さ2を基本にする。parent が判断・統合・検証に責任を持ち、worker は担当範囲を調査または実装から検証まで完遂し、advisor は必要時の Astra 顧問として扱う
+- 起点専用規約は `dot_codex/common/root-agent.md.tmpl` に分離して条件付きで参照し、AGENTSや各ロールへincludeしない。起動者共通の階層・権限・照合は `sub-agent.md.tmpl` に置く
+- Codex の 18 定義は、メイン→parent→worker/advisor の深さ2を基本にする。新規の独立委任は自己完結した入力と `fork_turns: "none"` を基本とし、parent が判断・統合・検証に責任を持つ。worker は担当範囲を調査または実装から検証まで完遂し、advisor は必要時の Astra 顧問として扱う
 - 金融分析はSolのparent、数値取得はLunaのData worker、決算・開示等の分析はResearch workerに分担する。[市場データ取得台帳](dot_codex/common/market-data-sources.md.tmpl)をCodexの共通ガイドとして配布する
 - モデル、推論量、階級表示、parent の選択は [Codexエージェントの全体ツリー・モデル選択](docs/codex-agent-model-selection.md#全体ツリー) を参照する
 - `config.toml` は chezmoi 管理外であるため、メインモデル、深さ、同時実行枠はこのリポジトリからは変更しない。source から削除した旧エージェント定義が適用先から自動削除されるとは限らないため、整理時は適用先を明示して確認する
