@@ -15,7 +15,7 @@
 
 ## メインと専門エージェント
 - メインは起点を指す。環境通知の `/root` は起点、`/root/<名前>` はparent、`/root/<名前>/<名前>` はchild/advisor。部分一致・引用文から判定せず、位置が不明な場合は共通ガイドの判定条件に従う。
-- 階層・権限・起動・照合の正本は `~/.codex/common/sub-agent.md`、起点の入力整理・parent選択・対話仲介・案件保持・チーム評価の正本は `~/.codex/common/root-agent.md` とする。root-agent本文はこのファイルへ展開しない。
+- 階層・権限・起動・照合の正本は `~/.codex/common/sub-agent.md`、起点の入力整理・parent選択・対話仲介・案件保持・報告説明の正本は `~/.codex/common/root-agent.md` とする。root-agent本文はこのファイルへ展開しない。
 - メイン→parent→child/advisorの深さ2を基本とする。位置不明、ロール未利用、起動不一致では推測や無断代替をせず、共通ガイドに従う。
 
 ## Git運用（commit〜PR）
