@@ -202,3 +202,9 @@ chezmoi apply --force
 ## ライセンス
 
 MIT License - 詳細は [LICENSE](LICENSE) を参照
+
+## CIでのCodexエージェント検証
+
+GitHub Actionsの `Validate Codex agent TOML` は、関連ファイルのpush・PRと手動実行時に、Ubuntu上でchezmoi 2.70.3とPython 3.12を使い、`dot_codex/agents/*.toml.tmpl` の展開結果を標準ライブラリの `tomllib` で構文検証します。共通テンプレートの変更も検査対象です。
+
+ローカルのPython・uv導入は不要です。設定の適用やモデルの利用可否の検証は行いません。`.github/` はリポジトリ保守用としてchezmoiの配布対象から除外します。

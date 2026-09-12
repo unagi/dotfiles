@@ -1,0 +1,64 @@
+name: Validate Codex agent TOML
+
+on:
+  pull_request:
+    paths:
+      - 'dot_codex/**'
+      - '.chezmoitemplates/**'
+      - '.chezmoidata*'
+      - '.chezmoidata/**'
+      - '.github/workflows/validate-codex-agents.yml'
+  push:
+    paths:
+      - 'dot_codex/**'
+      - '.chezmoitemplates/**'
+      - '.chezmoidata*'
+      - '.chezmoidata/**'
+      - '.github/workflows/validate-codex-agents.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install chezmoi
+        env:
+          CHEZMOI_VERSION: '2.70.3'
+        run: |
+          curl --fail --silent --show-error --location \
+            "https://github.com/twpayne/chezmoi/releases/download/v${CHEZMOI_VERSION}/chezmoi_${CHEZMOI_VERSION}_linux_amd64.tar.gz" \
+            --output "$RUNNER_TEMP/chezmoi.tar.gz"
+          mkdir -p "$RUNNER_TEMP/chezmoi-bin"
+          tar -xzf "$RUNNER_TEMP/chezmoi.tar.gz" -C "$RUNNER_TEMP/chezmoi-bin" chezmoi
+          echo "$RUNNER_TEMP/chezmoi-bin" >> "$GITHUB_PATH"
+      - name: Render templates and validate TOML
+        shell: python
+        run: |
+          import pathlib
+          import subprocess
+          import tomllib
+
+          source = pathlib.Path.cwd()
+          templates = sorted((source / 'dot_codex/agents').glob('*.toml.tmpl'))
+          if not templates:
+              raise SystemExit('No Codex agent templates found')
+
+          for template in templates:
+              print(f'Validating {template.relative_to(source)}', flush=True)
+              rendered = subprocess.run(
+                  ['chezmoi', 'execute-template', '--source', str(source),
+                   '--file', str(template)],
+                  check=True, capture_output=True, text=True, encoding='utf-8',
+              )
+              tomllib.loads(rendered.stdout)
+          print(f'Validated {len(templates)} Codex agent definitions')
