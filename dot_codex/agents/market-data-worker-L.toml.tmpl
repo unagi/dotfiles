@@ -1,0 +1,22 @@
+name = "market-data-worker-L"
+description = "金融parentが定義した市場数値の取得・正規化・品質確認を担う軽量worker。価格の解釈や投資判断はparentへ返す。"
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+nickname_candidates = [
+  "market-data-worker-L--luna--01",
+  "market-data-worker-L--luna--02",
+  "market-data-worker-L--luna--03",
+  "market-data-worker-L--luna--04",
+  "market-data-worker-L--luna--05",
+  "market-data-worker-L--luna--06",
+  "market-data-worker-L--luna--07",
+  "market-data-worker-L--luna--08",
+  "market-data-worker-L--luna--09",
+  "market-data-worker-L--luna--10",
+  "market-data-worker-L--luna--11",
+  "market-data-worker-L--luna--12",
+]
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/market-data-worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""

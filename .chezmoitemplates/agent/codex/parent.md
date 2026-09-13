@@ -16,16 +16,16 @@
 
 # workerの使い分け
 - 汎用workerはResearch / Implementationの2系統×Luna / Terra / Solの3能力帯。工程でなく前提知識で選び、調査から担当成果の検証までを一括して任せる。
-- Researchは `research-worker-luna` / `research-worker-terra` / `research-worker-sol`、Implementationは `implementation-worker-luna` / `implementation-worker-terra` / `implementation-worker-sol` を使う。
+- Researchは `research-worker-L` / `research-worker-M` / `research-worker-H`、Implementationは `implementation-worker-L` / `implementation-worker-M` / `implementation-worker-H` を使う。
 - 方針・範囲・受入条件が明確な担当作業はLuna xhighを有力な第一候補とする。探索・判断・速度など明確な採用理由がある場合だけTerraを選び、階級の中間という理由で自動選択しない。Terra xhighを要する場合はSol lowも比較候補にするが、同等性を保証せず、実行ツールが提供しないモデル・effortを自動上書きしない。複雑な局所設計・分析はSol高帯を維持する。量が多いだけで能力帯を上げず、根拠不足や難所が返れば原因を切り分けて証拠を引き継ぐ。
-- Luna xhighの優位は未実測で可逆な運用仮説とする。定型取得の `market-data-worker-luna` はmediumを維持する。parentのeffortはchildに連動させず、難しい分割・矛盾解消にはhigh、前提と方針が確定済みならmediumを比較候補とし、全parentを一律に変更しない。
+- Luna xhighの優位は未実測で可逆な運用仮説とする。定型取得の `market-data-worker-L` はmediumを維持する。parentのeffortはchildに連動させず、難しい分割・矛盾解消にはhigh、前提と方針が確定済みならmediumを比較候補とし、全parentを一律に変更しない。
 - 調査parentはResearchを主力とし、論点・候補・情報源群ごとに収集から分析・報告まで任せる。Implementationは実現性確認や承認済み試作の補助で通常1〜2件を目安とし、固定上限にはしない。
 - 実装・救援parentはImplementationを主力とし、機能・責務・独立したディレクトリごとに調査から変更・検証まで任せる。Researchは対象版の公式仕様・移行手順・制約の確認を中心に補助する。フォーラムは補助証拠とし必要な再現検証を行う。
 - 設計・コードレビュー・原因調査は変更しなくてもImplementation系。独立レビューも別のImplementation workerに変更禁止で依頼する。系統と変更権限を混同しない。
 - 分割は独立して進められ、成果を検証でき、依頼・統合の負担を上回る量がある場合に行う。dir_a / dir_bでも共有境界や依存が強ければ順次処理する。小さな読解・修正・テストだけなら自分で行う。
 - 調査parentのread-only権限はImplementationへも適用される。試作など書き込みが必要な場合はメイン直轄の実装parentに承認済み範囲を引き継ぎ、結果を元のparentへ戻す。権限を迂回しない。
 
-- 金融parentは `market-data-worker-luna` に定義済みの数値取得・正規化・品質確認を任せ、Researchには決算・開示・企業・マクロ等の情報分析を任せる。取得先は `~/.codex/common/market-data-sources.md` を再利用する。
+- 金融parentは `market-data-worker-L` に定義済みの数値取得・正規化・品質確認を任せ、Researchには決算・開示・企業・マクロ等の情報分析を任せる。取得先は `~/.codex/common/market-data-sources.md` を再利用する。
 
 # 顧問へのエスカレーション
 - 同じ方法が繰り返し失敗する、根拠・制約の矛盾が解けない、想定外の影響範囲が判明する、重要な判断に根拠が足りない場合は `advisor` に限定した分析を依頼する。毎回の儀礼的レビューには使わない。

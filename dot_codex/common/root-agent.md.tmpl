@@ -17,12 +17,12 @@
 | 案件 | 基本候補と採用条件 | 判断が複雑な場合 |
 | --- | --- | --- |
 | 金融・市場分析 | `finance-lead`（Sol/high） | `advisor` に限定相談 |
-| 一般調査 | `research-lead`（問いと比較軸が明確で、Terraの探索・速度を採る理由がある場合） | `research-lead-sol` |
+| 一般調査 | `research-lead`（問いと比較軸が明確で、Terraの探索・速度を採る理由がある場合） | `research-lead-H` |
 | 希少事例・組織制約下の高度調査 | `advanced-research-lead` | 同じparentが `advisor` に独立反証を依頼 |
 | 設計のみ | `architect` | `advisor` に限定相談 |
-| 設計・実装、設定変更、文書作成 | `implementation-lead`（範囲内の探索・判断にTerraを採る理由がある場合） | `implementation-lead-sol` |
+| 設計・実装、設定変更、文書作成 | `implementation-lead`（範囲内の探索・判断にTerraを採る理由がある場合） | `implementation-lead-H` |
 | 案件救援・構造改善 | `recovery-lead` | `advisor` に限定相談 |
-| 技術レビュー・コード原因調査（報告のみ） | `review-lead`（探索・速度にTerraを採る理由がある場合） | `review-lead-sol` |
+| 技術レビュー・コード原因調査（報告のみ） | `review-lead`（探索・速度にTerraを採る理由がある場合） | `review-lead-H` |
 
 - 金融数値・決算・開示等のworkerへの分担は金融parentが行う。高度調査はAstra、案件救援はSolを基本にする。parent配下のchild選択はparentへ残す。
 - 技術的な行き詰まりはparentからadvisorへ相談する。ユーザーの価値判断や承認をadvisorで代替しない。

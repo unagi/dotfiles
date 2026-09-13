@@ -15,7 +15,7 @@
 ```text
 メイン（Lunaを想定：対話・ヒアリング・案件状態の保持）
 ├─ 一般調査 parent
-│  research-lead（1Lt / Terra high）/ research-lead-sol（Maj / Sol high）
+│  research-lead（1Lt / Terra high）/ research-lead-H（Maj / Sol high）
 │  ├─ Research worker：主力。論点・候補・情報源群ごとに調査・分析
 │  ├─ Implementation worker：補助。実現性確認、変更禁止
 │  └─ advisor（Col / Astra medium）：難所の分析
@@ -26,7 +26,7 @@
 │  └─ advisor（Col / Astra medium）：独立した反証
 ├─ 金融・市場分析 parent
 │  finance-lead（Maj / Sol high）
-│  ├─ market-data-worker-luna（2Lt / Luna medium）：数値取得・品質確認
+│  ├─ market-data-worker-L（2Lt / Luna medium）：数値取得・品質確認
 │  ├─ Research worker：決算・開示・企業・マクロ・政治・市場反応の分析
 │  └─ advisor（Col / Astra medium）：難所の分析
 ├─ 設計 parent
@@ -35,7 +35,7 @@
 │  ├─ Research worker：外部仕様・制約の確認
 │  └─ advisor（Col / Astra medium）：難所の分析
 ├─ 設計・実装 parent
-│  implementation-lead（1Lt / Terra high）/ implementation-lead-sol（Maj / Sol high）
+│  implementation-lead（1Lt / Terra high）/ implementation-lead-H（Maj / Sol high）
 │  ├─ Implementation worker：主力。独立した機能・ディレクトリの変更・検証
 │  ├─ Research worker：補助。対象版の公式仕様・移行手順の確認
 │  └─ advisor（Col / Astra medium）：難所の分析
@@ -45,20 +45,20 @@
 │  ├─ Research worker：補助。外部仕様・既知の制約の確認
 │  └─ advisor（Col / Astra medium）：難所の分析
 └─ レビュー・コード原因調査 parent
-   review-lead（1Lt / Terra high）/ review-lead-sol（Maj / Sol high）
+   review-lead（1Lt / Terra high）/ review-lead-H（Maj / Sol high）
    ├─ Implementation worker：主力。独立した範囲の調査・レビュー、変更禁止
    ├─ Research worker：補助。判断根拠となる外部仕様の確認
    └─ advisor（Col / Astra medium）：難所の分析
 
 上記で共有するworkerの能力帯（parentが担当範囲の難易度から選択）
 Research worker
-├─ research-worker-luna（2Lt / Luna xhigh）
-├─ research-worker-terra（1Lt / Terra high）
-└─ research-worker-sol（Maj / Sol high）
+├─ research-worker-L（2Lt / Luna xhigh）
+├─ research-worker-M（1Lt / Terra high）
+└─ research-worker-H（Maj / Sol high）
 Implementation worker
-├─ implementation-worker-luna（2Lt / Luna xhigh）
-├─ implementation-worker-terra（1Lt / Terra high）
-└─ implementation-worker-sol（Maj / Sol high）
+├─ implementation-worker-L（2Lt / Luna xhigh）
+├─ implementation-worker-M（1Lt / Terra high）
+└─ implementation-worker-H（Maj / Sol high）
 ```
 
 Researchを主力とするparentのImplementation補助は通常1〜2件が目安。上図は委譲先の目安で、全枝の同時起動を要求しない。少量ならparentが直接実施する。調査・設計から書き込みを伴う試作・実装へ進む場合は、メイン経由で実装parentへ引き継ぐ。worker/advisorはすべて末端であり、再委譲しない。
@@ -96,14 +96,14 @@ Researchを主力とするparentのImplementation補助は通常1〜2件が目�
 
 `Lead` は parent、`Advisor` は顧問を表す。`nickname_candidates` は `正式ロール--モデル略称--番号`（例: `research-lead--terra--01`）とし、階級の読み替えなしでロールとモデルを識別できるようにする。実アプリでの候補表示反映は未検証である。
 
-上表のLuna / xhighは `research-worker-luna` と `implementation-worker-luna` に適用する未実測・可逆な運用仮説である。定型取得の `market-data-worker-luna` はmediumを維持する。Terraは階級の中間という理由だけで自動選択しない。Terra xhighが必要な状況ではSol lowも比較候補になるが、同等性は保証されず、現在のロール定義や起動ツールが提供しないeffortへ自動上書きしない。Sol高帯は難しい仕事で維持する。
+上表のLuna / xhighは `research-worker-L` と `implementation-worker-L` に適用する未実測・可逆な運用仮説である。定型取得の `market-data-worker-L` はmediumを維持する。Terraは階級の中間という理由だけで自動選択しない。Terra xhighが必要な状況ではSol lowも比較候補になるが、同等性は保証されず、現在のロール定義や起動ツールが提供しないeffortへ自動上書きしない。Sol高帯は難しい仕事で維持する。
 
 parentのeffortはchildへ連動しない。難しい分割・矛盾解消にはhigh、前提と方針が確定済みならmediumを比較候補とするが、全parentを一律にmediumへ変更しない。本リポジトリの既存parent設定は維持する。
 
 ### 起動時の識別と確認
 
 - 起点として委任指示を受けた、または委任を検討する場合は `root-agent.md` と `sub-agent.md` を読む。parentは開始時と委任前に `sub-agent.md` を確認し、既読で変更がなければ再読しない。child/advisorは各ロール定義だけを読む。軽微な単独応答では起点用文書を読まない。識別情報を任意とする扱いと実際の権限衝突時の限定的な保留は `sub-agent.md` を正本とする。
-- `collaboration.spawn_agent` の `agent_type` に正式ロールを指定する。`task_name` は `ロール__モデル略称` とし、ハイフンをアンダースコアに置換する（例: `research_lead__terra`）。これは `nickname_candidates` とは別の名前である。`fork_turns` などの値は現在の実行ツール仕様を確認し、未対応の値や別ツールへ無断で置き換えない。
+- `collaboration.spawn_agent` の `agent_type` に正式ロールを指定する。`task_name` は `ロール__モデル略称` とし、小文字化してハイフンをアンダースコアに置換する（例: `research_lead__terra`）。これは `nickname_candidates` とは別の名前である。`fork_turns` などの値は現在の実行ツール仕様を確認し、未対応の値や別ツールへ無断で置き換えない。
 - 起動前に完全なモデル名・推論強度・設定根拠を報告し、未確認は明示する。起動側が指定と返却IDを保持する。受任者の識別情報の復唱・証明は求めず、欠落だけでは拒否しない。名前はモデル適用や回答品質の証明ではない。
 - ロールが定義されていても、現在のツールに提示されていなければ利用可能と扱わない。defaultや別タスクへの無断代替は禁止。別タスク作成はユーザーの明示的な依頼がある場合に限る。
 
@@ -112,16 +112,16 @@ parentのeffortはchildへ連動しない。難しい分割・矛盾解消には
 | 案件 | 基本候補と採用条件 | 判断が複雑な場合 | parent の責任 |
 | --- | --- | --- | --- |
 | 金融・市場分析 | `finance-lead`（Sol / high） | `advisor` に限定相談 | 数値取得条件を定め、決算・開示・市場反応と時点・仮説を統合する |
-| 一般調査 | `research-lead`（Terra / high。問いと比較軸が明確で、探索・速度にTerraを採る理由がある場合） | `research-lead-sol`（Sol / high） | 公式情報・利用者の観測を比較し、条件付きの結論と未確認事項を統合する |
+| 一般調査 | `research-lead`（Terra / high。問いと比較軸が明確で、探索・速度にTerraを採る理由がある場合） | `research-lead-H`（Sol / high） | 公式情報・利用者の観測を比較し、条件付きの結論と未確認事項を統合する |
 | 高度調査・仮説立案 | `advanced-research-lead`（Astra / medium） | 同じ parent が `advisor` に独立反証を依頼 | 希少事例や組織制約下で、代替策、成立条件、残余リスク、見直し条件を示す |
 | 設計のみ | `architect`（Sol / high） | `advisor` に限定相談 | 設計判断と実装単位・受入条件を定める。実装はメイン経由で引き継ぐ |
-| 設計・実装 | `implementation-lead`（Terra / high。範囲内の探索・判断にTerraを採る理由がある場合） | `implementation-lead-sol`（Sol / high） | 合意済み要件を具体化し、実装、結合、受入検証を統合する |
+| 設計・実装 | `implementation-lead`（Terra / high。範囲内の探索・判断にTerraを採る理由がある場合） | `implementation-lead-H`（Sol / high） | 合意済み要件を具体化し、実装、結合、受入検証を統合する |
 | 案件救援・構造改善 | `recovery-lead`（Sol / high） | `advisor` に限定相談 | 現状・問題・改善候補を整理し、ユーザーが決めた方針を実行・検証する |
-| 技術レビュー・コード原因調査（報告のみ） | `review-lead`（Terra / high。探索・速度にTerraを採る理由がある場合） | `review-lead-sol`（Sol / high） | 根拠、重大性、推奨対応を評価する |
+| 技術レビュー・コード原因調査（報告のみ） | `review-lead`（Terra / high。探索・速度にTerraを採る理由がある場合） | `review-lead-H`（Sol / high） | 根拠、重大性、推奨対応を評価する |
 
 高度調査parentはread-onlyで調査・仮説更新に専念する。プロトタイプは仮説と終了条件をメインへ返し、承認後にメイン直轄の実装parentへ引き継ぐ。結果は同じ高度調査parentへ戻す。
 
-設定変更や文書作成は `implementation-lead` / `implementation-lead-sol` が扱う。
+設定変更や文書作成は `implementation-lead` / `implementation-lead-H` が扱う。
 
 `advanced-research-lead` と `advisor` の Astra / `medium` は試行値である。通常の案件救援は Sol を開始点とし、Astra を既定にしない。
 
@@ -131,13 +131,13 @@ worker は工程を分けるための小さな役ではない。parent は、十
 
 | 系統 | エージェント | モデル / effort | 担当範囲 |
 | --- | --- | --- | --- |
-| Market Data | `market-data-worker-luna` | Luna / medium | 定義済みの市場数値を取得・正規化・品質確認する。解釈はparentへ返す |
-| Research | `research-worker-luna` | Luna / xhigh | 方針、範囲、受入条件が明確な論点について、情報収集、照合・分析、根拠付き報告まで行う |
-| Research | `research-worker-terra` | Terra / high | 探索、判断、速度などTerraを採る理由が明確な論点を同じ範囲で完遂する |
-| Research | `research-worker-sol` | Sol / high | 高リスクまたは難解な論点で、反証、適用条件、不確実性まで分析する |
-| Implementation | `implementation-worker-luna` | Luna / xhigh | 方針、範囲、受入条件が明確な担当範囲で、コード調査、局所設計、実装、検証まで行う |
-| Implementation | `implementation-worker-terra` | Terra / high | 探索、判断、速度などTerraを採る理由が明確な変更・レビュー・原因調査を完遂する |
-| Implementation | `implementation-worker-sol` | Sol / high | 複雑な局所設計、構造改善、高リスクな変更またはレビューを担当する |
+| Market Data | `market-data-worker-L` | Luna / medium | 定義済みの市場数値を取得・正規化・品質確認する。解釈はparentへ返す |
+| Research | `research-worker-L` | Luna / xhigh | 方針、範囲、受入条件が明確な論点について、情報収集、照合・分析、根拠付き報告まで行う |
+| Research | `research-worker-M` | Terra / high | 探索、判断、速度などTerraを採る理由が明確な論点を同じ範囲で完遂する |
+| Research | `research-worker-H` | Sol / high | 高リスクまたは難解な論点で、反証、適用条件、不確実性まで分析する |
+| Implementation | `implementation-worker-L` | Luna / xhigh | 方針、範囲、受入条件が明確な担当範囲で、コード調査、局所設計、実装、検証まで行う |
+| Implementation | `implementation-worker-M` | Terra / high | 探索、判断、速度などTerraを採る理由が明確な変更・レビュー・原因調査を完遂する |
+| Implementation | `implementation-worker-H` | Sol / high | 複雑な局所設計、構造改善、高リスクな変更またはレビューを担当する |
 
 コードの原因調査とコードレビューは、書き込みを伴わなくても Implementation 系で扱う。調査のみ、レビューのみ、変更可のいずれにするかは、worker の種類ではなく依頼ごとの権限で限定する。
 
@@ -172,20 +172,20 @@ Data workerと金融parentはsandboxを固定せず実行環境の権限を継�
 
 | 旧ファイル名（agents配下） | 移行先の目安 |
 | --- | --- |
-| `web-researcher.toml` | `research-worker-luna` |
-| `research-analyst.toml` | `research-worker-terra` |
+| `web-researcher.toml` | `research-worker-L` |
+| `research-analyst.toml` | `research-worker-M` |
 | `file-reader.toml` | コードはImplementation、外部資料はResearchから能力帯を選ぶ |
-| `investigator.toml` | `implementation-worker-terra`（調査のみ） |
-| `implementer.toml` | `implementation-worker-terra` |
-| `implementer-sol.toml` | `implementation-worker-sol` |
-| `refactorer.toml` | `implementation-worker-sol` |
+| `investigator.toml` | `implementation-worker-M`（調査のみ） |
+| `implementer.toml` | `implementation-worker-M` |
+| `implementer-sol.toml` | `implementation-worker-H` |
+| `refactorer.toml` | `implementation-worker-H` |
 | `security-reviewer.toml` | コードはImplementation、外部要件はResearchのSol帯（レビューのみ） |
-| `doc-writer.toml` | `implementation-worker-terra` |
-| `doc-checker.toml` | `implementation-worker-luna`（レビューのみ） |
-| `lint-fixer.toml` | `implementation-worker-luna` |
-| `test-runner.toml` | `implementation-worker-luna`（検証のみ） |
+| `doc-writer.toml` | `implementation-worker-M` |
+| `doc-checker.toml` | `implementation-worker-L`（レビューのみ） |
+| `lint-fixer.toml` | `implementation-worker-L` |
+| `test-runner.toml` | `implementation-worker-L`（検証のみ） |
 
-PR途中の `data-worker-luna.toml` を既に適用した場合も、`market-data-worker-luna.toml` へ参照を更新し、旧ファイルを個別確認して整理する。
+PR途中の `data-worker-luna.toml` を既に適用した場合も、`market-data-worker-L.toml` へ参照を更新し、旧ファイルを個別確認して整理する。
 
 この表は旧依頼の移行用であり、今後も工程単位でworkerを起動する推奨ではない。小さな確認はparentで行い、まとまった担当成果の一部として必要な工程をworkerに含める。
 
@@ -199,3 +199,9 @@ chezmoi v2.70.3で18定義の展開・TOML解析、必須項目、階級とモ�
 - [表示候補の検証処理](https://github.com/openai/codex/blob/main/codex-rs/agent-roles/src/agent_role_config.rs)
 
 表示名候補は半角英数字・空白・ハイフン・アンダースコアに限定する。候補数は同時実行枠を設定しない。指示による階層と権限は実行環境の制約を上書きしない。
+
+### 能力帯によるロール名の短縮
+
+モデル名付きのロール接尾辞をLuna→L、Terra→M、Sol→Hに変更する。モデル設定と推論量は変更しない。表示例は `research-worker-L--luna--01`、task_nameは `research_worker_l__luna`。モデル名を含まないロールは維持する。
+
+適用済み環境では旧名のエージェントTOMLが残る可能性があるため、名前変更の対応を確認して別途整理する。今回のsource変更では配布先の旧ファイルは削除しない。
