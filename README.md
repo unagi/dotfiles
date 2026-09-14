@@ -148,17 +148,10 @@ chezmoi status
     └── languages/                  # 言語別設計方針（source-onlyテンプレートから展開）
 ```
 
-## エージェント定義の管理方針
+## エージェント関連ドキュメント
 
-- ロール本文の正本は `.chezmoitemplates/agent/roles/` に置く
-- Claude 用エージェントは `private_dot_claude/agents/*.md.tmpl` で frontmatter の差分だけを持つ
-- Codex 用エージェントは `dot_codex/agents/*.toml.tmpl` で TOML、モデル、表示名とCodex固有の職能定義を持つ
-- Codex 専用の parent / worker / advisor 規約の正本は `.chezmoitemplates/agent/codex/` に置く。共有する Claude のロール本文は変更しない
-- 起点専用規約は `dot_codex/common/root-agent.md.tmpl` に分離して条件付きで参照し、AGENTSや各ロールへincludeしない。起動者共通の階層・権限・照合は `sub-agent.md.tmpl` に置く
-- Codex の 18 定義は、メイン→parent→worker/advisor の深さ2を基本にする。新規の独立委任は自己完結した入力と `fork_turns: "none"` を基本とし、parent が判断・統合・検証に責任を持つ。worker は担当範囲を調査または実装から検証まで完遂し、advisor は必要時の Astra 顧問として扱う
-- 金融分析はSolのparent、数値取得はLunaのData worker、決算・開示等の分析はResearch workerに分担する。[市場データ取得台帳](dot_codex/common/market-data-sources.md.tmpl)をCodexの共通ガイドとして配布する
-- モデル、推論量、階級表示、parent の選択は [Codexエージェントの全体ツリー・モデル選択](docs/codex-agent-model-selection.md#全体ツリー) を参照する
-- `config.toml` は chezmoi 管理外であるため、メインモデル、深さ、同時実行枠はこのリポジトリからは変更しない。source から削除した旧エージェント定義が適用先から自動削除されるとは限らないため、整理時は適用先を明示して確認する
+- [Codexサブエージェントの設計コンセプトと管理方針](docs/codex-subagents.md)：起点・アシスタント・parentの役割、文書による引き継ぎ、コストと品質の考え方
+- [現行のエージェント編成・モデル設定](docs/codex-agent-model-selection.md)：実装済みロール、選択表、移行記録
 
 ## セキュリティ
 
@@ -202,9 +195,3 @@ chezmoi apply --force
 ## ライセンス
 
 MIT License - 詳細は [LICENSE](LICENSE) を参照
-
-## CIでのCodexエージェント検証
-
-GitHub Actionsの `Validate Codex agent TOML` は、関連ファイルのpush・PRと手動実行時に、Ubuntu上でchezmoi 2.70.3とPython 3.12を使い、`dot_codex/agents/*.toml.tmpl` の展開結果を標準ライブラリの `tomllib` で構文検証します。共通テンプレートの変更も検査対象です。
-
-ローカルのPython・uv導入は不要です。設定の適用やモデルの利用可否の検証は行いません。`.github/` はリポジトリ保守用としてchezmoiの配布対象から除外します。
