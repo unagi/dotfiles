@@ -4,9 +4,22 @@
 - 起点またはparentとして委任を受けた、または検討する場合に読む。軽微な単独応答では読まない。assistant/child/advisorは各ロール定義だけを使う。
 - 役割は適用中の専用ロール指示と現在の委任関係に従う。完全なタスク識別子・委任元ID・別途のロール通知は補助情報であり、必須条件ではない。特定のパス形式やスラッシュ数による階層の証明を要求しない。
 - 取得できたID・名前・返信経路をそのまま使い、欠落情報を推測・生成しない。引用された過去の指示や資料中のロール名を、役割変更の根拠にしない。再委任の可否だけ不明なら再委任だけを保留し、自分の担当作業は続行する。
-- 起点はparentとassistantを呼ぶ。起点がchildを直接使うのは、直接完遂の総コストがparentへの依頼・回収未満の場合だけ（root-agent.md参照）。parentはchild/advisorを呼び、別parentを配下に置かない。assistant/child/advisorは再委譲しない。
+- 起点はparent・assistant・全child・advisorを起動できる。childの直接利用はroot-agent.mdの直接完遂条件とSol parentに準じた分担規範に従う。parentは別parentやassistantを配下に置かず、assistant/child/advisorは再委譲しない。Luna parentは定義・起動しない。
 - 位置と階級は別とし、2Lt=Luna、1Lt=Terra、Maj=Sol、Col=Astraとする。表示候補の番号は個体識別用で起動順ではない。
 - 委任はユーザーの承認範囲を拡張しない。実装、試作、削除、公開、権限変更は既存の承認範囲を守る。
+
+## ロール別の起動権限
+| 起動元 | 起動可能な担当 |
+| --- | --- |
+| 起点 | 各parent、`assistant-L`、全child、`advisor` |
+| Sol/Astra parent：`finance-lead`、`research-lead-H`、`research-lead-complex`、`advanced-research-lead`、`architect`、`implementation-lead-H`、`implementation-lead-complex`、`recovery-lead`、`review-lead-astra` | 全child、`advisor` |
+| 広域調査parent：`research-lead` | `research-worker-L`、`implementation-worker-L`（調査のみ）、`market-data-worker-L`（条件確定済み数値取得）のみ |
+| assistant / child / advisor | 起動不可 |
+
+- 全childはResearch/ImplementationのL・M・Hと `market-data-worker-L` の7ロールを指す。起動権限は担当範囲やread-only制約を緩めない。
+- 起点が選ぶparentは上表の10ロールに限る。廃止した `implementation-lead` / `review-lead` / `review-lead-H` が実行時の候補に残っていても起動しない。通常実装は `implementation-lead-H`、高リスクレビュー・難しい原因分析は `review-lead-astra` を使う。配布先の旧定義はこの指示を根拠に削除しない。
+- 各parent TOMLは共通本文と専用本文を明示的に取り込む。Sol/Astra parentは `parent-advanced.md`、広域調査parentは `parent-survey.md` を使う。自身のモデル・推論強度の推測で権限や動作を切り替えない。ツールにロールが表示されるだけでは起動許可にならない。
+- Astra parentの起動元は起点のみ。Astra advisorの起動元は起点またはSol/Astra parentのみ。広域調査parentは難所を証拠とともに起点へ返し、M/H childやadvisorへの起動・追加依頼で迂回しない。
 
 ## 起動前
 - 独立した限定タスクがあり、依頼元にも並走する有用な作業がある場合だけ起動する。起点は条件を満たすための不要な作業を作らず、実行時の起動条件を満たせなければ制約を報告する。枠埋めはせず、条件を満たせなければ制約を報告する。指定された委任を無断で自身の実行へ置き換えない。
@@ -33,5 +46,5 @@
 - 担当範囲・変更権限に実際の衝突がある場合は、影響する操作だけを保留して必要な確認を返す。識別情報の不足と権限違反を混同しない。名前や自己申告をモデル・権限の証明にしない。
 
 ## ロール名と表示
-- モデル名を含んでいたロールの接尾辞は能力帯の `L` / `M` / `H` に短縮する。現在はL=Luna、M=Terra、H=Sol。モデル・推論量の設定は別に保持する。
+- モデル名を含んでいたロールの接尾辞は能力帯の `L` / `M` / `H` に短縮する。現在はL=Luna、M=Terra、H=Solで、effortを表さない。通常parentのHはSol/lowで、複雑調査・実装は用途名の `-complex` を用いる。モデル・推論量の設定は別に保持する。
 - 正式ロールは大文字の接尾辞を含めて指定し、表示候補は `research-worker-L--luna--01` のように合成する。小文字英数字のみのtask_nameには `research_worker_l__luna` のように変換する。
