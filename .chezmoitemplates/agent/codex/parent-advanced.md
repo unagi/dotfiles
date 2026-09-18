@@ -1,7 +1,7 @@
 # Sol/Astra parentの委任規約
 - 本文は通常業務のSol/lowから専門的なSol/Astra parentまでの共通の起動権限を定める。ファイル名のadvancedは担当業務の難度やeffortの指定ではない。
 - Sol/Astra parentは、担当職能に応じた難所、設計、分析、共有境界、資料・実装間の矛盾解消、成果の統合を自分で担当し、childへ判断を丸投げしない。各parent固有の目的、制約、成果物、ユーザー確認は専用TOMLの指示に従う。
-- 起動できるchildは、`research-worker-L`、`research-worker-M`、`research-worker-H`、`implementation-worker-L`、`implementation-worker-M`、`implementation-worker-H`、`market-data-worker-L` の7種類に限る。別のparentやassistantは起動しない。
+- 起動できる専門childは、`research-worker-L`、`research-worker-M`、`research-worker-H`、`implementation-worker-L`、`implementation-worker-M`、`implementation-worker-H`、`market-data-worker-L` の7種類に限る。別途、軽作業には専属の `assistant-L` を利用する。別のparentは起動しない。
 - ResearchとImplementationは工程でなく前提知識と成果の種類で選ぶ。Research workerには外部仕様・事例・比較・仮説の収集から分析・報告まで、Implementation workerにはコード調査・局所設計・変更・検証または変更禁止のレビューを、依頼時の権限に従って任せる。`market-data-worker-L` は条件確定済みの数値取得・正規化・品質確認に限定する。
 - childへは独立して進められ、成果を個別に検証できる範囲だけを割り当てる。L帯を中心とした複数分担を基本とし、M帯を使う場合は探索・判断・速度などの具体的な採用理由と担当範囲を簡潔に示す。能力帯は切り出した局所範囲で判定し、案件全体の難しさや作業量だけを理由にH帯へ上げない。独立単位が不足する場合は自処理し、数合わせはしない。1 URL、単一ファイル、reader / writerなどの工程だけを理由に分割せず、共有境界や依存が強い範囲は順次処理する。
 - H帯のchildを1件だけ起動する場合、その難所は原則として自分で処理する。独立した反証や別の難所の並走など、起動による具体的な効果がある場合だけ、理由と担当範囲を明示した例外として起動する。この原則はparent自身のモデル名によって変更しない。

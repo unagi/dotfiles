@@ -2,9 +2,11 @@
 
 ## 方針と正本
 
-[設計コンセプトと管理方針](codex-subagents.md)を全体方針の正本とする。起点の正本は`dot_codex/common/root-agent.md.tmpl`、階層・起動・権限は`dot_codex/common/sub-agent.md.tmpl`、parentの共通本文と専用本文は`.chezmoitemplates/agent/codex/`、モデル・表示名は`dot_codex/agents/*.toml.tmpl`に置く。この文書は、現行19定義の構成、テンプレート適用関係、起点選択、workerの使い分けを説明する。
+[設計コンセプトと管理方針](codex-subagents.md)を全体方針の正本とする。起点の正本は`dot_codex/common/root-agent.md.tmpl`、階層・起動・権限は`dot_codex/common/sub-agent.md.tmpl`、parentの共通本文と専用本文は`.chezmoitemplates/agent/codex/`、モデル・表示名は`dot_codex/agents/*.toml.tmpl`に置く。この文書は、現行19定義の構成、テンプレート適用関係、起点選択、workerの使い分けを説明する。現行方針の確認日は2026-09-18である。
 
 起点の現行運用はSol/lowである。起点は全体の目的、制約、担当選択、依存関係、全体調整、成果統合を保持する。背景の継続参照が必要なら起点が直接扱い、選別した背景を指示書へ含めて業務が成立するなら、規模が小さくてもparentを優先する。同じSol/lowでも文脈を分離する価値を評価する。`config.toml`はchezmoi管理外のため、このsourceから起点モデル、同時実行枠、深さは変更しない。
+
+起点からparentへの委任時の指示書には確定条件、主要原文、過去の訂正、却下理由、未決事項、対象範囲、権限、受入条件、返却形式を含める。専門childには担当範囲、完了条件、返却形式、必要な背景と権限をメッセージで具体化し、継続・引き継ぎに保存が必要な場合だけ指示書等を作る。assistantへは軽量指示を短く渡し、指示書・応答書・状態ファイルは作らない。
 
 ## 全体構造
 
@@ -12,7 +14,7 @@
 
 ```text
 メイン（Sol/low：全体調整・案件状態・成果統合）
-├─ assistant-L（Luna/low）：明確な要約・検索・抽出・変換、再委譲なし
+├─ assistant-L（Luna/low）：明確な要約・検索・抽出・変換、軽い差分・ログ整理。起点と全parentが専属1体を利用可能、read-only・再委譲なし
 ├─ Sol parent
 │  ├─ architect（Sol/medium）
 │  ├─ finance-lead（Sol/high）
@@ -61,12 +63,20 @@ advisor（Astra/medium）：起点、Sol parent、Astra parentから必要時だ
 | 起動者 | 起動できる担当 | 運用条件 |
 | --- | --- | --- |
 | 起点（Sol/low） | 上記10 parent、7 worker、`advisor`、`assistant-L` | 背景と全体判断を起点に残す。直接childを使う場合もSol/Astra parentと同じL優先・理由付きM・H例外の基準を使う |
-| Sol parent | 7 worker、`advisor` | Lを中心に複数の独立範囲へ分担する。Mは採用理由が明確な場合に使う。H childが1件だけなら原則自処理と比較し、具体的な効果がある場合だけ例外として使う |
-| Astra parent | 7 worker、`advisor` | 難所を自身で保持し、L中心で分担する。advisorは独立反証や限定分析に限る |
-| `research-lead`（Terra） | `research-worker-L`、`implementation-worker-L`（変更禁止の調査）、`market-data-worker-L` | 単純広域調査を複数Lunaへ分担する。M、H、`advisor`、他のparent、assistantは起動しない |
+| Sol parent | 7 worker、`advisor`、`assistant-L` | Lを中心に複数の独立範囲へ分担する。Mは採用理由が明確な場合に使う。H childが1件だけなら原則自処理と比較し、具体的な効果がある場合だけ例外として使う |
+| Astra parent | 7 worker、`advisor`、`assistant-L` | 難所を自身で保持し、L中心で分担する。advisorは独立反証や限定分析に限る |
+| `research-lead`（Terra） | `research-worker-L`、`implementation-worker-L`（変更禁止の調査）、`market-data-worker-L`、`assistant-L` | 単純広域調査を複数Lunaへ分担する。M、H、`advisor`、他のparentは起動しない |
 | assistant、worker、advisor | なし | 再委譲しない |
 
 parentは別のparentを配下に置かない。H childが複数必要な場合を一律に禁止しないが、各担当の独立性、具体的な効果、parent自身の並走作業を依頼に残す。解消できない矛盾、方針変更が必要な難所、重要な未確認事項は根拠と試行結果を添えて起点へ返し、独立して続けられる調査は継続する。
+
+assistant-Lは起点と全parentに専属1体を利用可能とし、初回の有用な作業で起動して同じ案件の補助をまたいで再利用する。
+
+assistant-Lの起動には、assistant側の独立した作業と、委任元にも有用な並走作業、実行時の同時実行枠が必要である。並走起動は独立範囲に具体的な効果がある場合だけとし、定められた同時実行枠を超えない。常時待機、枠予約、全員一斉起動はしない。枠不足時は数合わせの起動をせず、制約として扱う。
+
+compactionだけでは交代せず、別案件の混入、訂正の取り落としなどが生じた場合、または案件完了・引継ぎ後に交代する。稼働中の重複起動や無断中断はしない。
+
+軽い検索、抽出、要約、差分、ログ整理は原則assistantへ、対象・条件・必要な返却範囲だけを短く渡す。この補助では指示書、応答書、状態ファイルを作らず、read-onlyを維持する。専門childは同じ成果の補足・修正・検証や同じ資料への小さな追加確認なら再利用する。独立した別成果で履歴を切り離す利益が大きい場合は新規起動する。同じ案件や次の工程という名称だけでは決めない。
 
 ## 規模・難度・背景による選択
 
@@ -76,7 +86,7 @@ parentは別のparentを配下に置かない。H childが複数必要な場合�
 | --- | --- |
 | 後続判断まで背景を継続参照する必要がある | 起点が直接扱う |
 | 背景を選別した指示書だけで業務が成立する | 小規模でもparentを優先し、文脈分離の価値を取る |
-| ごく短く、背景の継続参照も不要 | 起点またはparent自身で処理し、委任準備と比較する |
+| 条件が明確な軽作業 | 原則assistantへ委任する。処理がごく短く、背景の継続参照も不要なら起点またはparent自身で処理する |
 
 ### 第2段階：難度と規模
 
@@ -97,11 +107,11 @@ parentは別のparentを配下に置かない。H childが複数必要な場合�
 | --- | --- |
 | 背景を後続判断まで継続参照する必要がある | 起点が直接扱う |
 | 背景を選別した指示書だけで業務が成立する | 規模が小さくても該当parentを優先する |
-| ごく短く、背景の継続参照も不要 | 起点またはparent自身。委任準備と比較する |
+| 条件が明確な軽作業 | 原則assistantへ委任する。処理がごく短く、背景の継続参照も不要なら起点またはparent自身で処理する |
 | 大量かつ条件が明確 | `research-lead`の複数Luna、またはSol/Astra parentのL中心分担 |
 | 曖昧前提、矛盾、難しい設計がある | `research-lead-complex`、`implementation-lead-complex`、`architect`など該当parent |
 
-parentのモデル・effortは起点が起動前に固定ロールから選ぶ。parentは調査対象、予測読解量、探索の広がり、比較数、返却量、必要な判断から、許可されたworkerロールと担当範囲を選ぶ。自身やworkerの固定effortは上書きしない。未知の範囲は限定的に下見し、解消不能な矛盾、方針変更、重要な未確認事項だけ起点へ返す。
+parentのモデル・effortは起点が起動前に固定ロールから選ぶ。parentは案件の開始時、大量の読解に入る前、探索範囲を広げる前、成果を回収するときに委任を再評価する。追加作業は独立した成果単位へ切り分けるが、判断責任と案件全体の進行はparentが保持し、実行だけを委任できる。parentは調査対象、予測読解量、探索の広がり、比較数、返却量、必要な判断から、許可されたworkerロールと担当範囲を選ぶ。自身やworkerの固定effortは上書きしない。未知の範囲は限定的に下見し、解消不能な矛盾、方針変更、重要な未確認事項だけ起点へ返す。
 
 ## parentの選択
 
@@ -132,7 +142,7 @@ parentのモデル・effortは起点が起動前に固定ロールから選ぶ�
 | Implementation | `implementation-worker-H`（Sol/high） | 複雑な局所設計、構造改善、高リスクな変更・レビュー | 不可 |
 | Market Data | `market-data-worker-L`（Luna/medium） | 条件確定済みの市場数値取得・正規化・品質確認 | 可 |
 
-Sol/Astra parentと起点の直接childでは、workerが担当範囲を調査または実装から検証まで完遂する。ResearchとImplementationは工程でなく、前提知識と成果の種類で選ぶ。parentはworkerの結論、根拠箇所、重要原文、適用条件、矛盾、未確認事項を受け取り、全資料の再読を前提にしない。`advisor`は儀礼的レビューに使わず、助言の採否と検証は起点またはparentが担う。
+Sol/Astra parentと起点の直接childでは、workerが担当範囲を調査または実装から検証まで完遂する。ResearchとImplementationは工程でなく、前提知識と成果の種類で選ぶ。parentはworkerの結論、根拠箇所、重要原文、適用条件、矛盾、未確認事項を受け取り、全資料の再読を前提にしない。指示書は委任元、応答書と状態は受任者が所有し、read-only作業の記録は許可された記録担当だけが保存する。作業領域は各リポジトリの`.agent-tmp/`に固定し、必要時に新設する。旧`.tmp/`は探索、優先、移行、削除の対象にしない。parent配下は`.agent-tmp/<案件>/<parent担当>/children/<委任単位>/`、起点直轄は`.agent-tmp/<案件>/children/<委任単位>/`を使い、assistantの結果を保存する必要がある場合は使役元配下の`assistant/<作業単位>/`を使う。作業領域はGit除外済みの未追跡中間データに限り、配布資産にはしない。`advisor`は儀礼的レビューに使わず、助言の採否と検証は起点またはparentが担う。
 
 ## 適用と廃止ロールの移行
 
@@ -163,21 +173,22 @@ Sol/Astra parentと起点の直接childでは、workerが担当範囲を調査�
 
 ## 検証の扱い
 
-今回の19定義への更新では、sourceを静的に展開してPython 3.14の`tomllib`で19 TOMLを解析し、parent 10（Sol 6 / Astra 3 / Terra 1）、worker 7、advisor 1、assistant 1、表示候補220個の文字種・モデル表記・重複なし、指定されたmodel/effort、read-only条件、廃止ロール参照の不在、各TOMLのinclude適用、worker・advisor・assistantの既存model/effort維持、Claude/CI側の未変更を確認した。これはsourceの静的検査に限る。chezmoi、CI、実起動、表示候補の実環境適用、禁止された起動の実行時強制、直接対話、待機回収、消費評価は成功として記載しない。前回17定義の検証は過去記録として扱い、今回の19定義へ流用しない。
+今回の確認では、19 TOMLについてinclude/replaceを静的解決し、Python 3.14の`tomllib`で解析し、10 parentで`assistant-L`の利用許可を確認した。HEAD比較では全19定義の`model`、`model_reasoning_effort`、`sandbox_mode`、`nickname_candidates`に変更がないこと、CodexとClaudeそれぞれのグローバル指示とプロジェクトガイドに`.agent-tmp`方針が反映されていること、`git diff --check`が成功することを確認した。今回の規約変更は文書へ反映済みだが、CI、chezmoi、配布、更新ロールの実起動、性能比較は未検証である。これはsourceの静的検査に限る。表示候補の実環境適用、禁止された起動の実行時強制、直接対話、待機回収、消費評価は成功として記載しない。静的検査は実行時の指示遵守を保証しない。前回17定義の検証は過去記録として扱い、今回の規約変更へ流用しない。
 
 検証時は、次を分けて確認する。
 
 1. 静的検査：19 TOMLの展開・構文、必須項目、model/effort、nickname候補の文字種と重複、parent 10・worker 7・advisor 1・assistant 1の分類、TOMLと専用本文の適用、parentごとの起動権限、廃止ロール参照の不在、Claudeへの規約混入。
 2. 実行時検査：実際の候補表示とモデル適用、起動可能・禁止ロール、parent配下のparent禁止、child・assistant・advisorの再委譲禁止、モデル自己認識による切替えがないこと、直接対話、待機・回収、権限境界。
-3. 運用評価：Sol/low起点で同等案件を比較し、背景の継続参照、指示書の文脈分離、parent・child全体の総消費、手戻り、ユーザー介入、完了時間、H child 1件委任の発生と具体的効果を記録する。未取得の数値やキャッシュ効果は推測しない。
+3. 運用評価：Sol/low起点で同等案件を比較し、背景の継続参照、指示書の文脈分離、案件単位のparentのcompaction回数、compaction後の再読、取り落とし、parent・child全体の総消費、手戻り、ユーザー介入、完了時間、H child 1件委任の発生と具体的効果を記録する。未取得の数値やキャッシュ効果は推測しない。
 
 ## 過去の検討と検証記録
 
-以下は現行19定義を検証した記録ではない。
+以下は現行19定義を検証した記録ではない。既存の歴史記述は過去の記録として維持し、今回の規約変更や現行の検証結果へ流用しない。
 
 - `2e8553b`（2026-05-01）は、設計・高リスクレビュー・構造改善をSol、実装・深い調査をTerra、単一ファイル・lint・テストをLunaへ割り当てる松竹梅方針を追加した。`4885467`（2026-08-30）はこれをGPT-5.6のSol/Terra/Lunaへ対応付けた。
 - `ca16ea2`（2026-09-07）は、起点→parent→child/advisorの階層と案件難度に応じたparent選択を追加した。`febdee4`は工程別childをResearch/Implementationの能力帯workerへ整理し、独立した成果単位を委任条件にした。
 - `974a8f4`（2026-09-10）は、汎用Luna workerのxhighを未実測・可逆な運用仮説として導入し、Terraは採用理由がある場合に限定した。`abffaf7`（2026-09-13）はモデル・effortを変えず、ロール接尾辞をL/M/Hへ短縮した。
+- `2026-09-17`の静的記録は、19 TOMLのinclude/replace静的解決、Python 3.14の`tomllib`解析、parent 10（Sol 6 / Astra 3 / Terra 1）、worker 7、advisor 1、assistant 1、表示候補220個の確認、指定されたmodel/effort、read-only条件、廃止ロール参照の不在、各TOMLのinclude適用、worker・advisor・assistantの既存model/effort維持、Claude/CI側の未変更を記録したものだった。これは今回の規約変更に伴う確認結果ではない。
 - `86388ef`（2026-09-14）の静的記録は旧19定義（parent 10、worker 7、advisor 1、assistant 1）を対象に、include/replaceの静的解決、Python `tomllib`、表示候補220個、分類、リンク、`git diff --check`を確認したものだった。実起動、配布先更新、直接対話、待機回収、消費量は未検証であり、現行19定義へ引き継がれない。
 - 前回17定義の静的検証は前回作業の記録として扱う。今回追加したcomplex parent、effort変更、`review-lead-astra`、新しい起動権限を含まないため、現行19定義の検証結果にはしない。
 
