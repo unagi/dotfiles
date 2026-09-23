@@ -106,7 +106,7 @@ chezmoi status
 │       ├── codex/                 # Codex専用のparent / worker / advisor規約
 │       │   ├── parent.md           # parent共通の責務・記録・検証
 │       │   ├── parent-advanced.md  # Sol / Astra parentの委任規範
-│       │   ├── parent-survey.md    # Terra広域調査parentの委任規範
+│       │   ├── parent-survey.md    # Luna広域調査parentの委任規範
 │       │   ├── child.md            # worker / advisor 共通の末端規約
 │       │   ├── finance.md
 │       │   ├── market-data-worker.md
@@ -130,7 +130,7 @@ chezmoi status
 ├── README.md                       # このファイル
 ├── dot_codex/                      # ~/.codex/ にデプロイされる
 │   ├── AGENTS.md.tmpl              # グローバル指示テンプレート
-│   ├── agents/                     # Codex custom agents（TOMLテンプレート）
+│   ├── agents/                     # Codex custom agents（GPT-6、root-advisorを含む）
 │   ├── common/
 │   │   ├── development.md.tmpl
 │   │   ├── project-instructions-guideline.md.tmpl
@@ -152,7 +152,9 @@ chezmoi status
 
 ## エージェント関連ドキュメント
 
-- [Codexサブエージェントの設計コンセプトと管理方針](docs/codex-subagents.md)：起点・アシスタント・parentの役割、文書による引き継ぎ、コストと品質の考え方
+以下は人向けの資料です。全体像をアウトラインと概念図で説明し、詳細は対応するエージェント向け指示・テンプレートへリンクしています。
+
+- [Codexサブエージェントの全体像と設計コンセプト](docs/codex-subagents.md)：役割の関係図、依頼から完了までの流れ、原文引継ぎと業務報告書の考え方
 - [現行のエージェント編成・モデル設定](docs/codex-agent-model-selection.md)：実装済みロール、選択表、移行記録
 
 ## セキュリティ

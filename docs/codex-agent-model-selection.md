@@ -1,195 +1,109 @@
-# Codex エージェント編成とモデル選択
+# Codexエージェントの編成とモデル選択
 
-## 方針と正本
+## 正本と適用範囲
 
-[設計コンセプトと管理方針](codex-subagents.md)を全体方針の正本とする。起点の正本は`dot_codex/common/root-agent.md.tmpl`、階層・起動・権限は`dot_codex/common/sub-agent.md.tmpl`、parentの共通本文と専用本文は`.chezmoitemplates/agent/codex/`、モデル・表示名は`dot_codex/agents/*.toml.tmpl`に置く。この文書は、現行19定義の構成、テンプレート適用関係、起点選択、workerの使い分けを説明する。現行方針の確認日は2026-09-18である。
+[設計コンセプト](codex-subagents.md)を全体方針の説明、`dot_codex/common/root-agent.md.tmpl`を起点の行動規範、`dot_codex/common/sub-agent.md.tmpl`を階層・権限・起動・記録境界の正本とする。parentの共通本文と専用本文は`.chezmoitemplates/agent/codex/`、モデルと表示名は`dot_codex/agents/*.toml.tmpl`が正本である。
 
-起点の現行運用はSol/lowである。起点は全体の目的、制約、担当選択、依存関係、全体調整、成果統合を保持する。背景の継続参照が必要なら起点が直接扱い、選別した背景を指示書へ含めて業務が成立するなら、規模が小さくてもparentを優先する。同じSol/lowでも文脈を分離する価値を評価する。`config.toml`はchezmoi管理外のため、このsourceから起点モデル、同時実行枠、深さは変更しない。
+現行方針の確認日は2026-09-23。sourceはサブエージェント20定義（parent 10、worker 7、advisor 2、assistant 1）を管理する。起点モデルを含む`config.toml`はchezmoi管理外なので、起点をGPT-6 Luna/xhighへ設定する作業と実環境への配布はこの変更に含まれない。
 
-起点からparentへの委任時の指示書には確定条件、主要原文、過去の訂正、却下理由、未決事項、対象範囲、権限、受入条件、返却形式を含める。専門childには担当範囲、完了条件、返却形式、必要な背景と権限をメッセージで具体化し、継続・引き継ぎに保存が必要な場合だけ指示書等を作る。assistantへは軽量指示を短く渡し、指示書・応答書・状態ファイルは作らない。
-
-## 全体構造
-
-現行sourceのサブエージェントは19定義（parent 10、worker 7、advisor 1、assistant 1）である。起点は定義数に含めない。parentはSol 6、Astra 3、Terra 1で構成し、Luna parentは定義しない。
+## 現行編成
 
 ```text
-メイン（Sol/low：全体調整・案件状態・成果統合）
-├─ assistant-L（Luna/low）：明確な要約・検索・抽出・変換、軽い差分・ログ整理。起点と全parentが専属1体を利用可能、read-only・再委譲なし
-├─ Sol parent
-│  ├─ architect（Sol/medium）
-│  ├─ finance-lead（Sol/high）
-│  ├─ implementation-lead-H（Sol/low）
-│  ├─ implementation-lead-complex（Sol/medium）
-│  ├─ research-lead-H（Sol/low）
-│  └─ research-lead-complex（Sol/medium）
-├─ Astra parent
-│  ├─ advanced-research-lead（Astra/medium）
-│  ├─ recovery-lead（Astra/low）
-│  └─ review-lead-astra（Astra/low）
-└─ Terra parent
-   └─ research-lead（Terra/high）：単純広域調査
-
-共有worker
-├─ Research：research-worker-L / research-worker-M / research-worker-H
-├─ Implementation：implementation-worker-L / implementation-worker-M / implementation-worker-H
-└─ Market Data：market-data-worker-L
-
-advisor（Astra/medium）：起点、Sol parent、Astra parentから必要時だけ相談
+起点（GPT-6 Luna/xhigh、実環境設定は別管理）
+├─ assistant-L（GPT-6 Luna/low）
+├─ root-advisor（GPT-6 Sol/medium、起点専属）
+├─ parent 10
+│  ├─ Luna/xhigh 1: research-lead
+│  ├─ Sol 6: architect, finance-lead, implementation-lead-H,
+│  │         implementation-lead-complex, research-lead-H,
+│  │         research-lead-complex
+│  └─ Astra 3: advanced-research-lead, recovery-lead,
+│             review-lead-astra
+├─ worker 7
+│  ├─ Luna/xhigh 4: Research/ImplementationのL・M
+│  ├─ Luna/medium 1: market-data-worker-L
+│  └─ Sol/high 2: Research/ImplementationのH
+└─ advisor（GPT-6 Astra/medium、専門難所の反証・再分析）
 ```
 
-`-H`はSol帯を示す名称であり、parentのeffortがhighであることを意味しない。今回の一般調査・実装では、通常業務を`research-lead-H` / `implementation-lead-H`（Sol/low）で扱い、high effortの同系統parentは不足確認後の候補とする。一般調査・実装用のhigh parentは今回増設しない。
+起点のLuna/xhigh、assistantのLuna/low、旧GPT-5.6 Terra担当のLuna/xhigh化を初期条件とする。SolとAstraの既存effortは維持し、モデル世代だけGPT-6へ揃える。
 
-## TOMLと共通・専用テンプレートの適用
+| 定義 | モデル / effort | 主な用途 |
+| --- | --- | --- |
+| `assistant-L` | GPT-6 Luna / low | 起点・parent専属の検索、限定読解、抽出、要約、差分整理 |
+| `root-advisor` | GPT-6 Sol / medium | 起点の依頼先選択、履歴抽出、不足・過剰制約の点検 |
+| `advisor` | GPT-6 Astra / medium | 起点またはSol/Astra parentの専門難所の反証・再分析 |
+| `architect` | GPT-6 Sol / medium | 設計判断。実装しない |
+| `finance-lead` | GPT-6 Sol / high | 市場数値、開示、仮説の統合 |
+| `implementation-lead-H` | GPT-6 Sol / low | 通常実装、設定変更、文書作成、結合検証 |
+| `implementation-lead-complex` | GPT-6 Sol / medium | 設計変更や強い依存関係を伴う実装 |
+| `research-lead-H` | GPT-6 Sol / low | 比較・解釈・局所判断を含む通常調査 |
+| `research-lead-complex` | GPT-6 Sol / medium | 曖昧な前提、競合仮説、矛盾を含む調査 |
+| `advanced-research-lead` | GPT-6 Astra / medium | 希少事例や組織制約下の高度調査 |
+| `recovery-lead` | GPT-6 Astra / low | 案件救援と合意済み改善 |
+| `review-lead-astra` | GPT-6 Astra / low | 高リスクレビューと難しい原因分析 |
+| `research-lead` | GPT-6 Luna / xhigh | 単純広域調査の分割・管理・集約 |
+| `research-worker-L` | GPT-6 Luna / xhigh | 条件が明確なResearch成果単位 |
+| `research-worker-M` | GPT-6 Luna / xhigh | Lより探索・局所判断を多く要するResearch成果単位 |
+| `research-worker-H` | GPT-6 Sol / high | 複雑な局所判断を含むResearch成果単位 |
+| `implementation-worker-L` | GPT-6 Luna / xhigh | 条件が明確なImplementation成果単位 |
+| `implementation-worker-M` | GPT-6 Luna / xhigh | Lより探索・局所判断を多く要するImplementation成果単位 |
+| `implementation-worker-H` | GPT-6 Sol / high | 複雑な局所判断を含むImplementation成果単位 |
+| `market-data-worker-L` | GPT-6 Luna / medium | 定義済み市場数値の取得・正規化・品質確認 |
 
-10 parent TOMLはすべて`parent.md`を共通本文として読み込む。`parent-advanced.md`のファイル名は維持するが、本文見出しはSol/Astra parent共通へ変更し、高度業務専用を意味しない。Sol/lowやAstra/lowのparentにも適用する。`parent-survey.md`はTerraの`research-lead`だけが読み込む。`research.md`は`research-lead`、`research-lead-H`、`research-lead-complex`、`advanced-research-lead`、`finance.md`は`finance-lead`だけが読み込む。各TOMLが共通本文と専用本文を並列にincludeし、専用本文が別のparent本文を入れ子にincludeしない。
+L/M/Hは担当範囲の能力帯であり、モデル名やeffortの略ではない。GPT-6移行後はLとMが同じLuna/xhighを使う。Lは条件が明確な範囲、Mは探索・局所判断がより多い範囲として使い分ける。HはSolを使うが、接尾辞はhigh effortを意味しない。
 
-| TOML | model / effort | 共通本文 | 専用本文 | 役割 |
-| --- | --- | --- | --- | --- |
-| `architect` | Sol / medium | `parent.md` | `parent-advanced.md` | 設計判断。実装は行わない |
-| `finance-lead` | Sol / high | `parent.md` | `parent-advanced.md` + `finance.md` | 市場数値とResearch成果の統合 |
-| `implementation-lead-H` | Sol / low | `parent.md` | `parent-advanced.md` | 通常の設計・実装・検証 |
-| `implementation-lead-complex` | Sol / medium | `parent.md` | `parent-advanced.md` | 曖昧前提・矛盾・難しい設計の実装統合 |
-| `research-lead-H` | Sol / low | `parent.md` | `parent-advanced.md` + `research.md` | 通常調査：比較・解釈・局所判断 |
-| `research-lead-complex` | Sol / medium | `parent.md` | `parent-advanced.md` + `research.md` | 曖昧前提・矛盾を含む一般調査 |
-| `advanced-research-lead` | Astra / medium | `parent.md` | `parent-advanced.md` + `research.md` | 高度調査・仮説立案 |
-| `recovery-lead` | Astra / low | `parent.md` | `parent-advanced.md` | 案件救援・構造改善 |
-| `review-lead-astra` | Astra / low | `parent.md` | `parent-advanced.md` | 高リスクレビュー・難しい原因分析 |
-| `research-lead` | Terra / high | `parent.md` | `parent-survey.md` + `research.md` | 単純広域調査。Luna childのみ |
+## 起点の相談先
 
-専用TOMLの`model`と`model_reasoning_effort`が実際の設定を決める。本文中のモデル自己認識でparentやworkerの起動先・権限・effortを切り替えない。起点の選択規則は`root-agent.md.tmpl`を正本とし、parent本文から再定義しない。
+`root-advisor`は起点専属である。起点が依頼先、履歴から渡す原文抜粋、ユーザー確認の要否を自信を持って決められない場合や、起点の解釈がゴールを狭めるおそれがある場合に、失敗前から相談する。原文の要約・言い換え・目的解釈は作らず、専門案件の代行、実装、承認、追加委任は行わない。
+
+既存の`advisor`はAstra/mediumを維持する。専門的な前提の誤り、代替仮説、反証、検証方法を扱い、起点専用のルーティング相談とは分ける。Sol/Astra parentは`advisor`を使えるが、`root-advisor`は使えない。
+
+## parentへの入力と業務報告書
+
+起点は、きっかけとなったユーザーの最終発言と、それに至る経緯、訂正、承認、却下理由、未決事項を全履歴から広めに選び、原文抜粋のままparentへ渡す。要約・言い換え・起点独自の目的解釈は付加しない。会話由来の禁止事項・承認範囲も原文抜粋で渡し、担当ロール、権限、依存関係、資料の所在だけを別のメタデータとして添える。
+
+コンパクション等で原文が残っていない場合は、保存済みの状態・報告・会話要約を「原文ではない残存記録」と明示する。原文らしく復元・補完せず、欠落が判断を変える場合は確認へ戻す。
+
+目的の専門的な解釈、非機能要件、設計方針、受入条件、検証方法はparentがロール規範、プロジェクトの`AGENTS.md`、既存成果を基に具体化する。起点は一般規範を独自の細則として重複転記せず、専門判断をマイクロ指示で固定しない。
+
+parentは着手時に業務報告書ドラフトを作る。ドラフトは依頼の理解、会話由来の確定条件、仮説、方針、共有境界、想定成果、検証方法、未決事項を含む。起点はその要点をユーザーへ共有できる。調査から設計案が生まれ、選択で成果が変わる場合は、このドラフトを承認対象にしてから実装へ進む。
+
+着手ドラフトは作成時点の言語化として不変に保存する。訂正・追加決定・承認は変更経緯へ追記し、完了時はドラフトを置換せず正式版を追加する。正式版には最終仕様、原依頼からの変更、成果、根拠、検証、条件と限界、未解決事項、成果物の所在を残す。保存が必要な場合はparent所有の`report.md`にドラフト・変更経緯・正式版を併存させ、`state.md`と分ける。childの限定委任に必要な`instruction.md`、`response.md`、`state.md`は別境界として維持する。
 
 ## 起動権限
 
-| 起動者 | 起動できる担当 | 運用条件 |
-| --- | --- | --- |
-| 起点（Sol/low） | 上記10 parent、7 worker、`advisor`、`assistant-L` | 背景と全体判断を起点に残す。直接childを使う場合もSol/Astra parentと同じL優先・理由付きM・H例外の基準を使う |
-| Sol parent | 7 worker、`advisor`、`assistant-L` | Lを中心に複数の独立範囲へ分担する。Mは採用理由が明確な場合に使う。H childが1件だけなら原則自処理と比較し、具体的な効果がある場合だけ例外として使う |
-| Astra parent | 7 worker、`advisor`、`assistant-L` | 難所を自身で保持し、L中心で分担する。advisorは独立反証や限定分析に限る |
-| `research-lead`（Terra） | `research-worker-L`、`implementation-worker-L`（変更禁止の調査）、`market-data-worker-L`、`assistant-L` | 単純広域調査を複数Lunaへ分担する。M、H、`advisor`、他のparentは起動しない |
-| assistant、worker、advisor | なし | 再委譲しない |
+- 起点: parent 10、worker 7、`assistant-L`、`root-advisor`、`advisor`
+- Sol/Astra parent: worker 7、`assistant-L`、`advisor`
+- Lunaの`research-lead`: `research-worker-L`、調査限定の`implementation-worker-L`、`market-data-worker-L`、`assistant-L`
+- child、assistant、advisor: 再委譲なし
 
-parentは別のparentを配下に置かない。H childが複数必要な場合を一律に禁止しないが、各担当の独立性、具体的な効果、parent自身の並走作業を依頼に残す。解消できない矛盾、方針変更が必要な難所、重要な未確認事項は根拠と試行結果を添えて起点へ返し、独立して続けられる調査は継続する。
+起点からparentへの履歴継承はユーザーがその起動について明示的に許可した場合だけ行う。非継承時は、起点が必要な原文と経緯を渡す。完全な会話全文の転載で履歴継承制限を迂回しない。
 
-assistant-Lは起点と全parentに専属1体を利用可能とし、初回の有用な作業で起動して同じ案件の補助をまたいで再利用する。
+起点は進捗把握を目的とした状態照会やポーリングを行わない。受動的な完了・要確認通知の受信とイベント待機は進捗照会と区別する。ユーザーが明示的に状況確認を依頼した場合だけ、その回答に必要な状態確認を行う。圧縮後は保存済み記録と受信済み通知から再開し、担当へ状態を問い合わせない。
 
-assistant-Lの起動には、assistant側の独立した作業と、委任元にも有用な並走作業、実行時の同時実行枠が必要である。並走起動は独立範囲に具体的な効果がある場合だけとし、定められた同時実行枠を超えない。常時待機、枠予約、全員一斉起動はしない。枠不足時は数合わせの起動をせず、制約として扱う。
+## 評価計画
 
-compactionだけでは交代せず、別案件の混入、訂正の取り落としなどが生じた場合、または案件完了・引継ぎ後に交代する。稼働中の重複起動や無断中断はしない。
+今回の変更は運用仮説であり、代表案件での小規模比較は未実施である。次の順序で評価する。
 
-軽い検索、抽出、要約、差分、ログ整理は原則assistantへ、対象・条件・必要な返却範囲だけを短く渡す。この補助では指示書、応答書、状態ファイルを作らず、read-onlyを維持する。専門childは同じ成果の補足・修正・検証や同じ資料への小さな追加確認なら再利用する。独立した別成果で履歴を切り離す利益が大きい場合は新規起動する。同じ案件や次の工程という名称だけでは決めない。
+1. GPT-6へ更新した編成とLuna/xhigh起点を代表案件で小規模比較する。
+2. 起点の履歴抽出、parentのドラフト品質、手戻り、コンパクション、チーム総消費、ユーザー介入、所要時間を取得できる範囲で記録する。
+3. Sol/mediumの`root-advisor`を含む条件を確認した後、相談役のlow化を別条件として比較する。
 
-## 規模・難度・背景による選択
+設定変更だけで効率・品質改善を実証済みと扱わない。未取得の値、内部推論、キャッシュ効果は推測しない。
 
-### 第1段階：背景と文脈分離
-
-| 背景の確認 | 方針 |
-| --- | --- |
-| 後続判断まで背景を継続参照する必要がある | 起点が直接扱う |
-| 背景を選別した指示書だけで業務が成立する | 小規模でもparentを優先し、文脈分離の価値を取る |
-| 条件が明確な軽作業 | 原則assistantへ委任する。処理がごく短く、背景の継続参照も不要なら起点またはparent自身で処理する |
-
-### 第2段階：難度と規模
-
-規模と難度は別軸で起動前に評価し、下見や調査結果に応じて見直す。媒体名や件数だけで能力帯を決めず、調査対象、予測される読解量、探索の広がり、比較数、返却量、前提の曖昧さ、矛盾の有無を合わせて判断する。
-
-| 難度 \\ 規模 | 小 | 中 | 大 |
-| --- | --- | --- | --- |
-| 単純調査 | Sol/low parent、または限定child | Sol/low parent＋必要なLuna。分担管理が主ならTerra/high | Terra/high parent＋複数Luna |
-| 通常調査・実装 | `research-lead-H` / `implementation-lead-H`が比較・解釈・局所判断を担う | 同parentがL中心で独立範囲を分担 | 同parentがL中心で複数範囲を統合 |
-| 難解 | `research-lead-complex` / `implementation-lead-complex` / `architect`が難所を保持 | 同complex parentがL中心、採用理由を明記したMを必要時に使用 | 同complex parentがL中心で分担し、判断を統合 |
-| 高リスクレビュー・原因分析・案件救援 | `recovery-lead` / `review-lead-astra`が自処理 | Astra parentがL中心で分担し、必要時にadvisorへ相談 | Astra parentがL中心で分担し、独立反証やadvisorを必要時に使う |
-
-小量でも第1段階で切り出せると判断した業務はparentを優先する。起点が起動前の判断難度に応じてlowまたはmediumの固定ロールを選び、lowでの失敗をmedium採用の前提にしない。Sol/high effortはmediumで不足する難所の比較候補であり、今回一般調査・実装用ロールは増設しない。childのHはSolというモデル帯を表し、effortと区別する。M/H childは局所範囲の必要能力で選び、量だけで引き上げない。H child単独の丸投げは原則避け、独立反証や別の難所の並行処理など具体的な効果がある場合に例外として扱う。
-
-## 起点からの選択
-
-| 起点で確認する条件 | 最初の選択 |
-| --- | --- |
-| 背景を後続判断まで継続参照する必要がある | 起点が直接扱う |
-| 背景を選別した指示書だけで業務が成立する | 規模が小さくても該当parentを優先する |
-| 条件が明確な軽作業 | 原則assistantへ委任する。処理がごく短く、背景の継続参照も不要なら起点またはparent自身で処理する |
-| 大量かつ条件が明確 | `research-lead`の複数Luna、またはSol/Astra parentのL中心分担 |
-| 曖昧前提、矛盾、難しい設計がある | `research-lead-complex`、`implementation-lead-complex`、`architect`など該当parent |
-
-parentのモデル・effortは起点が起動前に固定ロールから選ぶ。parentは案件の開始時、大量の読解に入る前、探索範囲を広げる前、成果を回収するときに委任を再評価する。追加作業は独立した成果単位へ切り分けるが、判断責任と案件全体の進行はparentが保持し、実行だけを委任できる。parentは調査対象、予測読解量、探索の広がり、比較数、返却量、必要な判断から、許可されたworkerロールと担当範囲を選ぶ。自身やworkerの固定effortは上書きしない。未知の範囲は限定的に下見し、解消不能な矛盾、方針変更、重要な未確認事項だけ起点へ返す。
-
-## parentの選択
-
-| 案件 | parent | 選択条件と責任 |
-| --- | --- | --- |
-| 単純広域調査 | `research-lead`（Terra/high） | 起点が問い、範囲、比較軸、終了条件を定め、複数Lunaでファイル群・Web情報源群を調査する価値がある場合 |
-| 通常調査：比較・解釈・局所判断 | `research-lead-H`（Sol/low） | 仕様・事例を比較し、通常の矛盾と局所判断をparent自身が統合する |
-| 曖昧前提・矛盾を含む一般調査 | `research-lead-complex`（Sol/medium） | 限定的な下見と比較軸を整え、難所の判断を保持する |
-| 希少事例・組織制約下の高度調査 | `advanced-research-lead`（Astra/medium） | 仮説、代替策、成立条件、残余リスクを示し、必要時にadvisorへ独立反証を依頼する |
-| 設計のみ | `architect`（Sol/medium） | 設計判断、実装単位、受入条件を定める。実装は別途引き継ぐ |
-| 通常の設計・実装・設定変更・文書作成 | `implementation-lead-H`（Sol/low） | 合意済み要件を実装し、結合と受入検証を統合する |
-| 曖昧前提・矛盾・難しい設計の実装 | `implementation-lead-complex`（Sol/medium） | 方針と共有境界を整理し、設計・実装・検証を統合する |
-| 金融・市場分析 | `finance-lead`（Sol/high） | 数値取得条件、決算・開示・市場反応、時点、仮説を統合する |
-| 案件救援・構造改善 | `recovery-lead`（Astra/low） | 現状、問題、合意済み方針、改善、検証を統合する |
-| 高リスクレビュー・難しい原因分析（報告） | `review-lead-astra`（Astra/low） | 根拠、重大性、推奨対応を評価する。変更権限は別途付与しない |
-
-通常調査・実装は、起動前に難度を判定してSol/lowまたはSol/mediumを選ぶ。lowの結果を待ってからmediumへ切り替える運用にはしない。highは不足確認後の比較候補とし、今回のsourceでは一般調査・実装のhigh effort parentを増設しない。親はeffortを勝手に変更せず、解消できない難所は起点へ返す。
-
-## workerの選択
-
-| 系統 | worker | 基本用途 | `research-lead`からの起動 |
-| --- | --- | --- | --- |
-| Research | `research-worker-L`（Luna/xhigh） | 条件が明確な論点の収集、照合、分析、報告 | 可。複数起動可 |
-| Research | `research-worker-M`（Terra/high） | 探索・判断・速度など明確な採用理由がある論点 | 不可 |
-| Research | `research-worker-H`（Sol/high） | 高リスク・難解な論点、独立反証 | 不可 |
-| Implementation | `implementation-worker-L`（Luna/xhigh） | コードの明確な担当範囲。起点・Sol/Astra parentでは権限に応じて実装可、Terra parentでは調査のみ | 可。ただし変更禁止 |
-| Implementation | `implementation-worker-M`（Terra/high） | 探索・判断を含む変更、レビュー、原因調査 | 不可 |
-| Implementation | `implementation-worker-H`（Sol/high） | 複雑な局所設計、構造改善、高リスクな変更・レビュー | 不可 |
-| Market Data | `market-data-worker-L`（Luna/medium） | 条件確定済みの市場数値取得・正規化・品質確認 | 可 |
-
-Sol/Astra parentと起点の直接childでは、workerが担当範囲を調査または実装から検証まで完遂する。ResearchとImplementationは工程でなく、前提知識と成果の種類で選ぶ。parentはworkerの結論、根拠箇所、重要原文、適用条件、矛盾、未確認事項を受け取り、全資料の再読を前提にしない。指示書は委任元、応答書と状態は受任者が所有し、read-only作業の記録は許可された記録担当だけが保存する。作業領域は各リポジトリの`.agent-tmp/`に固定し、必要時に新設する。旧`.tmp/`は探索、優先、移行、削除の対象にしない。parent配下は`.agent-tmp/<案件>/<parent担当>/children/<委任単位>/`、起点直轄は`.agent-tmp/<案件>/children/<委任単位>/`を使い、assistantの結果を保存する必要がある場合は使役元配下の`assistant/<作業単位>/`を使う。作業領域はGit除外済みの未追跡中間データに限り、配布資産にはしない。`advisor`は儀礼的レビューに使わず、助言の採否と検証は起点またはparentが担う。
-
-## 適用と廃止ロールの移行
-
-現行sourceは19定義へ整理した。前回の`implementation-lead`と`review-lead`、および旧`review-lead-H`は現行起動で使用しない。廃止ロールが適用先で実行候補に残っていても、対応する現行ロールを使う。sourceから削除したファイルは、適用済みの`~/.codex/agents/`やプロジェクト固有のagents配下から自動削除されないため、参照とローカル変更を確認し、対象を明示した別作業で個別整理する。
-
-| 旧ファイル名（agents配下） | 移行先・扱い |
-| --- | --- |
-| `implementation-lead.toml` | `implementation-lead-H`（Sol/low）または`implementation-lead-complex`（Sol/medium） |
-| `review-lead.toml` | `review-lead-astra`（Astra/low） |
-| `review-lead-H.toml` | `review-lead-astra`（Astra/low） |
-| `research-lead-sol.toml` | `research-lead-H`（Sol/low）または`research-lead-complex`（Sol/medium） |
-| `implementation-lead-sol.toml` | `implementation-lead-H`（Sol/low）または`implementation-lead-complex`（Sol/medium） |
-| `review-lead-sol.toml` | `review-lead-astra`（Astra/low） |
-| `research-worker-luna.toml`、`research-worker-terra.toml`、`research-worker-sol.toml` | `research-worker-L`、`research-worker-M`、`research-worker-H` |
-| `implementation-worker-luna.toml`、`implementation-worker-terra.toml`、`implementation-worker-sol.toml` | `implementation-worker-L`、`implementation-worker-M`、`implementation-worker-H` |
-| `market-data-worker-luna.toml`、`data-worker-luna.toml` | `market-data-worker-L` |
-| `web-researcher.toml` | `research-worker-L` |
-| `research-analyst.toml` | `research-worker-M` |
-| `file-reader.toml` | コードはImplementation、外部資料はResearchから能力帯を選ぶ |
-| `investigator.toml` | `implementation-worker-M`（調査のみ） |
-| `implementer.toml` | `implementation-worker-M` |
-| `implementer-sol.toml`、`refactorer.toml` | `implementation-worker-H` |
-| `security-reviewer.toml` | コードはImplementation、外部要件はResearchのSol帯（レビューのみ） |
-| `doc-writer.toml` | `implementation-worker-M` |
-| `doc-checker.toml`、`lint-fixer.toml`、`test-runner.toml` | `implementation-worker-L`（必要な権限に限定） |
-
-この表は既存参照の移行用であり、工程ごとのworker起動を推奨するものではない。廃止ロールの配布先削除、旧参照の変更、実環境への適用は別途明示的な指示に従う。
+起点は比較指標の取得を理由に担当へ進捗照会しない。受信済み通知、完了報告、保存済み記録から取得できる値だけを使う。
 
 ## 検証の扱い
 
-今回の確認では、19 TOMLについてinclude/replaceを静的解決し、Python 3.14の`tomllib`で解析し、10 parentで`assistant-L`の利用許可を確認した。HEAD比較では全19定義の`model`、`model_reasoning_effort`、`sandbox_mode`、`nickname_candidates`に変更がないこと、CodexとClaudeそれぞれのグローバル指示とプロジェクトガイドに`.agent-tmp`方針が反映されていること、`git diff --check`が成功することを確認した。今回の規約変更は文書へ反映済みだが、CI、chezmoi、配布、更新ロールの実起動、性能比較は未検証である。これはsourceの静的検査に限る。表示候補の実環境適用、禁止された起動の実行時強制、直接対話、待機回収、消費評価は成功として記載しない。静的検査は実行時の指示遵守を保証しない。前回17定義の検証は過去記録として扱い、今回の規約変更へ流用しない。
+source側では、chezmoiを使わずにinclude/replaceを静的解決し、Python 3.14の`tomllib`で全20定義の構文と必須項目を確認する。さらに、model/effort、nicknameの文字種と重複、分類数、include先、起動権限、旧GPT-5.6/Terraの現行記述、リンク、`git diff --check`を確認する。
 
-検証時は、次を分けて確認する。
+chezmoi実行、実環境への配布、起点の`config.toml`変更、実際の候補表示・起動、モデル適用、権限の実行時強制、性能比較は別作業である。sourceの静的検査結果をこれらの成功として扱わない。
 
-1. 静的検査：19 TOMLの展開・構文、必須項目、model/effort、nickname候補の文字種と重複、parent 10・worker 7・advisor 1・assistant 1の分類、TOMLと専用本文の適用、parentごとの起動権限、廃止ロール参照の不在、Claudeへの規約混入。
-2. 実行時検査：実際の候補表示とモデル適用、起動可能・禁止ロール、parent配下のparent禁止、child・assistant・advisorの再委譲禁止、モデル自己認識による切替えがないこと、直接対話、待機・回収、権限境界。
-3. 運用評価：Sol/low起点で同等案件を比較し、背景の継続参照、指示書の文脈分離、案件単位のparentのcompaction回数、compaction後の再読、取り落とし、parent・child全体の総消費、手戻り、ユーザー介入、完了時間、H child 1件委任の発生と具体的効果を記録する。未取得の数値やキャッシュ効果は推測しない。
+## 過去の検討
 
-## 過去の検討と検証記録
-
-以下は現行19定義を検証した記録ではない。既存の歴史記述は過去の記録として維持し、今回の規約変更や現行の検証結果へ流用しない。
-
-- `2e8553b`（2026-05-01）は、設計・高リスクレビュー・構造改善をSol、実装・深い調査をTerra、単一ファイル・lint・テストをLunaへ割り当てる松竹梅方針を追加した。`4885467`（2026-08-30）はこれをGPT-5.6のSol/Terra/Lunaへ対応付けた。
-- `ca16ea2`（2026-09-07）は、起点→parent→child/advisorの階層と案件難度に応じたparent選択を追加した。`febdee4`は工程別childをResearch/Implementationの能力帯workerへ整理し、独立した成果単位を委任条件にした。
-- `974a8f4`（2026-09-10）は、汎用Luna workerのxhighを未実測・可逆な運用仮説として導入し、Terraは採用理由がある場合に限定した。`abffaf7`（2026-09-13）はモデル・effortを変えず、ロール接尾辞をL/M/Hへ短縮した。
-- `2026-09-17`の静的記録は、19 TOMLのinclude/replace静的解決、Python 3.14の`tomllib`解析、parent 10（Sol 6 / Astra 3 / Terra 1）、worker 7、advisor 1、assistant 1、表示候補220個の確認、指定されたmodel/effort、read-only条件、廃止ロール参照の不在、各TOMLのinclude適用、worker・advisor・assistantの既存model/effort維持、Claude/CI側の未変更を記録したものだった。これは今回の規約変更に伴う確認結果ではない。
-- `86388ef`（2026-09-14）の静的記録は旧19定義（parent 10、worker 7、advisor 1、assistant 1）を対象に、include/replaceの静的解決、Python `tomllib`、表示候補220個、分類、リンク、`git diff --check`を確認したものだった。実起動、配布先更新、直接対話、待機回収、消費量は未検証であり、現行19定義へ引き継がれない。
-- 前回17定義の静的検証は前回作業の記録として扱う。今回追加したcomplex parent、effort変更、`review-lead-astra`、新しい起動権限を含まないため、現行19定義の検証結果にはしない。
+- 2026-09-18以前はGPT-5.6 Sol/Terra/LunaをL/M/H能力帯へ対応させ、起点はSol/low、parentの委任入力は起点作成の指示書を中心にしていた。
+- 2026-09-23にGPT-6へ移行し、旧Terra担当をLuna/xhighへ変更した。L/M名は互換性のため残し、モデル名から担当範囲の能力帯へ意味を整理した。
+- 同日に起点をLuna/xhigh主体へ戻す方針、Sol/mediumの`root-advisor`、parent所有の不変な着手ドラフト・変更経緯・正式版の併存、起点の進捗照会廃止を導入した。
 
 モデル間・effort間の同等性や品質・価格の優劣は、この文書から保証しない。表示名の番号は個体識別用で、モデル適用や回答品質の証明ではない。

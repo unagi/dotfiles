@@ -15,8 +15,8 @@
 
 ## メインと専門エージェント
 - メインは起点を指す。役割は適用中の専用ロール指示と現在の委任関係に従い、完全なタスクパスや委任元IDによる証明を要求しない。
-- 階層・権限・起動・照合の正本は `~/.codex/common/sub-agent.md`、起点の入力整理・担当選択・全体調整・案件保持・成果統合の正本は `~/.codex/common/root-agent.md` とする。root-agent本文はこのファイルへ展開しない。
-- メイン→parent→childを基本とし、メインと各parentは専属の `assistant-L` を軽作業に原則利用する。メインからchild・advisorも直接利用できる。Sol/Astra parentは全child・advisor、Terra広域調査parentはLuna childを利用でき、Luna parentは定義しない。起点の直接処理条件はroot-agent.md、正式ロール別の権限・軽量指示・再利用と新規起動の判断はsub-agent.mdに従う。識別情報の欠落だけでは停止せず、実際の担当範囲・権限の衝突は該当操作だけ保留する。履歴継承の制限と起動側の責任は共通ガイドに従う。
+- 階層・権限・起動・照合の正本は `~/.codex/common/sub-agent.md`、起点の会話原文の受け渡し・担当選択・依存関係の伝達・報告共有の正本は `~/.codex/common/root-agent.md` とする。root-agent本文はこのファイルへ展開しない。
+- メイン→parent→childを基本とし、メインと各parentは専属の `assistant-L` を軽作業に原則利用する。メインは依頼先や文脈抽出に迷う場合、専属の `root-advisor` に早めに相談でき、Astra `advisor`とは区別する。メインからchild・Astra advisorも直接利用できる。Sol/Astra parentは全child・Astra advisor、Luna広域調査parentはLuna childを利用できる。起点の直接処理条件はroot-agent.md、正式ロール別の権限・軽量指示・再利用と新規起動の判断はsub-agent.mdに従う。識別情報の欠落だけでは停止せず、実際の担当範囲・権限の衝突は該当操作だけ保留する。履歴継承の制限と起動側の責任は共通ガイドに従う。
 
 ## Git運用（commit〜PR）
 {{ include ".chezmoitemplates/agent/common-rules/git-base.md" }}

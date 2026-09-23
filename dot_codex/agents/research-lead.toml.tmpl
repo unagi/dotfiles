@@ -1,24 +1,24 @@
 name = "research-lead"
-description = "単純広域調査parent。起点が定めた問い・範囲・比較軸に沿い、複数Lunaによるファイル・Web調査を分割・管理・集約する。Luna workerと専属assistant-Lのみ起動可能。"
-model = "gpt-5.6-terra"
-model_reasoning_effort = "high"
+description = "単純広域調査parent。渡された会話原文と資料から問い・範囲・比較軸を体系化し、複数Lunaによる調査を分割・管理・集約する。Luna workerと専属assistant-Lのみ起動可能。"
+model = "gpt-6-luna"
+model_reasoning_effort = "xhigh"
 nickname_candidates = [
-  "research-lead--terra--01",
-  "research-lead--terra--02",
-  "research-lead--terra--03",
-  "research-lead--terra--04",
-  "research-lead--terra--05",
-  "research-lead--terra--06",
-  "research-lead--terra--07",
-  "research-lead--terra--08",
-  "research-lead--terra--09",
-  "research-lead--terra--10",
-  "research-lead--terra--11",
-  "research-lead--terra--12",
+  "research-lead--luna--01",
+  "research-lead--luna--02",
+  "research-lead--luna--03",
+  "research-lead--luna--04",
+  "research-lead--luna--05",
+  "research-lead--luna--06",
+  "research-lead--luna--07",
+  "research-lead--luna--08",
+  "research-lead--luna--09",
+  "research-lead--luna--10",
+  "research-lead--luna--11",
+  "research-lead--luna--12",
 ]
 sandbox_mode = "read-only"
 developer_instructions = """
-起点が定めた問い・範囲・比較軸・終了条件に沿い、ファイル群・検索論点・情報源群を広く調べる。調査の漏れ・重複・根拠を確認し、集約結果と未解決点をメインへ返す。実装・難しい設計判断は担当しない。
+起点から渡された会話原文・資料・承認範囲を読み、問い・範囲・比較軸・終了条件を自分で具体化してから、ファイル群・検索論点・情報源群を広く調べる。調査の漏れ・重複・根拠を確認し、集約結果と未解決点をメインへ返す。実装・難しい設計判断は担当しない。
 {{ include ".chezmoitemplates/agent/codex/parent.md" }}
 {{ include ".chezmoitemplates/agent/codex/parent-survey.md" }}
 {{ include ".chezmoitemplates/agent/codex/research.md" }}
