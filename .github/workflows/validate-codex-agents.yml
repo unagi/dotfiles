@@ -31,6 +31,39 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+      - name: Validate parent policy in source
+        shell: python
+        run: |
+          import pathlib
+          import re
+          import tomllib
+
+          source = pathlib.Path.cwd()
+          expected = {
+              'architect', 'finance-lead', 'implementation-lead-H',
+              'implementation-lead-complex', 'research-lead-H',
+              'research-lead-complex', 'advanced-research-lead',
+              'recovery-lead', 'review-lead-astra',
+          }
+          parents = set()
+          for path in (source / 'dot_codex/agents').glob('*.toml.tmpl'):
+              agent = tomllib.loads(path.read_text())
+              instructions = agent['developer_instructions']
+              if 'parent.md' in instructions or agent['name'] in expected:
+                  parents.add(agent['name'])
+                  assert agent['model'] in {'gpt-6-sol', 'gpt-6-astra'}, path
+                  assert 'parent.md' in instructions, path
+                  assert 'parent-advanced.md' in instructions, path
+              assert agent['name'] != 'research-lead', path
+          assert parents == expected, parents
+          assert not (source / '.chezmoitemplates/agent/codex/parent-survey.md').exists()
+          for folder in ('dot_codex', '.chezmoitemplates/agent/codex'):
+              for path in (source / folder).rglob('*'):
+                  if path.is_file():
+                      body = path.read_text()
+                      assert 'parent-survey.md' not in body, path
+                      assert not re.search(r'^\|.*`research-lead`', body, re.M), path
+          print('Parent policy validated: 9 Sol/Astra roles')
       - name: Install chezmoi
         env:
           CHEZMOI_VERSION: '2.70.3'

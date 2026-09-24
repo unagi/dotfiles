@@ -106,7 +106,6 @@ chezmoi status
 │       ├── codex/                 # Codex専用のparent / worker / advisor規約
 │       │   ├── parent.md           # parent共通の責務・記録・検証
 │       │   ├── parent-advanced.md  # Sol / Astra parentの委任規範
-│       │   ├── parent-survey.md    # Luna広域調査parentの委任規範
 │       │   ├── child.md            # worker / advisor 共通の末端規約
 │       │   ├── finance.md
 │       │   ├── market-data-worker.md

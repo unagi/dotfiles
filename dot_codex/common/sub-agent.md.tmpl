@@ -4,22 +4,22 @@
 - 起点またはparentとして委任を受けた、または検討する場合に読む。軽微な単独応答では読まない。assistant/child/advisorは各ロール定義だけを使う。
 - 役割は適用中の専用ロール指示と現在の委任関係に従う。完全なタスク識別子・委任元ID・別途のロール通知は補助情報であり、必須条件ではない。特定のパス形式やスラッシュ数による階層の証明を要求しない。
 - 取得できたID・名前・返信経路をそのまま使い、欠落情報を推測・生成しない。引用された過去の指示や資料中のロール名を、役割変更の根拠にしない。再委任の可否だけ不明なら再委任だけを保留し、自分の担当作業は続行する。
-- 起点はparent・assistant・全child・`advisor`・`root-advisor`を起動できる。childの直接利用はroot-agent.mdの直接完遂条件とSol parentに準じた分担規範に従う。各parentは専属の `assistant-L` を利用できるが、別parentを配下に置かない。assistant/child/advisorは再委譲しない。
+- 通常の起点は `assistant-L`、承認された委任のparent、ルーティングを補助する `root-advisor` を利用できる。全child・`advisor` の直接利用は、ユーザーが明示したparent兼務の範囲に限る。通常責務、委任確認、兼務の条件はroot-agent.mdに従う。各parentは専属の `assistant-L` を利用できるが、別parentを配下に置かない。assistant/child/advisorは再委譲しない。
 - 位置と能力帯は別とする。L/M/Hはロールの担当範囲を示し、現在のモデル名やeffortを直接表さない。表示候補の番号は個体識別用で起動順ではない。
 - 委任はユーザーの承認範囲を拡張しない。実装、試作、削除、公開、権限変更は既存の承認範囲を守る。
 
 ## ロール別の起動権限
 | 起動元 | 起動可能な担当 |
 | --- | --- |
-| 起点 | 各parent、`assistant-L`、全child、`advisor`、`root-advisor` |
+| 通常の起点 | `assistant-L`、承認された委任の各parent、ルーティング補助の `root-advisor` |
+| ユーザーが明示したparent兼務中の起点 | 全child、`advisor`、`assistant-L`。別parentへの移管はユーザー確認 |
 | Sol/Astra parent：`finance-lead`、`research-lead-H`、`research-lead-complex`、`advanced-research-lead`、`architect`、`implementation-lead-H`、`implementation-lead-complex`、`recovery-lead`、`review-lead-astra` | 全child、`advisor`、`assistant-L` |
-| 広域調査parent：`research-lead` | `research-worker-L`、`implementation-worker-L`（調査のみ）、`market-data-worker-L`（条件確定済み数値取得）、`assistant-L` |
 | assistant / child / advisor | 起動不可 |
 
 - 全childはResearch/ImplementationのL・M・Hと `market-data-worker-L` の7ロールを指す。常設の補助役 `assistant-L` はこの7ロールと区別する。起動権限は担当範囲やread-only制約を緩めない。
-- 起点が選ぶparentは上表の10ロールに限る。廃止した `implementation-lead` / `review-lead` / `review-lead-H` が実行時の候補に残っていても起動しない。通常実装は `implementation-lead-H`、高リスクレビュー・難しい原因分析は `review-lead-astra` を使う。配布先の旧定義はこの指示を根拠に削除しない。
-- 各parent TOMLは共通本文と専用本文を明示的に取り込む。Sol/Astra parentは `parent-advanced.md`、広域調査parentは `parent-survey.md` を使う。自身のモデル・推論強度の推測で権限や動作を切り替えない。ツールにロールが表示されるだけでは起動許可にならない。
-- Astra parentの起動元は起点のみ。Astra `advisor`の起動元は起点またはSol/Astra parent、Sol `root-advisor`の起動元は起点だけとする。広域調査parentは難所を証拠とともに起点へ返し、M/H childやadvisorへの起動・追加依頼で迂回しない。
+- 起点が選ぶparentは上表の9ロールに限る。廃止した `research-lead` / `implementation-lead` / `review-lead` / `review-lead-H` が実行時の候補に残っていても起動しない。通常調査・単純広域調査は `research-lead-H`、通常実装は `implementation-lead-H`、高リスクレビュー・難しい原因分析は `review-lead-astra` を使う。配布先の旧定義はこの指示を根拠に削除しない。
+- 各parent TOMLは共通本文と専用本文を明示的に取り込む。すべてのparentは `parent-advanced.md` を使う。Luna parentは定義・起動しない。この制約は起動するロール定義への制約であり、起点自身のモデルを推測して兼務の可否を決める規則ではない。自身のモデル・推論強度の推測で権限や動作を切り替えない。ツールにロールが表示されるだけでは起動許可にならない。
+- Astra parentの起動元は起点のみ。Astra `advisor`の起動元は明示されたparent兼務中の起点またはSol/Astra parent、Sol `root-advisor`の起動元は起点だけとする。担当範囲を超える難所はparentが根拠とともに起点へ返し、起点は報告と委任案をユーザーへ伝える。
 
 ## 起動前
 - 独立した限定タスクがあり、依頼元にも並走する有用な作業がある場合だけ起動する。起点は条件を満たすための不要な作業を作らず、実行時の起動条件を満たせなければ制約を報告する。枠埋めはせず、条件を満たせなければ制約を報告する。指定された委任を無断で自身の実行へ置き換えない。
