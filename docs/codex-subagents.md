@@ -35,7 +35,7 @@ flowchart TB
     R -.->|"明示されたparent兼務時のみ"| W
     R -.->|"明示されたparent兼務時のみ"| AD
     R -->|"自処理が許された限定作業の必須レビュー"| RV
-    P -->|"変更案件の必須レビュー"| RV
+    P -->|"child成果を含む総成果の必須レビュー"| RV
 ```
 
 矢印は情報の受け渡しを示します。全員を一斉に起動する構成ではなく、案件に必要な担当を利用します。起動できる相手の詳細は[委任共通規約](../dot_codex/common/sub-agent.md.tmpl)にあります。
@@ -92,6 +92,8 @@ sequenceDiagram
 
 コード・設定・文書の変更では、担当が起点でもparentでも、設計通過前に実装せず、実装完了レビュー通過前に完了宣言・引き渡しをしません。小さな変更も資料を短くして2段階を維持します。設計や差分が変われば該当段階を再レビューし、対象版・別担当の判定・指摘対応を記録します。自己点検・テスト・ユーザー承認では代替しません。詳細は[変更レビューの正本](../.chezmoitemplates/agent/codex/change-review.md)にあります。
 
+childの個別成果は、設計・作成に関与したparentが内部レビューして統合できます。独立レビューの対象は全child成果を含む総成果であり、総成果の設計者が作成側とは別個体のレビュアーを手配します。childごとの独立レビュアーは必須ではありません。rootが直接担当する総成果も、同じ2段階の独立レビューを受けます。
+
 ## 役割と、対応するエージェント向け指示
 
 | 役割・論点 | 人向けの要点 | 指示・テンプレートの正本 |
@@ -103,7 +105,7 @@ sequenceDiagram
 | root-advisor | ユーザーに否定された回答の限定再検討とルーティングを補助する | [起点専属相談役の定義](../dot_codex/agents/root-advisor.toml.tmpl) |
 | advisor | parentの難所を分析し、parentが検証・統合する | [専門顧問の定義](../dot_codex/agents/advisor.toml.tmpl) |
 | 起動・権限・記録 | 誰が誰を利用できるか、記録をどう保持するかを定める | [委任共通規約](../dot_codex/common/sub-agent.md.tmpl) |
-| 変更の2段階レビュー | 作成者と別担当が設計・実装完了を判定し、未通過なら進めない | [変更レビュー本文](../.chezmoitemplates/agent/codex/change-review.md) |
+| 変更の2段階レビュー | child成果は関与parentが内部レビュー。総成果は別個体が設計・実装完了を判定 | [変更レビュー本文](../.chezmoitemplates/agent/codex/change-review.md) |
 | 共通の入口 | プロジェクトの指示と併せて適用する共通方針 | [Codex向けAGENTSテンプレート](../dot_codex/AGENTS.md.tmpl) |
 
 リンク先は配布元のsourceです。設定と評価は[編成資料](codex-agent-model-selection.md)、編集時の責務・重複の基準は[保守ルール](instruction-maintenance.md)にあります。
