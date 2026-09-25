@@ -104,6 +104,7 @@ chezmoi status
 │       │   ├── development.md
 │       │   └── project-instructions-guideline.md
 │       ├── codex/                 # Codex専用のparent / worker / advisor規約
+│       │   ├── change-review.md    # 設計・実装完了の独立レビューと通過条件
 │       │   ├── parent.md           # parent共通の責務・記録・検証
 │       │   ├── parent-advanced.md  # Sol / Astra parentの委任規範
 │       │   ├── child.md            # worker / advisor 共通の末端規約

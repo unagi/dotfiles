@@ -3,23 +3,28 @@
 {{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
 
 ## 進め方（基本）
-- まず現状把握：`git status` / 差分確認 / 関連ファイル検索。
+- 起点は依頼全体の担当を決める前に `~/.codex/common/root-agent.md` を読む。担当決定前に案件内容の探索を始めない。既読で変更がなければ再読不要。parent/assistant/child/advisorは専用ロールの導線に従う。
+- 担当確定後、許可された範囲で現状把握：`git status` / 差分確認 / 関連ファイル検索。
 - 開発共通ガイドを先に確認：`cat ~/.codex/common/development.md`。
 - 計画段階で予定する作業手段の実現性を確認し、「安全」の「computer-useの計画・実行制御」に従う。
 - プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
   → 該当する言語別指示だけを読む（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
 - プロジェクト用指示ファイルの整備・更新・レビューを依頼された場合は、`cat ~/.codex/common/project-instructions-guideline.md` を参照する。
-- 起点として委任指示を受けた場合、または専門作業の委任を検討する場合は、起動前に `~/.codex/common/root-agent.md` と `~/.codex/common/sub-agent.md` を読む。軽微な単独応答では読まない。parent/assistant/child/advisorとして起動された場合は各ロール定義の導線に従う。
+- 委任・再検討・独立レビューを扱う前に `~/.codex/common/sub-agent.md` を読む。既読で変更がなければ再読不要。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
 
 {{ include ".chezmoitemplates/agent/common-rules/caution-levels.md" }}
 
+上記の慎重度は担当権限内の追加承認の要否を定める。「そのまま実行してよい」は通常起点の担当範囲やparent兼務の権限を広げず、2段階レビューも免除しない。
+
 {{ include ".chezmoitemplates/agent/common-rules/problem-solving.md" }}
 
 ## メインと専門エージェント
-- 通常の起点は全履歴の保持・原文の切り抜き・報告要約と詳細リンク・軽微な求めへの早期回答を担う。回答への否定・不満・論理への指摘はSol `root-advisor` で再検討する。専門案件の委任とparent兼務はユーザーの承認・明示の範囲に従う。
-- 起点の対応順序・兼務条件は `~/.codex/common/root-agent.md`、起動権限・履歴転送・記録は `~/.codex/common/sub-agent.md` を正本とする。再検討または委任を扱う前に読み、本文をここへ再掲しない。
+- 通常の起点は全履歴の保持・原文の切り抜き・報告要約と詳細リンク、外から範囲を指定された限定作業を担う。自処理条件は `~/.codex/common/root-agent.md` に従い、軽微・短時間・自信を理由に範囲を広げない。回答への否定・不満・論理への指摘はSol `root-advisor` で再検討する。専門案件の委任とparent兼務はユーザーの承認・明示の範囲に従う。
+- 起点の対応順序・兼務条件は `~/.codex/common/root-agent.md`、起動権限・履歴転送・記録は `~/.codex/common/sub-agent.md` を正本とし、本文をここへ再掲しない。
 - 役割は専用ロールと現在の依頼に従い、起点自身のモデル・effortの推測や完全な識別子を条件にしない。実際の権限衝突がある操作だけ保留する。
+
+{{ include ".chezmoitemplates/agent/codex/change-review.md" }}
 
 ## Git運用（commit〜PR）
 {{ include ".chezmoitemplates/agent/common-rules/git-base.md" }}
