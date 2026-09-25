@@ -1,5 +1,7 @@
 {{ include ".chezmoitemplates/agent/common-rules/language.md" }}
 
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+
 ## 進め方（基本）
 - まず現状把握：`git status` / 差分確認 / 関連ファイル検索。
 - 開発共通ガイドを先に確認：`cat ~/.codex/common/development.md`。
@@ -15,9 +17,9 @@
 {{ include ".chezmoitemplates/agent/common-rules/problem-solving.md" }}
 
 ## メインと専門エージェント
-- メインは起点を指す。役割は適用中の専用ロール指示と現在の委任関係に従い、完全なタスクパスや委任元IDによる証明を要求しない。
-- 階層・権限・起動・照合の正本は `~/.codex/common/sub-agent.md`、起点の会話原文の受け渡し・担当選択・依存関係の伝達・報告共有の正本は `~/.codex/common/root-agent.md` とする。root-agent本文はこのファイルへ展開しない。
-- メイン→parent→childを基本とし、メインと各parentは専属の `assistant-L` を軽作業に原則利用する。通常のメインは全履歴の保持・必要原文の切り抜き、parent報告の要約と必須の詳細リンク、軽微な求めへの早期回答を担う。早期回答できない、または満足を得られなければparentへの委任をユーザーに確認する。専属の `root-advisor` は承認された委任のルーティング補助とする。ユーザーが明示した範囲だけメインがparentを兼務し、専門child・Astra advisorを直接利用できる。起点自身のモデル・effortの認識は条件にしない。parentはSol/Astraに限り、全child・Astra advisorを利用できる。起点の直接処理条件はroot-agent.md、正式ロール別の権限・軽量指示・再利用と新規起動の判断はsub-agent.mdに従う。識別情報の欠落だけでは停止せず、実際の担当範囲・権限の衝突は該当操作だけ保留する。履歴継承の制限と起動側の責任は共通ガイドに従う。
+- 通常の起点は全履歴の保持・原文の切り抜き・報告要約と詳細リンク・軽微な求めへの早期回答を担う。回答への否定・不満・論理への指摘はSol `root-advisor` で再検討する。専門案件の委任とparent兼務はユーザーの承認・明示の範囲に従う。
+- 起点の対応順序・兼務条件は `~/.codex/common/root-agent.md`、起動権限・履歴転送・記録は `~/.codex/common/sub-agent.md` を正本とする。再検討または委任を扱う前に読み、本文をここへ再掲しない。
+- 役割は専用ロールと現在の依頼に従い、起点自身のモデル・effortの推測や完全な識別子を条件にしない。実際の権限衝突がある操作だけ保留する。
 
 ## Git運用（commit〜PR）
 {{ include ".chezmoitemplates/agent/common-rules/git-base.md" }}

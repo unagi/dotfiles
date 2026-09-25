@@ -10,9 +10,7 @@
 
 ユーザーが会話するメインのエージェントを「起点」、専門案件を一貫して担当するエージェントを「parent」、その中の独立した作業を担当するエージェントを「worker（child）」と呼ぶ。assistantは軽作業の補助、advisorは相談役である。
 
-通常の起点はルーティングを担う。全履歴を保持し、必要な部分を原文で切り抜いてparentへ依頼する。報告は要約し、詳細リンクを必ず添える。軽微な求めには自身またはLunaアシスタントと早期回答し、早期回答できない、または満足を得られなければ、parentへの委任をユーザーに確認する。専門的な目的の体系化・判断・統合はparentが担う。
-
-ユーザーが起点自身にparentとしての対応を明示した場合だけ、その範囲で起点が検討・判断・統合を担う。自身のモデル・effortの認識を条件にせず、兼務終了後は通常のルーティングへ戻る。
+起点は会話の保持・原文の受け渡し・報告を、parentは専門判断を担います。軽微な求めは起点とassistant、回答への指摘はSol相談役、parentの難所はAstra相談役で扱います。起点がparentを兼ねるのはユーザーが明示した範囲だけです。
 
 ```mermaid
 flowchart TB
@@ -25,7 +23,7 @@ flowchart TB
     W["worker / child<br/>独立した成果単位を担当"]
     AD["専門難所のadvisor<br/>GPT-6 Astra / medium"]
     U <-->|"依頼・訂正・報告"| R
-    R <-->|"依頼先・文脈の相談"| RA
+    R <-->|"回答の再検討・依頼先の相談"| RA
     R <-->|"検索・抽出等の補助"| A0
     R -->|"承認された委任・会話原文と経緯"| P
     P -->|"着手ドラフト・質問・正式報告"| R
@@ -46,11 +44,17 @@ sequenceDiagram
     actor U as ユーザー
     participant R as 起点
     participant P as parent
+    participant RA as Sol相談役
     U->>R: 依頼と、それに至る会話
     opt 軽微な求め
         R->>R: 自身またはLuna assistantと早期回答
     end
-    opt 早期回答できない、または満足を得られない
+    opt 回答への否定・不満・論理への指摘
+        R->>RA: 必要原文と元回答を渡して限定再検討
+        RA-->>R: 成立条件・改善案・未確認事項
+        R-->>U: 要約と詳細リンク
+    end
+    opt 早期回答できない、または専門調査が必要
         R-->>U: parentへの委任を確認
         U->>R: 委任または取りやめ
     end
@@ -75,11 +79,7 @@ sequenceDiagram
     R-->>U: 完了報告の要約＋詳細リンク
 ```
 
-起点は会話の原文を渡し、parentはそれを解釈して業務を進めます。起点がユーザーへ要約するのは、parentから届いた報告です。詳細リンクを必ず添え、メッセージにリンクできない場合は許可された記録担当が作業領域に報告を保存します。着手ドラフトと変更経緯、完了時の正式報告を残すことで、会話が圧縮されても当初の理解と結論までの経緯をたどれます。
-
-着手ドラフトは当初理解の記録であり、調査後にユーザーが承認する設計案とは別です。ユーザーへの直接確認ができない環境では起点が仲介します。起点は担当からの通知を受け取り、進捗をポーリングしません。
-
-詳細は[起点の行動規範](../dot_codex/common/root-agent.md.tmpl)と[parentの共通規約](../.chezmoitemplates/agent/codex/parent.md)を参照してください。
+着手ドラフトは当初理解の記録であり、承認済みの設計案とは別です。変更経緯と正式報告を併存させ、起点が要約と詳細リンクを届けます。通知で回収し、進捗をポーリングしません。詳細な条件・例外は以下の正本にあります。
 
 ## 役割と、対応するエージェント向け指示
 
@@ -89,12 +89,16 @@ sequenceDiagram
 | parent | 依頼を解釈し、専門案件と業務報告を一貫して担う | [共通本文](../.chezmoitemplates/agent/codex/parent.md)、[Sol/Astra用](../.chezmoitemplates/agent/codex/parent-advanced.md) |
 | worker / child | 独立した成果単位を調査・実装・検証する | [末端担当の共通本文](../.chezmoitemplates/agent/codex/child.md)、[調査用](../.chezmoitemplates/agent/codex/research-worker.md)、[実装用](../.chezmoitemplates/agent/codex/implementation-worker.md) |
 | assistant-L | 起点・parentそれぞれの検索、抽出、整理を補助する | [assistant定義](../dot_codex/agents/assistant-L.toml.tmpl) |
-| root-advisor | 起点の依頼先選択や、渡す文脈について相談を受ける | [起点専属相談役の定義](../dot_codex/agents/root-advisor.toml.tmpl) |
-| advisor | 専門的な難所の反証・再分析を担う | [専門顧問の定義](../dot_codex/agents/advisor.toml.tmpl) |
+| root-advisor | ユーザーに否定された回答の限定再検討とルーティングを補助する | [起点専属相談役の定義](../dot_codex/agents/root-advisor.toml.tmpl) |
+| advisor | parentの難所を分析し、parentが検証・統合する | [専門顧問の定義](../dot_codex/agents/advisor.toml.tmpl) |
 | 起動・権限・記録 | 誰が誰を利用できるか、記録をどう保持するかを定める | [委任共通規約](../dot_codex/common/sub-agent.md.tmpl) |
 | 共通の入口 | プロジェクトの指示と併せて適用する共通方針 | [Codex向けAGENTSテンプレート](../dot_codex/AGENTS.md.tmpl) |
 
-リンク先は配布元のsourceです。各ロールのモデル・推論強度と本文の組み合わせは[agent定義一覧](../dot_codex/agents/)で確認できます。人向けの[編成・モデル設定資料](codex-agent-model-selection.md)は、その一覧を比較しやすくまとめたものです。
+リンク先は配布元のsourceです。設定と評価は[編成資料](codex-agent-model-selection.md)、編集時の責務・重複の基準は[保守ルール](instruction-maintenance.md)にあります。
+
+## 共通の検討姿勢
+
+全ロールに[仮説・提案の基本姿勢](../.chezmoitemplates/agent/codex/hypothesis.md)を適用する。現実的な条件付き成立を細かな否定より優先し、根幹を覆す論拠がなければ条件と改善案を示す。childの報告もこの姿勢で評価する。parentの難所はAstra相談役とparentが扱い、通常起点へ専門判断を戻さない。
 
 ## この構成で確かめたいこと
 

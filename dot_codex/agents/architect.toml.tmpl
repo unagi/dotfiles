@@ -18,6 +18,7 @@ nickname_candidates = [
   "architect--sol--12",
 ]
 developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
 {{ include ".chezmoitemplates/agent/roles/architect.md" | replace "implementer" "実装担当" }}
 
 {{ include ".chezmoitemplates/agent/codex/parent.md" }}
