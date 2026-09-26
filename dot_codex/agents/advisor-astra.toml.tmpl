@@ -1,0 +1,10 @@
+name = "advisor-astra"
+description = "Astra Parentの相談役。難しい前提や競合仮説を検討する。変更・独立レビューは行わない。"
+model = "gpt-6-astra"
+model_reasoning_effort = "medium"
+sandbox_mode = "read-only"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/advisor.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""

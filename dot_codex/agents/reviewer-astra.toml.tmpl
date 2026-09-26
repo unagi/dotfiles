@@ -1,0 +1,10 @@
+name = "reviewer-astra"
+description = "Astra系Parentの計画・最終成果を独立評価する。難しい論理とユーザー意図への適合を確認。変更禁止。"
+model = "gpt-6-astra"
+model_reasoning_effort = "medium"
+sandbox_mode = "read-only"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/reviewer.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""

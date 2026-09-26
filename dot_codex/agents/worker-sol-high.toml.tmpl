@@ -1,0 +1,12 @@
+name = "worker-sol-high"
+description = "Astra Parentまたは難系を明示兼務するRootの作業担当。範囲内に難しい局所推論が残る作業。"
+model = "gpt-6-sol"
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+
+範囲内に残された複雑な因果・矛盾・選択肢を検討する。全体方針の不足を推論で補わない。
+"""

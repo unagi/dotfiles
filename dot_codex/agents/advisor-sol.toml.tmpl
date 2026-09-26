@@ -1,0 +1,10 @@
+name = "advisor-sol"
+description = "Root・Sol Parentの相談役。前提や方針を深く検討する。変更・独立レビューは行わない。"
+model = "gpt-6-sol"
+model_reasoning_effort = "xhigh"
+sandbox_mode = "read-only"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/advisor.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""

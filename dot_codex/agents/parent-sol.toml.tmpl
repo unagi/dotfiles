@@ -1,0 +1,11 @@
+name = "parent-sol"
+description = "簡単・大量の案件を分割・指示・回収・統合するParent。Luna workersを使い、Sol Reviewerへ成果を渡す。"
+model = "gpt-6-sol"
+model_reasoning_effort = "medium"
+sandbox_mode = "workspace-write"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/parent.md" }}
+
+Sol系ParentとしてLuna workerを使う。即応性と分担の効率を重視する。
+"""

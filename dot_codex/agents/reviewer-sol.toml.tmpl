@@ -1,0 +1,10 @@
+name = "reviewer-sol"
+description = "Sol系Parentの計画・最終成果がユーザー意図に適合するか独立評価する。変更禁止。"
+model = "gpt-6-sol"
+model_reasoning_effort = "xhigh"
+sandbox_mode = "read-only"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/reviewer.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+"""

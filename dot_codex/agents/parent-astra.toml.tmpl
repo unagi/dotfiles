@@ -1,0 +1,11 @@
+name = "parent-astra"
+description = "難しい・少量の案件で前提・方針・統合判断を担うParent。Sol workersを使い、Astra Reviewerへ成果を渡す。"
+model = "gpt-6-astra"
+model_reasoning_effort = "low"
+sandbox_mode = "workspace-write"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/parent.md" }}
+
+Astra系ParentとしてSol workerを使う。難しい前提と全体判断を自分で担う。
+"""

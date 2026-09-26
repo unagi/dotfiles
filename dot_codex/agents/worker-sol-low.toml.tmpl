@@ -1,0 +1,12 @@
+name = "worker-sol-low"
+description = "Astra Parentまたは難系を明示兼務するRootの作業担当。方針確定済みの局所作業。"
+model = "gpt-6-sol"
+model_reasoning_effort = "low"
+sandbox_mode = "workspace-write"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+
+確定方針に沿う局所判断と実行を迅速に進める。
+"""

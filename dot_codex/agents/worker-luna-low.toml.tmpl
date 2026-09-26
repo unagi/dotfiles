@@ -1,0 +1,12 @@
+name = "worker-luna-low"
+description = "Sol Parent専用。明確な指示・受入条件を持ち、結果を容易に検査できる作業。"
+model = "gpt-6-luna"
+model_reasoning_effort = "low"
+sandbox_mode = "workspace-write"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+
+明確な指示と容易に検査できる受入条件を前提に、迅速に実行する。
+"""

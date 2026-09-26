@@ -103,16 +103,13 @@ chezmoi status
 │       ├── common/
 │       │   ├── development.md
 │       │   └── project-instructions-guideline.md
-│       ├── codex/                 # Codex専用のparent / worker / advisor規約
-│       │   ├── change-review.md    # 設計・実装完了の独立レビューと通過条件
-│       │   ├── parent.md           # parent共通の責務・記録・検証
-│       │   ├── parent-advanced.md  # Sol / Astra parentの委任規範
-│       │   ├── child.md            # worker / advisor 共通の末端規約
-│       │   ├── finance.md
-│       │   ├── market-data-worker.md
-│       │   ├── research-worker.md
-│       │   ├── implementation-worker.md
-│       │   └── research.md
+│       ├── codex/                 # Codex専用のチーム規約
+│       │   ├── hypothesis.md       # 共通の仮説検討原則
+│       │   ├── parent.md           # 企画・分担・child受入・統合
+│       │   ├── child.md            # 末端共通規約
+│       │   ├── worker.md           # 指示範囲内の実行
+│       │   ├── advisor.md          # 方針相談
+│       │   └── reviewer.md         # ユーザー意図・全体成果の独立評価
 │       ├── roles/
 │       │   ├── architect.md
 │       │   ├── implementer.md
@@ -130,7 +127,7 @@ chezmoi status
 ├── README.md                       # このファイル
 ├── dot_codex/                      # ~/.codex/ にデプロイされる
 │   ├── AGENTS.md.tmpl              # グローバル指示テンプレート
-│   ├── agents/                     # Codex custom agents（GPT-6、root-advisorを含む）
+│   ├── agents/                     # Codex custom agents（GPT-6、量・難度による11ロール）
 │   ├── common/
 │   │   ├── development.md.tmpl
 │   │   ├── project-instructions-guideline.md.tmpl
@@ -156,7 +153,7 @@ chezmoi status
 
 以下は人向けの資料です。全体像をアウトラインと概念図で説明し、詳細は対応するエージェント向け指示・テンプレートへリンクしています。
 
-- [Codexサブエージェントの全体像と設計コンセプト](docs/codex-subagents.md)：役割の関係図、依頼から完了までの流れ、原文引継ぎと業務報告書の考え方
+- [Codexサブエージェントの全体像と設計コンセプト](docs/codex-subagents.md)：役割の関係図、依頼から完了までの流れ、原文引継ぎと品質基準の分離
 - [現行のエージェント編成・モデル設定](docs/codex-agent-model-selection.md)：実装済みロール、選択表、移行記録
 
 ## セキュリティ

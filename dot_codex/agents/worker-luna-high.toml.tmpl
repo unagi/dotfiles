@@ -1,0 +1,12 @@
+name = "worker-luna-high"
+description = "Sol Parentまたは明示兼務Rootの作業担当。手戻り予防を優先する範囲。"
+model = "gpt-6-luna"
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+developer_instructions = """
+{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/codex/worker.md" }}
+{{ include ".chezmoitemplates/agent/codex/child.md" }}
+
+指定された範囲で解釈・照合を丁寧に行い、手戻りを抑える。
+"""
