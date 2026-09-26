@@ -4,17 +4,17 @@
 
 | 起動者・用途 | 起動するロール | 設定 |
 | --- | --- | --- |
-| Rootの参照補助 | assistant-luna | Luna high |
-| Rootの相談 | advisor-sol | Sol xhigh |
-| Rootから簡単・大量の案件 | parent-sol | Sol medium |
-| Rootから難しい・少量の案件 | parent-astra | Astra low |
+| rootの参照補助 | assistant-luna | Luna high |
+| rootの相談 | advisor-sol | Sol xhigh |
+| rootから簡単・大量の案件 | parent-sol | Sol medium |
+| rootから難しい・少量の案件 | parent-astra | Astra low |
 | parent-solの作業 | worker-luna-low / worker-luna-high | Luna low / high |
 | parent-solの相談・独立レビュー | advisor-sol / reviewer-sol | Sol xhigh |
 | parent-astraの作業 | worker-sol-low / worker-sol-high | Sol low / high |
 | parent-astraの相談・独立レビュー | advisor-astra / reviewer-astra | Astra medium |
 
 - Parentは他のParentを起動しない。Luna Parent、Sol Parent配下のSol worker、Astra Parent配下のLuna workerは用意しない。
-- Rootが明示的にParentを兼務する場合は案件の系統に対応するworker・Advisor・Reviewerを使う。ただしRootからのLuna起動は兼務中もhigh固定で、`worker-luna-low` は独立して起動された `parent-sol` 専用とする。
+- rootが明示的にParentを兼務する場合は案件の系統に対応するworker・Advisor・Reviewerを使う。ただしrootからのLuna起動は兼務中もhigh固定で、`worker-luna-low` は独立して起動された `parent-sol` 専用とする。
 - Worker・Advisor・Reviewer・assistantは末端であり再委任しない。AdvisorとReviewerは同じ設定でも別個体で、助言した個体はその案件の独立レビューをしない。
 - 設定値は各ロール定義に固定し、起動者が都度上書きしない。起動時に役割、設定、目的、範囲を伝える。設定が実際の能力を保証すると扱わない。
 

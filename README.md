@@ -131,7 +131,7 @@ chezmoi status
 │   ├── common/
 │   │   ├── development.md.tmpl
 │   │   ├── project-instructions-guideline.md.tmpl
-│   │   ├── root-agent.md.tmpl       # 起点専用の案件管理・parent選択
+│   │   ├── root-agent.md.tmpl       # root専用の案件管理・parent選択
 │   │   └── sub-agent.md.tmpl        # 起動者共通の階層・起動・照合
 │   └── languages/
 │       ├── java.md.tmpl

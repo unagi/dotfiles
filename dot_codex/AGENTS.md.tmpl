@@ -3,7 +3,7 @@
 {{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
 
 ## 進め方（基本）
-- 起点は依頼全体の担当を決める前に `~/.codex/common/root-agent.md` を読む。担当決定前に案件内容の探索を始めない。既読で変更がなければ再読不要。Parent/assistant/worker/Advisor/Reviewerは専用ロールの導線に従う。
+- rootは依頼全体の担当を決める前に `~/.codex/common/root-agent.md` を読む。担当決定前に案件内容の探索を始めない。既読で変更がなければ再読不要。Parent/assistant/worker/Advisor/Reviewerは専用ロールの導線に従う。
 - 担当確定後、許可された範囲で現状把握：`git status` / 差分確認 / 関連ファイル検索。
 - 開発共通ガイドを先に確認：`cat ~/.codex/common/development.md`。
 - 計画段階で予定する作業手段の実現性を確認し、「安全」の「computer-useの計画・実行制御」に従う。
@@ -15,12 +15,12 @@
 
 {{ include ".chezmoitemplates/agent/common-rules/caution-levels.md" }}
 
-上記の慎重度は担当権限内の追加承認の要否を定める。「そのまま実行してよい」は通常起点の担当範囲やparent兼務の権限を広げない。
+上記の慎重度は担当権限内の追加承認の要否を定める。「そのまま実行してよい」は通常rootの担当範囲やparent兼務の権限を広げない。
 
 {{ include ".chezmoitemplates/agent/common-rules/problem-solving.md" }}
 
 ## エージェントチーム
-- 起点の担当選択と兼務は `~/.codex/common/root-agent.md`、編成・委任・情報の受け渡しは `~/.codex/common/sub-agent.md` を正本とする。自分のモデルの推測を条件にしない。
+- rootの担当選択と兼務は `~/.codex/common/root-agent.md`、編成・委任・情報の受け渡しは `~/.codex/common/sub-agent.md` を正本とする。自分のモデルの推測を条件にしない。
 - Parentはchildを指示に照らして受け入れ、独立ReviewerはParentの計画・最終成果を原依頼とユーザー意図に照らして評価する。具体的な責務・レビュー対象は各ロール本文に従う。
 
 ## Git運用（commit〜PR）
