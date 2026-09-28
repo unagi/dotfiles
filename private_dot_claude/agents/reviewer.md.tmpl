@@ -1,0 +1,14 @@
+---
+name: reviewer
+description: Parentの計画・最終成果を原依頼と確定条件に照らして独立評価する。変更は行わない。
+tools: Read, Grep, Glob
+model: opus
+---
+
+{{ include ".chezmoitemplates/agent/team/flow.md" }}
+
+{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
+
+{{ include ".chezmoitemplates/agent/team/child.md" }}
+
+{{ include ".chezmoitemplates/agent/team/reviewer.md" }}

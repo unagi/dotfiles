@@ -11,24 +11,36 @@
 | 文書・配置 | 読者と読む場面 | 所有する内容 | 他へ置く内容 |
 | --- | --- | --- | --- |
 | リポジトリ直下の `AGENTS.md` | このリポジトリの作業担当 | source編集・検証・配布の境界、保守ルールへの入口 | 配布先での業務手順、保守ルール全文 |
-| `dot_codex/AGENTS.md.tmpl`、`private_dot_claude/CLAUDE.md` | 各環境の通常エージェント | 常時必要な原則と制約、詳細指示を読む契機・参照先 | 階層別の詳細フロー、編成一覧、変更経緯 |
-| `.chezmoitemplates/agent/common-rules/`、`common/` | 複数環境で同じ規則を使う担当 | 実際に共有する安全・開発等の規則の本文 | Codex固有の階層・ロール規則 |
-| `dot_codex/common/root-agent.md.tmpl` | rootが依頼全体の担当を決める前 | 自処理の外部指定範囲、対応順序、原文の受け渡し、兼務への移行条件 | childの作業手順、モデル設定、文書保守手順 |
-| `dot_codex/common/sub-agent.md.tmpl` | 委任する担当 | 起動権限、履歴転送、再利用、記録の境界 | rootの対話フロー全文、専門判断の方法 |
-| `.chezmoitemplates/agent/codex/hypothesis.md` | Codexの全ロール | 仮説・提案の検討に共通する判断原則 | 相談先の選択・起動手順、役割別の報告書式 |
-| 同ディレクトリの `parent.md` | parent・明示された兼務担当 | 案件責任、指示に対するchild受入、独立レビューの手配・判定管理、報告 | 職能固有の手順、起動権限の一覧 |
-| 同ディレクトリの `child.md` | worker・Advisor・Reviewer・assistant | 末端担当の作業範囲、返却・記録、再委任禁止 | 案件全体の統合、rootの対応順序 |
+| `dot_codex/AGENTS.md.tmpl`、`private_dot_claude/CLAUDE.md.tmpl` | 各環境の通常エージェント | 常時必要な原則と制約、詳細指示を読む契機・参照先 | 階層別の詳細フロー、編成一覧、変更経緯 |
+| `.chezmoitemplates/agent/rules/` | Codex・Claudeの該当担当 | 作業種別を問わない原則・判断・安全。`hypothesis.md` は全ロールに配布 | 開発固有の手順、製品別のモデル・権限 |
+| `.chezmoitemplates/agent/engineering/` | 開発・設定・Git作業の担当 | 開発共通ガイド、コード調査（`investigation.md`）、作業スコープ、Git、TDD、lint、指示文書整備、言語別ガイド。`security-review.md` の確認観点は各環境の `common/security-review.md.tmpl` へ配布 | 一般の安全・承認境界、チーム編成 |
+| `.chezmoitemplates/agent/team/flow.md` | root・Parent・末端担当 | 担当選択、root直接対応と兼務の条件、独立レビュー、承認、返却の順序 | 具体的な編成表、実務上の記録方法 |
+| `.chezmoitemplates/agent/team/coordination.md` | root・Parent | 原文引継ぎ、企画・分担、child受入、記録・再利用 | `flow.md` が所有するゲート、製品別設定 |
+| `.chezmoitemplates/agent/team/child.md` | worker・Advisor・Reviewer・assistant | 末端担当の作業範囲、返却・記録、再委任禁止 | 案件全体の統合、rootの対応順序 |
 | 同ディレクトリの `worker.md` | worker | 指示範囲内の局所判断・実行・検証 | ユーザー意図の再定義、案件全体の受入 |
 | 同ディレクトリの `advisor.md` | Advisor | 方針相談・成立条件・改善案 | 独立レビュー、ユーザー承認 |
 | 同ディレクトリの `reviewer.md` | Reviewer | 原依頼・解釈・成果の整合、ユーザーへ返せるかの判定 | childの工程管理、成果の作成 |
-| `agent/roles/`、`agent/languages/` | Claude職能担当・該当言語の担当 | 対象環境・言語に固有の判断と検証 | Codexの職能ロールの復活 |
+| `dot_codex/common/team.md.tmpl`、`private_dot_claude/common/team.md.tmpl` | 各環境のroot・起動担当 | 共通連携本文の取り込み、製品別編成表・識別子・モデル対応・参照先 | 担当・レビュー・承認ゲートの再定義 |
 | `dot_codex/agents/*.toml.tmpl` | 起動側と該当ロール | モデル・effort等の設定、固有の目的・入出力・制約、共通本文の取り込み | 取り込む共通本文の言い換え、rootに対する長い行動指示 |
+| `private_dot_claude/agents/*.md.tmpl` | 起動側と該当ロール | Claudeの責務別assistant・worker・advisor・reviewerの設定と共通本文の取り込み | 旧職能ロールの復活、共通ゲートの再定義 |
 | `docs/codex-subagents.md` | 構造を知りたい利用者 | 全体像、情報の流れ、設計意図、正本へのリンク | 運用規則の独自追加、詳細手順の複製 |
 | `docs/codex-agent-model-selection.md` | 編成を確認・評価する利用者とメンテナ | 設定由来の比較表、評価・受入ケース、変更経緯 | 設定や権限の別の正本 |
 | 本書 | 指示を追加・変更・整理するメンテナ | 配置、重複、参照、変更・検証の基準 | 通常業務で読むべき行動規則 |
 | `README.md` | リポジトリ利用者 | 目的、構造、各資料への入口 | 上記各文書の詳細な再掲 |
 
-表のCodex専用文書を、Claude側へ自動的に一般化しない。既存の共有本文を変更するときは、include元を検索して双方への影響を確認する。新しい種類の文書が必要なら、読者・読む契機・所有内容・参照元を先にこの表へ定める。
+共有本文を変更するときは、include元を検索して双方への影響を確認する。製品固有の設定値・ツール権限は各環境の末端テンプレートで管理する。新しい種類の文書が必要なら、読者・読む契機・所有内容・参照元を先にこの表へ定める。
+
+## 担当ごとの受領時点
+
+以下の本文は各入口・専用設定から直接取り込む。Parentと末端担当への配布はグローバル指示を継承するかどうかに依存しない。`rules/hypothesis.md` は全ロールに配布する。
+
+| 担当 | 起動時に受領する共通本文 | 追加で読む時点 |
+| --- | --- | --- |
+| root | グローバル入口から `team/flow.md` | 担当選択前に製品別 `common/team.md` |
+| Parent | 専用設定から `team/flow.md` と `team/coordination.md` | child起動前に製品別 `common/team.md` |
+| Reviewer | 専用設定から `team/flow.md`、`team/child.md`、`team/reviewer.md` | 委任された案件の資料 |
+| Worker・Advisor | 専用設定から `team/flow.md`、`team/child.md`、担当別本文 | 委任された作業に必要な資料 |
+| assistant | 専用設定から `team/flow.md`、`team/child.md`、assistant固有本文 | 委任された作業に必要な資料 |
 
 ## 用語の表記
 
@@ -45,7 +57,7 @@ Codexの会話全体を担当するエージェントは、小文字の `root` �
 
 - 一つの判断規則には一つの正本を置く。正本以外には、必要な短い要約と参照先だけを置き、条件・例外を独自に追加しない。
 - includeによる同じ本文の配布は、手書きの重複とは区別する。各担当に必要な本文が届くことを優先するが、取り込み後に同じ説明を再記述しない。
-- ロール本文は各TOMLテンプレートから直接includeする。rootの明示兼務用にはroot-agentテンプレートがParent本文をincludeする。共通Markdown本文に評価されない入れ子のincludeを置かない。
+- 必須の共通本文は各環境の末端テンプレートから直接includeする。rootの入口には `flow.md`、Parent設定には `flow.md` と `coordination.md`、末端設定には `flow.md`、`child.md` と担当別本文を取り込む。共通Markdown本文に評価されない入れ子のincludeを置かない。
 - 参照だけで届くと仮定しない。通常業務の担当が保守用docsを読まなくても動けるよう、必要な指示は配布される本文に含めるか、実際に読める配布先と読む契機を指定する。
 - sourceの相対リンクと配布先の参照を区別する。メンテナ向け資料ではsourceへリンクし、運用本文に配布されないdocsへの必須参照を作らない。
 - ロール側には「この担当が何を受け取り、何を判断し、何を返すか」を書く。依頼側には「いつ誰へ何を渡し、結果をどう扱うか」を書く。同じ受け渡しを両側から説明しても、共通原則や相手の手順全文は繰り返さない。
@@ -64,7 +76,7 @@ Codexの会話全体を担当するエージェントは、小文字の `root` �
 
 ## 運用上の確認
 
-本書の追加だけで既存文書の整理完了とはしない。整理ごとに対象・保持条件・検証結果を確認する。Parent定義は `parent.md`、末端定義は `child.md` と担当別本文、全ロール定義は共通原則を明示的に取り込む。保守用docsを運用時の必須参照にしない。
+本書の追加だけで既存文書の整理完了とはしない。整理ごとに対象・保持条件・検証結果を確認する。担当・レビュー・承認のゲートは `team/flow.md`、rootとParentの実務は `team/coordination.md`、末端定義は `team/child.md` と担当別本文が所有する。全ロールは共通原則を明示的に取り込む。保守用docsを運用時の必須参照にしない。
 
 ## モデル・effortの決定根拠を残す
 

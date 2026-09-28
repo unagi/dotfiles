@@ -4,9 +4,10 @@ model = "gpt-6-sol"
 model_reasoning_effort = "low"
 sandbox_mode = "workspace-write"
 developer_instructions = """
-{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
-{{ include ".chezmoitemplates/agent/codex/worker.md" }}
-{{ include ".chezmoitemplates/agent/codex/child.md" }}
+{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/team/flow.md" }}
+{{ include ".chezmoitemplates/agent/team/child.md" }}
+{{ include ".chezmoitemplates/agent/team/worker.md" }}
 
 確定方針に沿う局所判断と実行を迅速に進める。
 """

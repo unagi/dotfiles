@@ -1,0 +1,14 @@
+---
+name: advisor
+description: 方針・前提・成立条件の難所を検討し、改善案と未確認点を依頼元へ返す相談役。
+tools: Read, Grep, Glob
+model: opus
+---
+
+{{ include ".chezmoitemplates/agent/team/flow.md" }}
+
+{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
+
+{{ include ".chezmoitemplates/agent/team/child.md" }}
+
+{{ include ".chezmoitemplates/agent/team/advisor.md" }}

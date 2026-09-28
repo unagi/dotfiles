@@ -1,0 +1,14 @@
+---
+name: worker
+description: 指定された成果範囲の調査・実装・検証を担当し、根拠と結果を依頼元へ返す。
+tools: Read, Edit, Write, Grep, Glob, Bash
+model: sonnet
+---
+
+{{ include ".chezmoitemplates/agent/team/flow.md" }}
+
+{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
+
+{{ include ".chezmoitemplates/agent/team/child.md" }}
+
+{{ include ".chezmoitemplates/agent/team/worker.md" }}

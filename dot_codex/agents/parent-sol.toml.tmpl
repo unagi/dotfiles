@@ -4,8 +4,10 @@ model = "gpt-6-sol"
 model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
 developer_instructions = """
-{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
-{{ include ".chezmoitemplates/agent/codex/parent.md" }}
+{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/team/flow.md" }}
+{{ include ".chezmoitemplates/agent/team/coordination.md" }}
 
+childを起動する前に `~/.codex/common/team.md` の製品別編成を確認する。既読で変更がなければ再読不要。
 Sol系ParentとしてLuna workerを使う。即応性と分担の効率を重視する。
 """

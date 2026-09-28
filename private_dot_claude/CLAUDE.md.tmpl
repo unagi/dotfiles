@@ -1,10 +1,24 @@
 # グローバル指示
 
-{{ include ".chezmoitemplates/agent/common-rules/language.md" }}
+{{ include ".chezmoitemplates/agent/rules/language.md" }}
 
 ---
 
-{{ include ".chezmoitemplates/agent/common-rules/basic-principles.md" }}
+{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
+
+---
+
+{{ include ".chezmoitemplates/agent/team/flow.md" }}
+
+会話rootは担当を決める前に `~/.claude/common/team.md` を読む。取得できない場合は担当選択を進めない。Claudeでは会話rootがParentを明示兼務する。委任・結果受入・独立レビューの責任も負う。
+
+---
+
+## 基本姿勢
+- 既存コードを尊重し、新規作成より既存の再利用・拡張を優先する。新規コードを書く前に類似実装を確認する。
+- 判断に迷う場合は確認してから実装する。
+- タスク着手前にスコープを1行で固定する（例：「完全一致 = 直接抽出必須」）。
+- 事実（実測値・API取得値）と推測（計算値）を区別する。
 
 ---
 
@@ -59,28 +73,31 @@
 
 ---
 
-{{ include ".chezmoitemplates/agent/common-rules/caution-levels.md" }}
+{{ include ".chezmoitemplates/agent/rules/caution-levels.md" }}
 
 ---
 
-{{ include ".chezmoitemplates/agent/common-rules/problem-solving.md" }}
+{{ include ".chezmoitemplates/agent/rules/problem-solving.md" }}
+
+{{ include ".chezmoitemplates/agent/engineering/investigation.md" }}
 
 ### 失敗からのリカバリ
 - 実装が上手くいかない場合、新規ファイル追加ではなく既存ファイルの修正で対応
+- 同じフィードバックが2回来たらアプローチを変え、対症療法を繰り返さない
 - **実行開始後**は自律的なリカバリ試行を行わない（「実行フェーズの質問原則」参照）
 - 実行前の計画段階で懸念がある場合は、着手前に相談する
 
 ---
 
-{{ include ".chezmoitemplates/agent/common-rules/work-scope.md" }}
+{{ include ".chezmoitemplates/agent/engineering/work-scope.md" }}
 
 ---
 
-{{ include ".chezmoitemplates/agent/common-rules/tdd.md" }}
+{{ include ".chezmoitemplates/agent/engineering/tdd.md" }}
 
 ---
 
-{{ include ".chezmoitemplates/agent/common-rules/lint.md" }}
+{{ include ".chezmoitemplates/agent/engineering/lint.md" }}
 
 ---
 
@@ -93,7 +110,7 @@
 
 ---
 
-{{ include ".chezmoitemplates/agent/common-rules/sandbox.md" }}
+{{ include ".chezmoitemplates/agent/rules/sandbox.md" }}
 
 ### 権限プロンプト・サンドボックス拒否（Claude Code）
 - 権限プロンプトで拒否されたら即停止。回避策の試行（コマンド変形・別経路）はしない
@@ -103,12 +120,12 @@
 ---
 
 ## Git運用
-{{ include ".chezmoitemplates/agent/common-rules/git-base.md" }}
+{{ include ".chezmoitemplates/agent/engineering/git.md" }}
 
 ---
 
 ## 安全
-{{ include ".chezmoitemplates/agent/common-rules/safety-base.md" }}
+{{ include ".chezmoitemplates/agent/rules/safety.md" }}
 
 ---
 
@@ -122,7 +139,7 @@
 ## 開発共通ガイド
 - @~/.claude/common/development.md
 - @~/.claude/common/project-instructions-guideline.md
-- @~/.claude/common/sub-agent.md
+- @~/.claude/common/team.md
 
 ---
 

@@ -1,0 +1,27 @@
+# Codexチームの編成
+
+{{ include ".chezmoitemplates/agent/team/coordination.md" }}
+
+## 起動者とロール
+
+| 起動者・用途 | ロール識別子 | モデル・effort |
+| --- | --- | --- |
+| rootの参照補助 | `assistant-luna` | Luna high |
+| rootの相談 | `advisor-sol` | Sol xhigh |
+| rootから簡単・大量の案件 | `parent-sol` | Sol medium |
+| rootから難しい・少量の案件 | `parent-astra` | Astra low |
+| Sol系Parentの作業 | `worker-luna-low` / `worker-luna-high` | Luna low / high |
+| Sol系Parentの相談・独立レビュー | `advisor-sol` / `reviewer-sol` | Sol xhigh |
+| Astra系Parentの作業 | `worker-sol-low` / `worker-sol-high` | Sol low / high |
+| Astra系Parentの相談・独立レビュー | `advisor-astra` / `reviewer-astra` | Astra medium |
+
+- Parentは他のParentを起動しない。Luna Parent、Sol系Parent配下のSol worker、Astra系Parent配下のLuna workerは用意しない。
+- rootが明示的にParentを兼務する場合は案件の系統に対応するworker・Advisor・Reviewerを使う。ただしrootからのLuna起動は兼務中もhigh固定で、`worker-luna-low` は独立して起動された `parent-sol` 専用とする。
+- 設定値は各ロール定義に固定し、起動者が都度上書きしない。使用できるロールと起動方法は現在のツールの制約に従う。
+- セキュリティ観点の確認を委任するときは、担当に `~/.codex/common/security-review.md` を読むよう伝える。既読で変更がなければ再読不要。
+
+## Workerの選択
+
+- Luna lowは指示と受入条件が明確で、結果の検査が容易な仕事に使う。曖昧な入力や照合の多さなどで手戻りが懸念される場合はLuna highを選ぶ。指示の不足は先に直す。
+- Sol lowは確定方針の下の局所実行、Sol highは境界が明確でも難しい因果分析や矛盾解消などの局所推論が残る場合に使う。作業量の多さやノイジーな指示だけでhighにしない。
+- 選択は初回速度だけでなく、検査・再依頼・再実行を含む完了までの負担で判断する。手戻りを防ぐためのhigh使用を、単価だけを理由に避けない。

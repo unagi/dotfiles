@@ -100,24 +100,11 @@ chezmoi status
 ~/dotfiles/
 ├── .chezmoitemplates/              # source-onlyテンプレート（デプロイ対象外）
 │   └── agent/
-│       ├── common/
-│       │   ├── development.md
-│       │   └── project-instructions-guideline.md
-│       ├── codex/                 # Codex専用のチーム規約
-│       │   ├── hypothesis.md       # 共通の仮説検討原則
-│       │   ├── parent.md           # 企画・分担・child受入・統合
-│       │   ├── child.md            # 末端共通規約
-│       │   ├── worker.md           # 指示範囲内の実行
-│       │   ├── advisor.md          # 方針相談
-│       │   └── reviewer.md         # ユーザー意図・全体成果の独立評価
-│       ├── roles/
-│       │   ├── architect.md
-│       │   ├── implementer.md
-│       │   └── ...
-│       └── languages/
-│           ├── java.md
-│           ├── node.md
-│           └── python.md
+│       ├── rules/                 # 作業種別を問わない原則・安全
+│       ├── engineering/           # 開発・設定・Gitと言語別ガイド
+│       │   ├── investigation.md   # コード調査の追加手順
+│       │   └── languages/
+│       └── team/                  # 担当選択、連携、役割別責務
 ├── .chezmoi.toml.tmpl              # chezmoi設定（暗号化設定含む）
 ├── .chezmoiignore                  # chezmoi管理対象外ファイル
 ├── .gitignore                      # Git追跡対象外ファイル
@@ -131,18 +118,20 @@ chezmoi status
 │   ├── common/
 │   │   ├── development.md.tmpl
 │   │   ├── project-instructions-guideline.md.tmpl
-│   │   ├── root-agent.md.tmpl       # root専用の案件管理・parent選択
-│   │   └── sub-agent.md.tmpl        # 起動者共通の階層・起動・照合
+│   │   ├── security-review.md.tmpl   # セキュリティ委任時の確認観点
+│   │   └── team.md.tmpl            # 製品別編成表・ロール識別子・モデル対応
 │   └── languages/
 │       ├── java.md.tmpl
 │       ├── node.md.tmpl
 │       └── python.md.tmpl
 └── private_dot_claude/             # ~/.claude/ にデプロイされる
     ├── CLAUDE.md                   # グローバル指示
-    ├── agents/                     # Claude custom agents（共通本文をinclude）
+    ├── agents/                     # Claude custom agents（責務別の4ロール）
     ├── common/
     │   ├── development.md.tmpl
-    │   └── project-instructions-guideline.md.tmpl
+    │   ├── project-instructions-guideline.md.tmpl
+    │   ├── security-review.md.tmpl
+    │   └── team.md.tmpl
     ├── commands/                   # カスタムコマンド
     └── languages/                  # 言語別設計方針（source-onlyテンプレートから展開）
 ```

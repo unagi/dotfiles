@@ -4,8 +4,9 @@ model = "gpt-6-luna"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
 developer_instructions = """
-{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
-{{ include ".chezmoitemplates/agent/codex/child.md" }}
+{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/team/flow.md" }}
+{{ include ".chezmoitemplates/agent/team/child.md" }}
 
 rootから指定された範囲の検索・読解・抽出・要約だけを行う。根拠の所在と不確実性を返し、案件全体の方針判断・成果の受入・変更は行わない。
 """

@@ -1,9 +1,10 @@
-name: Validate Codex agent TOML
+name: Validate agent templates
 
 on:
   pull_request:
     paths:
       - 'dot_codex/**'
+      - 'private_dot_claude/**'
       - '.chezmoitemplates/**'
       - '.chezmoidata*'
       - '.chezmoidata/**'
@@ -11,6 +12,7 @@ on:
   push:
     paths:
       - 'dot_codex/**'
+      - 'private_dot_claude/**'
       - '.chezmoitemplates/**'
       - '.chezmoidata*'
       - '.chezmoidata/**'
@@ -65,15 +67,35 @@ jobs:
               assert agent['model_reasoning_effort'] == effort, path
               assert agent['sandbox_mode'] == sandbox, path
               instructions = agent['developer_instructions']
-              actual = {pathlib.Path(ref).stem for ref in include.findall(instructions)}
-              required = {'hypothesis'}
-              if kind != 'assistant':
-                  required.add(kind)
-              if kind != 'parent':
-                  required.add('child')
+              actual = set(include.findall(instructions))
+              required = {
+                  '.chezmoitemplates/agent/rules/hypothesis.md',
+                  '.chezmoitemplates/agent/team/flow.md',
+              }
+              if kind == 'parent':
+                  required.add('.chezmoitemplates/agent/team/coordination.md')
+              else:
+                  required.add('.chezmoitemplates/agent/team/child.md')
+                  if kind != 'assistant':
+                      required.add('.chezmoitemplates/agent/team/' + kind + '.md')
               assert actual == required, (path, actual)
           assert found == set(expected), found
-          for folder in ('dot_codex', '.chezmoitemplates/agent/codex'):
+          claude_expected = {'assistant', 'worker', 'advisor', 'reviewer'}
+          claude_paths = sorted((source / 'private_dot_claude/agents').glob('*.md.tmpl'))
+          claude_found = {path.name.removesuffix('.md.tmpl') for path in claude_paths}
+          assert claude_found == claude_expected, claude_found
+          for path in claude_paths:
+              kind = path.name.removesuffix('.md.tmpl')
+              actual = set(include.findall(path.read_text()))
+              required = {
+                  '.chezmoitemplates/agent/rules/hypothesis.md',
+                  '.chezmoitemplates/agent/team/flow.md',
+                  '.chezmoitemplates/agent/team/child.md',
+              }
+              if kind != 'assistant':
+                  required.add('.chezmoitemplates/agent/team/' + kind + '.md')
+              assert actual == required, (path, actual)
+          for folder in ('dot_codex', 'private_dot_claude', '.chezmoitemplates/agent'):
               for path in (source / folder).rglob('*'):
                   if not path.is_file():
                       continue
@@ -84,7 +106,11 @@ jobs:
                   assert 'parent-advanced.md' not in body, path
                   if path.suffix == '.md':
                       assert not include.search(body), path
-          print('Validated 11 roles, model/effort, sandbox, role isolation and includes')
+          assert not (source / 'dot_codex/common/root-agent.md.tmpl').exists()
+          assert not (source / 'dot_codex/common/sub-agent.md.tmpl').exists()
+          assert (source / 'dot_codex/common/team.md.tmpl').is_file()
+          assert (source / 'private_dot_claude/common/team.md.tmpl').is_file()
+          print('Validated 11 Codex roles, 4 Claude roles, model/effort, sandbox and includes')
       - name: Install chezmoi
         env:
           CHEZMOI_VERSION: '2.70.3'

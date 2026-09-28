@@ -1,0 +1,18 @@
+{{ include ".chezmoitemplates/agent/team/coordination.md" }}
+
+## Claude Codeでの編成
+
+会話rootがParentを明示兼務し、`assistant`・`worker`・`advisor`・`reviewer` を直接起動する。末端担当による再委任を前提にしない。各担当の起動権限と作業範囲は、実際に渡す指示、frontmatterのツール許可リスト、Claude Codeのセッション権限に従う。
+
+| 担当 | 用途 | モデル | ツール |
+| --- | --- | --- | --- |
+| `assistant` | 限定した検索・読解・抽出 | `haiku` | `Read, Grep, Glob` |
+| `worker` | 指定範囲の調査・実装・検証 | `sonnet` | `Read, Edit, Write, Grep, Glob, Bash` |
+| `advisor` | 方針・前提の相談 | `opus` | `Read, Grep, Glob` |
+| `reviewer` | 計画・最終成果の独立評価 | `opus` | `Read, Grep, Glob` |
+
+モデル名は設定値であり能力の実証ではない。担当の適合性は依頼内容、実際の結果、必要な検証で判断する。`tools` は利用可能なツールを絞る設定であり、セッション権限を拡張しない。
+
+Web資料の取得は会話rootが行い、必要な原文・URL・取得日・未確認事項を担当へ渡す。ファイルやURL単位を固定の分割条件にせず、独立した成果単位と依存関係で分担する。
+
+セキュリティ上の深い確認が必要な設計・実装を委任するときは、`~/.claude/common/security-review.md` の観点をReviewerへ明示して渡す。Reviewer自身が参照する必要がある場合は、利用可能な本文を渡す。レビューに必要な差分や証拠はParentが用意する。

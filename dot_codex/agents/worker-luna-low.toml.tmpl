@@ -4,9 +4,10 @@ model = "gpt-6-luna"
 model_reasoning_effort = "low"
 sandbox_mode = "workspace-write"
 developer_instructions = """
-{{ include ".chezmoitemplates/agent/codex/hypothesis.md" }}
-{{ include ".chezmoitemplates/agent/codex/worker.md" }}
-{{ include ".chezmoitemplates/agent/codex/child.md" }}
+{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
+{{ include ".chezmoitemplates/agent/team/flow.md" }}
+{{ include ".chezmoitemplates/agent/team/child.md" }}
+{{ include ".chezmoitemplates/agent/team/worker.md" }}
 
 明確な指示と容易に検査できる受入条件を前提に、迅速に実行する。
 """

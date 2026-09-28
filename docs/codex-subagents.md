@@ -44,7 +44,7 @@ flowchart TD
   Astra --> AR[reviewer-astra / medium]
 ```
 
-rootは会話の経緯を保ち、相応の依頼入力と成果物がある仕事をParentへ渡す。簡単・大量の仕事はSolが分割・指示・回収を効率よく行い、難しい・少量の仕事はAstraが前提と方針を扱う。難しい・大量の仕事は第三のチームを増やさず、計画を固めてユーザー承認を得てから実作業へ進む。
+rootは会話の経緯を保ち、外から範囲を指定された限定作業だけを直接扱う。その他はParentへ渡し、明示された場合などにParentを兼務する。簡単・大量の仕事はSolが分割・指示・回収を効率よく行い、難しい・少量の仕事はAstraが前提と方針を扱う。難しい・大量の仕事は第三のチームを増やさず、計画レビューとユーザー承認を経て実作業へ進む。
 
 rootのLuna補助はhigh固定。明示的なParent兼務時もLuna lowは使わない。独立したSol Parentは指示と検査が明確ならLuna low、手戻りが懸念されるならhighを選ぶ。Astra ParentはSol low/highを使う。
 
@@ -57,7 +57,7 @@ rootのLuna補助はhigh固定。明示的なParent兼務時もLuna lowは使わ
 
 Parentはchildの受入時に要求を再解釈しない。指示が悪ければ指示の修正として扱う。Reviewerは細かな指摘数を成果にせず、結論や利用可能性を損なう問題に集中する。
 
-Parentがユーザーへ返す計画・最終成果は独立レビューを経る。計画を別途返さず完結する依頼に形式的な二段階レビューは追加しない。childの途中報告、rootの限定作業は一律対象外。AdvisorとReviewerは同じ設定でも別個体とし、助言履歴による誘導を避ける。見解相違が解消しなければParentがユーザーに確認する。
+Parentがユーザーへ返す計画・最終成果は独立レビューを経る。計画を別途返さず完結する依頼に形式的な二段階レビューは追加しない。childの途中報告、rootの限定作業は一律対象外。AdvisorとReviewerは同じ設定でも別個体とし、助言履歴による誘導を避ける。見解相違が解消しなければParentがユーザーに確認する。ゲートの正本は [共通フロー](../.chezmoitemplates/agent/team/flow.md) とする。
 
 ## 情報と成果の流れ
 
@@ -77,10 +77,10 @@ Parentがユーザーへ返す計画・最終成果は独立レビューを経�
 
 ## 正本
 
-- [root](../dot_codex/common/root-agent.md.tmpl)：担当選択・兼務・引継ぎ
-- [チーム運用](../dot_codex/common/sub-agent.md.tmpl)：編成・選択・記録
-- [Parent](../.chezmoitemplates/agent/codex/parent.md)：企画・child受入・レビュー手配
-- [Worker](../.chezmoitemplates/agent/codex/worker.md)、[Advisor](../.chezmoitemplates/agent/codex/advisor.md)、[Reviewer](../.chezmoitemplates/agent/codex/reviewer.md)：担当別規範
+- [共通フロー](../.chezmoitemplates/agent/team/flow.md)：担当選択・レビュー・承認の順序
+- [チーム連携](../.chezmoitemplates/agent/team/coordination.md)：rootとParentの企画・委任・child受入・記録
+- [Codexチーム設定](../dot_codex/common/team.md.tmpl)：製品別の編成表・識別子・モデル対応
+- [Worker](../.chezmoitemplates/agent/team/worker.md)、[Advisor](../.chezmoitemplates/agent/team/advisor.md)、[Reviewer](../.chezmoitemplates/agent/team/reviewer.md)：担当別規範
 - [設定と決定根拠](codex-agent-model-selection.md)：暫定設定・変遷・受入ケース
 
-本資料は構造の説明であり、運用時に別の条件を追加する正本ではない。Claudeの職能ロールや共通安全規約は今回の再編対象に含めない。
+本資料はCodex編成の説明であり、運用時に別の条件を追加する正本ではない。Claudeも共通の担当・レビュー原則を使い、製品別の起動方法は末端テンプレートが定める。
