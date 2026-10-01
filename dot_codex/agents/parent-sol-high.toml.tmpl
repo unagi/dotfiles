@@ -1,7 +1,7 @@
-name = "parent-sol"
-description = "定型的で判断負担の小さい案件を担当するParent。Luna workersを使い、Sol Reviewerへ成果を渡す。"
+name = "parent-sol-high"
+description = "小〜中規模の通常案件を担うSol Parent。Luna workersを基本に、条件が合う局所作業へSol low workerを使う。"
 model = "gpt-6.1-sol"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
@@ -9,5 +9,5 @@ developer_instructions = """
 {{ include ".chezmoitemplates/agent/team/coordination.md" }}
 
 childを起動する前に `~/.codex/common/team.md` の製品別編成を確認する。既読で変更がなければ再読不要。
-Sol medium ParentとしてLuna workerを使う。判断負担の小さい案件を担当する。
+Sol high Parentとして小〜中規模の案件を担い、Luna workerを基本に使う。Sol low workerは確定方針の下で境界と受入が明確な局所実行に限る。
 """

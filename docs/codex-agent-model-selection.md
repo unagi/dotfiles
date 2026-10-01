@@ -1,36 +1,48 @@
 # Codexモデル・effortの選択記録
 
-## 現行設定（2026-09-26、弱い支持により維持）
+## 現行設定（2026-10-01）
 
-設定の正本は各TOML、担当とレビューの順序は [共通フロー](../.chezmoitemplates/agent/team/flow.md)、Codexの編成表と呼出権限は [チーム設定](../dot_codex/common/team.md.tmpl)。Artificial Analysisによる再確認と役割設計を合わせ、現設定の維持は弱く支持されたと判断する。最適性やチームとしての効果を実証したものではない。設定値は変更せず、満足度・使用感と新たな公開情報から必要時に見直す。
+設定の正本は各TOML、担当とレビューの順序は [共通フロー](../.chezmoitemplates/agent/team/flow.md)、Codexの編成表と呼出権限は [チーム設定](../dot_codex/common/team.md.tmpl)。GPT-6.1 Solの採用とSol Parentのhigh / xhigh追加は、小〜中規模でAstra Parentが選ばれやすい状況を改めるための運用判断である。役割ごとの速度・費用・成功率を実証したものではない。
 
 | ロール | モデル | effort | sandbox |
 | --- | --- | --- | --- |
 | [advisor-astra](../dot_codex/agents/advisor-astra.toml.tmpl) | gpt-6-astra | medium | read-only |
-| [advisor-sol](../dot_codex/agents/advisor-sol.toml.tmpl) | gpt-6-sol | xhigh | read-only |
+| [advisor-sol](../dot_codex/agents/advisor-sol.toml.tmpl) | gpt-6.1-sol | xhigh | read-only |
 | [assistant-luna](../dot_codex/agents/assistant-luna.toml.tmpl) | gpt-6-luna | high | read-only |
 | [parent-astra](../dot_codex/agents/parent-astra.toml.tmpl) | gpt-6-astra | low | workspace-write |
-| [parent-sol](../dot_codex/agents/parent-sol.toml.tmpl) | gpt-6-sol | medium | workspace-write |
+| [parent-sol](../dot_codex/agents/parent-sol.toml.tmpl) | gpt-6.1-sol | medium | workspace-write |
+| [parent-sol-high](../dot_codex/agents/parent-sol-high.toml.tmpl) | gpt-6.1-sol | high | workspace-write |
+| [parent-sol-xhigh](../dot_codex/agents/parent-sol-xhigh.toml.tmpl) | gpt-6.1-sol | xhigh | workspace-write |
 | [reviewer-astra](../dot_codex/agents/reviewer-astra.toml.tmpl) | gpt-6-astra | medium | read-only |
-| [reviewer-sol](../dot_codex/agents/reviewer-sol.toml.tmpl) | gpt-6-sol | xhigh | read-only |
+| [reviewer-sol](../dot_codex/agents/reviewer-sol.toml.tmpl) | gpt-6.1-sol | xhigh | read-only |
 | [worker-luna-high](../dot_codex/agents/worker-luna-high.toml.tmpl) | gpt-6-luna | high | workspace-write |
 | [worker-luna-low](../dot_codex/agents/worker-luna-low.toml.tmpl) | gpt-6-luna | low | workspace-write |
-| [worker-sol-high](../dot_codex/agents/worker-sol-high.toml.tmpl) | gpt-6-sol | high | workspace-write |
-| [worker-sol-low](../dot_codex/agents/worker-sol-low.toml.tmpl) | gpt-6-sol | low | workspace-write |
+| [worker-sol-high](../dot_codex/agents/worker-sol-high.toml.tmpl) | gpt-6.1-sol | high | workspace-write |
+| [worker-sol-low](../dot_codex/agents/worker-sol-low.toml.tmpl) | gpt-6.1-sol | low | workspace-write |
 
 ## 現段階の解釈
 
 - **rootからLuna**：root自身のモデル識別を前提にできず、低effortの失敗を救済できる保証もないためhigh固定。主な目的は履歴負担の分離。rootがParentを兼務してもこの条件を変えない。
 - **Sol ParentからLuna**：明確な指示と容易な受入ならlow、照合や解釈で手戻りが懸念されるならhigh。軽量側と手戻り予防側の差を明確にするためlow/highの2階級を維持する。AAではmediumがlowよりhighに近いため、mediumを軽量側に採る優先度は低い。「lowとmediumが同等だからlow」という従来の根拠は採らない。medium自体を無価値とは扱わない。
 - **費用と手戻り**：LunaがSolより安いという前提で、高effortを単価だけで避けない。採用判断は指示・検査・再実行を含む総負担で行う。API価格の差をCodex利用枠の比率や実作業費用へ直接換算しない。
-- **Sol Parent / medium**：簡単・大量の仕事で分割・的確な指示・受入・統合を担い、即応性を重視する。Sol workerを追加せずLunaを使う。
-- **Astra Parent / low**：難しい・少量の案件の入口。Lunaへの細かな指示に高単価を費やさず、Sol workerを使う。Sol lowは局所実行、highは切り出された範囲にも難しい推論が残る場合。ノイジーな指示や量の多さはhigh採用の根拠にしない。
-- **Reviewer / Advisor**：Sol xhigh、Astra medium。Parentより深い検討を担当する。Reviewerは全体の論理とユーザー意図、Advisorは方針の成立条件と改善を扱い、同じ個体で兼務しない。モデル・effort差だけでレビュー品質が保証されるわけではなく、入力と評価基準の分離を併用する。
-- 定義上選べるeffortと実用上の採用価値は別であり、effortと能力の線形関係は仮定しない。今回採らなかったmedium/xhigh/max等を一律に無価値と結論しない。
+- **Sol Parent / medium**：定型的で判断負担の小さい仕事を担う。Luna workerを基本とする。
+- **Sol Parent / high・xhigh**：小〜中規模の仕事の基本。全体の方針・受入・統合に要る推論の深さで選び、xhighを使うためにmediumやhighの失敗を順に経験する必要はない。Luna workerを基本とし、方針確定・境界明確・受入容易な局所実行だけSol low workerを選べる。難しい局所推論をSol lowに渡さない。
+- **Astra Parent / low**：分割後も重大な競合仮説・矛盾の統合判断が残り、Sol high / xhigh ParentとAdvisor・独立Reviewerで補いにくい具体的な高難度に限定する。規模や作業量だけを理由に選ばない。Sol low / high workerの現行選択肢は維持する。
+- **worker委任の目的**：Parentはすでにrootの全履歴から分離され再利用も定められている。履歴分離だけでworkerを起動せず、起動・引継ぎ・検査・再依頼を含む完了時間または実効費用の改善を見込める独立作業を渡す。利点が乏しければParentが直接進める。難しい作業の並列化は一般的な選択理由として追加しない。
+- **Reviewer / Advisor**：Sol xhigh、Astra mediumを維持する。Reviewerは全体の論理とユーザー意図、Advisorは方針の成立条件と改善を扱い、同じ個体で兼務しない。Sol xhigh Parentと同じeffortでも、独立した入力と評価基準による役割の分離に意味がある。モデル・effort差だけで品質を保証しない。
+- 定義上選べるeffortと実用上の採用価値は別であり、effortと能力の線形関係は仮定しない。ロールに採らなかったeffortを一律に無価値と結論しない。
 
-## Artificial Analysisによる再確認（2026-09-26）
+## 2026-10-01の見直し根拠と限界
 
-[Artificial Analysis](https://artificialanalysis.ai/)のIntelligence Index v4.3.2と課題あたりの加重平均API費用を確認した。以下は各モデルページの丸め表示で、各セルは「Index / USD」。
+[OpenAI公式モデル資料](https://developers.openai.com/api/docs/models/gpt-6.1-sol)はGPT-6.1 Solを複雑な仕事でAstraに近い性能と位置付け、[Astra](https://developers.openai.com/api/docs/models/gpt-6-astra)より低いAPIトークン単価を示す。この位置付けと、Astra Parentが小〜中規模でも選ばれて費用がかさむという利用者の運用上の問題を踏まえ、Sol系の5つの既存ロールを6.1に更新し、Sol high / xhigh Parentを追加した。Sol medium ParentとLuna workerは残し、Astra ParentからSol low / high workerを使う構成も維持した。
+
+[Artificial Analysisのeffort別比較](https://artificialanalysis.ai/models/releases/comparisons/gpt-6-1-sol-vs-gpt-6-astra)では、effortにより課題あたりのAPI費用と性能が変わる。ただしこれはParentの統合能力、childの受入、Codexの利用枠消費を直接測らない。[利用者の同一課題16回ずつの報告](https://www.reddit.com/r/ChatGPT/comments/1wub096/gpt_61_sol_vs_gpt_6_sol_vs_opus_55_testing_quota/)ではSol 6.1 highとmediumのCodex利用枠消費に差が見られたが、lowとParent→childの比較は含まれない。[文章生成の利用者比較](https://www.reddit.com/r/LLMDevs/comments/1wtmb3m/gpt61_sol_seems_like_a_step_back_for_writing/)でもlowとmediumの時間・費用差は小さいが、codingや委任への一般化はできない。
+
+high / xhigh ParentからSol low childへの実効節約幅、Sol high / xhigh ParentとAstra low Parentの総所要時間・利用枠差は未確認である。同一モデルのAPIトークン単価はeffortによって変わらず、推論量や手戻りにより総消費が変わり得る。採用判断は初回費用だけでなく、起動・引継ぎ・検査・再依頼を含む完了までの負担に基づく。API価格をCodex利用枠や実作業費用へ直接換算しない。今回の設定は成立し得る運用案の反映であり、役割ごとの最適値の実証ではない。
+
+## 旧設定のArtificial Analysisによる再確認（2026-09-26）
+
+[Artificial Analysis](https://artificialanalysis.ai/)のIntelligence Index v4.3.2と課題あたりの加重平均API費用を確認した。以下は旧GPT-6 Solを含む当時の設定の記録であり、現行GPT-6.1 Solの値ではない。各モデルページの丸め表示で、各セルは「Index / USD」。
 
 | effort | Luna | Sol | Astra |
 | --- | --- | --- | --- |
@@ -42,7 +54,7 @@
 
 [評価方法](https://artificialanalysis.ai/methodology/intelligence-benchmarking)は主に英語・テキストの10評価を統合したもの。総合点は成功率ではなく、Parentの指示能力やReviewerの見落とし率を直接測っていない。小さな点差から役割上の優位を確定しない。API費用をCodex利用枠やチーム総費用へ換算しない。tokens/secは生成中の速度で、Time per TaskもTTFTとoverheadを除くため、実運用の待ち時間とは異なる。
 
-### 維持判断とその強さ
+### 当時の維持判断とその強さ
 
 - **全体**：階級間の差と費用配分は役割設計と概ね整合する。現設定を直ちに変更する材料はなく、設定維持への弱い支持と位置付ける。公開ベンチマークが編成の有効性を実証したとは扱わない。
 - **Luna low/high**：low→mediumは21→29、medium→highは29→32。2階級に絞るならlow/highの方が差を明確にできる。旧二群仮説による同等性から、編成を単純に保ちつつ階級差を確保する根拠へ改める。
@@ -81,6 +93,7 @@
 | 同日 適用範囲の具体化 | root兼務でもLuna high、root相談はadvisor-solを共用 | rootの自己識別に依存しない。相談用ロールを重複させない |
 | 同日 AAによる再確認 | 設定維持を弱く支持。Luna low/highの選択理由を更新 | low/medium同等という二群仮説ではなく、2階級の差と運用の単純さを根拠とする。旧約1.5倍の待ち時間観測は一般化しない |
 | 同日 利用者との判断確定 | Sol xhighを消極的選択として維持。独自比較実験の提案を撤回 | 統計取得と再現性の制約を踏まえ、満足度・使用感などの弱い指標で見直す。最適性の実証とは区別する |
+| 2026-10-01 合意・実装 | Sol系5ロールをGPT-6.1 Solへ更新し、Sol high / xhigh Parentを追加 | 小〜中規模ではSolを基本とし、Astra Parentを具体的高難度に限定。Sol high / xhigh Parentには条件付きでSol low workerを許可し、Lunaを基本に維持する |
 
 職能と旧一律二段階レビューを撤去したが、秘密情報保護・権限・実環境への反映境界は維持する。情報共有方式の詳細再編は保留TODO。
 
@@ -89,12 +102,14 @@
 | ケース | 期待する動作 |
 | --- | --- |
 | rootの限定的な参照補助 | assistant-luna/high。Parentを起動しない |
-| 簡単・大量、指示・検査が明確 | parent-sol → worker-luna-low → reviewer-sol |
-| 同系統で手戻り懸念 | 指示を補いworker-luna-highを選ぶ |
-| rootが簡単系Parentを明示兼務 | worker-luna-high。worker-luna-lowは使わない |
-| 難しい・少量、局所実行は明確 | parent-astra → worker-sol-low → reviewer-astra |
-| 境界内に難しい局所推論が残る | worker-sol-high。上位方針の不足はParentへ戻す |
+| 定型的で判断負担が小さい | parent-sol / medium。workerが有効ならLunaを使う |
+| 小〜中規模の通常案件 | parent-sol-highまたはparent-sol-xhigh。全体推論の深さで選び、Lunaを基本に使う |
+| Sol high / xhigh Parentで方針確定・境界明確・受入容易な局所実行 | 完了時間または実効費用の改善が見込めればworker-sol-lowを使える |
+| Sol Parentで難しい局所推論が残る | worker-sol-lowへ押し付けず、Parentが扱うか方針・分担を見直す |
+| 具体的な高難度の全体統合判断が残る | parent-astra / low。worker-sol-low / highを従来どおり選べる |
+| rootがSol系Parentを明示兼務 | Lunaはworker-luna-high。worker-luna-lowは使わない |
 | 難しい・大量 | 計画をレビュー・ユーザー承認後、実作業へ進む。第三の系統を作らない |
+| workerに渡しても起動・引継ぎ・検査・再依頼の負担が勝る | Parentが直接進める |
 | childが指示不足で失敗 | Parentが指示・受入条件を補う。自動的にモデル昇格しない |
 | Parentによるchild受入 | 委任指示への適合を評価。ユーザー意図を再定義しない |
 | Reviewerが成果を評価 | 原依頼・解釈・成果の整合を見る。軽微な指摘数で評価しない |

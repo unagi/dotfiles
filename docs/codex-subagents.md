@@ -1,6 +1,6 @@
 # Codexエージェントチーム
 
-職能別ロールを廃止し、量と難度による二つの編成にする。現設定は公開ベンチマークと役割設計から弱い支持を得て維持する。最適性の実証とは区別し、満足度・使用感などを見直しの材料とする。判断根拠は [モデル選択資料](codex-agent-model-selection.md) に記録する。
+職能別ロールを廃止し、案件の負荷と判断の難しさに応じてParentを選ぶ。定型的で負担の小さい案件にはSol / medium、小〜中規模の案件にはSol / highまたはxhighを基本とし、全体判断が難しい具体的な高難度案件ではAstra / lowを候補にする。案件の規模だけでAstraを選ばない。現設定の根拠と変更経緯は [モデル選択資料](codex-agent-model-selection.md) に記録する。
 
 ## 階層と役割
 
@@ -9,7 +9,7 @@
 | 階層 | 責任 | 対応する担当 |
 | --- | --- | --- |
 | root | ユーザーとの対話、全会話の経緯、担当選択、成果への導線 | この会話を受け持つエージェント。専用の起動ロールは定義しない |
-| parent | 案件の企画、分割・指示、childの受入、統合、独立レビューの手配 | `parent-sol` / `parent-astra` |
+| parent | 案件の企画、分割・指示、childの受入、統合、独立レビューの手配 | `parent-sol` / `parent-sol-high` / `parent-sol-xhigh` / `parent-astra` |
 | child | 指定範囲の仕事を返す末端担当。再委任しない | worker / advisor / reviewer。root直轄のassistant・advisorも末端担当 |
 
 | 役割 | 担当する仕事 | 成果の使い方 |
@@ -19,14 +19,15 @@
 | reviewer | 原依頼とparentの解釈・成果を独立評価 | ユーザーへ返せるかを判定する |
 | assistant | rootが指定した検索・読解・抽出・要約 | rootが必要な結果と根拠を回収する |
 
-## 二つの編成
+## Parentの選択
 
 | 案件 | parent | worker | advisor / reviewer |
 | --- | --- | --- | --- |
-| 簡単・大量 | Sol / medium | Luna / low または high | Sol / xhigh |
-| 難しい・少量 | Astra / low | Sol / low または high | Astra / medium |
+| 定型的・低負担 | Sol / medium | Luna / low または high | Sol / xhigh |
+| 小〜中規模（基本） | Sol / high または xhigh | Luna / low または high。方針確定・境界明確・受入容易な局所作業ならSol / lowも選択可能 | Sol / xhigh |
+| 全体判断が難しい具体的な高難度 | Astra / low | Sol / low または high | Astra / medium |
 
-advisorとreviewerは同じ設定でも別個体で担当する。root直轄の補助は `assistant-luna`（Luna / high）、相談は `advisor-sol`（Sol / xhigh）。全11ロールの識別子と設定は [モデル選択資料](codex-agent-model-selection.md) を参照する。
+advisorとreviewerは同じ設定でも別個体で担当する。root直轄の補助は `assistant-luna`（Luna / high）、相談は `advisor-sol`（Sol / xhigh）。全13ロールの識別子と設定は [モデル選択資料](codex-agent-model-selection.md) を参照する。
 
 下図の矢印は起動・依頼の関係を示す。worker、advisor、reviewerの間に上下関係はない。
 
@@ -35,18 +36,28 @@ flowchart TD
   root --> Assistant[assistant-luna / high]
   root --> rootAdvisor[advisor-sol / xhigh]
   root --> Sol[parent-sol / medium]
+  root --> SolH[parent-sol-high]
+  root --> SolX[parent-sol-xhigh]
   root --> Astra[parent-astra / low]
   Sol --> Luna["worker-luna-low / worker-luna-high"]
+  SolH --> Luna
+  SolH --> WorkerSolLow[worker-sol-low / conditional]
+  SolX --> Luna
+  SolX --> WorkerSolLow
   Sol --> SA[advisor-sol / xhigh]
+  SolH --> SA
+  SolX --> SA
   Sol --> SR[reviewer-sol / xhigh]
+  SolH --> SR
+  SolX --> SR
   Astra --> WorkerSol["worker-sol-low / worker-sol-high"]
   Astra --> AA[advisor-astra / medium]
   Astra --> AR[reviewer-astra / medium]
 ```
 
-rootは会話の経緯を保ち、外から範囲を指定された限定作業だけを直接扱う。その他はParentへ渡し、明示された場合などにParentを兼務する。簡単・大量の仕事はSolが分割・指示・回収を効率よく行い、難しい・少量の仕事はAstraが前提と方針を扱う。難しい・大量の仕事は第三のチームを増やさず、計画レビューとユーザー承認を経て実作業へ進む。
+rootは会話の経緯を保ち、外から範囲を指定された限定作業だけを直接扱う。その他はParentへ渡し、明示された場合などにParentを兼務する。定型的で負担の小さい案件はSol / medium、小〜中規模の案件はSol / highまたはxhighを基本にし、案件の規模ではなく全体判断の難しさが際立つ具体的な高難度案件ではAstra / lowを選ぶ。難度と作業量がともに大きい案件では、第三の編成を作らず、計画レビューとユーザー承認を経て実作業へ進む。
 
-rootのLuna補助はhigh固定。明示的なParent兼務時もLuna lowは使わない。独立したSol Parentは指示と検査が明確ならLuna low、手戻りが懸念されるならhighを選ぶ。Astra ParentはSol low/highを使う。
+Parentはrootの全履歴から分離されているため、履歴分離だけを目的にworkerを起動しない。起動・引継ぎ・検査・再依頼を含めても完了時間または実効費用の改善が見込める独立した作業を委任する。rootのLuna補助はhigh固定。明示的なParent兼務時もLuna lowは使わない。Sol / high・xhigh ParentはLuna workerを基本とし、方針確定・境界明確・受入容易な局所作業ならSol / low workerも選べる。Astra ParentはSol low/highを使う。細部は [チーム連携](../.chezmoitemplates/agent/team/coordination.md) と [Codexチーム設定](../dot_codex/common/team.md.tmpl) を参照する。
 
 ## 異なる二つの品質基準
 
@@ -66,14 +77,14 @@ Parentがユーザーへ返す計画・最終成果は独立レビューを経�
 通常の実作業では次の順で進む。
 
 1. rootが原依頼・確定条件・権限をparentへ渡す。
-2. parentが方針と受入条件を具体化し、workerへ範囲を切り出す。相談が必要ならadvisorを使う。
+2. parentが方針と受入条件を具体化し、委任の利点が見込める場合はworkerへ範囲を切り出す。相談が必要ならadvisorを使う。
 3. parentがworkerの結果を受け入れ、案件全体の成果へ統合する。
 4. 別個体のreviewerが原依頼・解釈・成果を評価する。要修正・判定不能ならparentが対応し、再確認を受ける。
 5. parentが結論・検証・限界と成果物リンクをrootへ返し、rootがユーザーへ伝える。
 
 計画を先にユーザーへ返す場合は、その計画もレビュー対象になる。難しい・大量の案件では、この計画レビューとユーザー承認を実作業の前に置く。rootがparentを明示的に兼務する場合も同じ責任を持つが、Lunaはhigh固定とする。
 
-共有済みログ・検証は再利用する。情報共有方式の詳細再編はTODOとし、現段階では案件別作業領域と必要な状態・レビュー記録を維持する。
+共有済みログ・検証は再利用する。難しい作業の並列化を標準手順にはしない。情報共有方式の詳細再編はTODOとし、現段階では案件別作業領域と必要な状態・レビュー記録を維持する。
 
 ## 正本
 

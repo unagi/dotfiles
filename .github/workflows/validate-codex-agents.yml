@@ -42,17 +42,19 @@ jobs:
 
           source = pathlib.Path.cwd()
           expected = {
-              'parent-sol': ('sol', 'medium', 'parent', 'workspace-write'),
-              'parent-astra': ('astra', 'low', 'parent', 'workspace-write'),
-              'worker-luna-low': ('luna', 'low', 'worker', 'workspace-write'),
-              'worker-luna-high': ('luna', 'high', 'worker', 'workspace-write'),
-              'worker-sol-low': ('sol', 'low', 'worker', 'workspace-write'),
-              'worker-sol-high': ('sol', 'high', 'worker', 'workspace-write'),
-              'advisor-sol': ('sol', 'xhigh', 'advisor', 'read-only'),
-              'advisor-astra': ('astra', 'medium', 'advisor', 'read-only'),
-              'reviewer-sol': ('sol', 'xhigh', 'reviewer', 'read-only'),
-              'reviewer-astra': ('astra', 'medium', 'reviewer', 'read-only'),
-              'assistant-luna': ('luna', 'high', 'assistant', 'read-only'),
+              'parent-sol': ('gpt-6.1-sol', 'medium', 'parent', 'workspace-write'),
+              'parent-sol-high': ('gpt-6.1-sol', 'high', 'parent', 'workspace-write'),
+              'parent-sol-xhigh': ('gpt-6.1-sol', 'xhigh', 'parent', 'workspace-write'),
+              'parent-astra': ('gpt-6-astra', 'low', 'parent', 'workspace-write'),
+              'worker-luna-low': ('gpt-6-luna', 'low', 'worker', 'workspace-write'),
+              'worker-luna-high': ('gpt-6-luna', 'high', 'worker', 'workspace-write'),
+              'worker-sol-low': ('gpt-6.1-sol', 'low', 'worker', 'workspace-write'),
+              'worker-sol-high': ('gpt-6.1-sol', 'high', 'worker', 'workspace-write'),
+              'advisor-sol': ('gpt-6.1-sol', 'xhigh', 'advisor', 'read-only'),
+              'advisor-astra': ('gpt-6-astra', 'medium', 'advisor', 'read-only'),
+              'reviewer-sol': ('gpt-6.1-sol', 'xhigh', 'reviewer', 'read-only'),
+              'reviewer-astra': ('gpt-6-astra', 'medium', 'reviewer', 'read-only'),
+              'assistant-luna': ('gpt-6-luna', 'high', 'assistant', 'read-only'),
           }
           found = set()
           include = re.compile(r'{{\s*include "([^"]+)"\s*}}')
@@ -63,7 +65,7 @@ jobs:
               found.add(name)
               model, effort, kind, sandbox = expected[name]
               assert path.name == name + '.toml.tmpl', path
-              assert agent['model'] == 'gpt-6-' + model, path
+              assert agent['model'] == model, path
               assert agent['model_reasoning_effort'] == effort, path
               assert agent['sandbox_mode'] == sandbox, path
               instructions = agent['developer_instructions']
@@ -110,7 +112,7 @@ jobs:
           assert not (source / 'dot_codex/common/sub-agent.md.tmpl').exists()
           assert (source / 'dot_codex/common/team.md.tmpl').is_file()
           assert (source / 'private_dot_claude/common/team.md.tmpl').is_file()
-          print('Validated 11 Codex roles, 4 Claude roles, model/effort, sandbox and includes')
+          print('Validated 13 Codex roles, 4 Claude roles, model/effort, sandbox and includes')
       - name: Install chezmoi
         env:
           CHEZMOI_VERSION: '2.70.3'

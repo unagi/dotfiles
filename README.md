@@ -114,7 +114,7 @@ chezmoi status
 ├── README.md                       # このファイル
 ├── dot_codex/                      # ~/.codex/ にデプロイされる
 │   ├── AGENTS.md.tmpl              # グローバル指示テンプレート
-│   ├── agents/                     # Codex custom agents（GPT-6、量・難度による11ロール）
+│   ├── agents/                     # Codex custom agents（GPT-6系、判断負担に応じた13ロール）
 │   ├── common/
 │   │   ├── development.md.tmpl
 │   │   ├── project-instructions-guideline.md.tmpl
@@ -143,7 +143,7 @@ chezmoi status
 以下は人向けの資料です。全体像をアウトラインと概念図で説明し、詳細は対応するエージェント向け指示・テンプレートへリンクしています。
 
 - [Codexサブエージェントの全体像と設計コンセプト](docs/codex-subagents.md)：役割の関係図、依頼から完了までの流れ、原文引継ぎと品質基準の分離
-- [現行のエージェント編成・モデル設定](docs/codex-agent-model-selection.md)：実装済みロール、選択表、移行記録
+- [現行のエージェント編成・モデル設定](docs/codex-agent-model-selection.md)：全13ロールの設定、選択表、移行記録
 
 ## セキュリティ
 
