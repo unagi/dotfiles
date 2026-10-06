@@ -10,7 +10,7 @@
 
 {{ include ".chezmoitemplates/agent/team/flow.md" }}
 
-会話rootは担当を決める前に `~/.claude/common/team.md` を読む。取得できない場合は担当選択を進めない。Claudeでは会話rootがParentを明示兼務する。委任・結果受入・独立レビューの責任も負う。
+会話rootは上記フローに従って必要な仕事と委任内容を定め、外部担当を使う場合に `~/.claude/common/team.md` で編成・起動方法を確認する。必要な編成を取得できない場合は起動せず不足を報告する。Claudeでは会話rootがParentを明示兼務する。委任・結果受入・独立レビューの責任も負い、別視点リトライ時の作成・判定の分離は製品別編成に従う。
 
 ---
 
@@ -139,7 +139,7 @@
 ## 開発共通ガイド
 - @~/.claude/common/development.md
 - @~/.claude/common/project-instructions-guideline.md
-- @~/.claude/common/team.md
+- 編成・起動方法: 委任内容を定めてから `~/.claude/common/team.md` を読む（既読で変更がなければ再読不要）。
 
 ---
 

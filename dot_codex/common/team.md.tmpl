@@ -21,6 +21,8 @@
 - 小〜中規模の案件はSol high / xhigh Parentを基本とし、必要な全体推論の深さで選ぶ。Astra Parentは、分割しても重大な競合仮説や矛盾の統合判断が残り、Sol high / xhigh ParentとAdvisor・独立Reviewerでは補いにくい具体的な高難度に限定する。作業量や規模だけを理由にAstraを選ばず、mediumの失敗から順に各段階を再試行することも必須にしない。
 - rootが明示的にParentを兼務する場合は案件の系統に対応するworker・Advisor・Reviewerを使う。ただしrootからのLuna起動は兼務中もhigh固定で、`worker-luna-low` は独立して起動されたSol系Parent専用とする。
 - 設定値は各ロール定義に固定し、起動者が都度上書きしない。使用できるロールと起動方法は現在のツールの制約に従う。
+- 共通フローで担当交代に分岐した広域・抽象的な不足への別視点リトライでは、案件に適切な `parent-sol` / `parent-sol-high` / `parent-sol-xhigh` / `parent-astra` をrootが別個体として起動する。rootの直接回答と既存Parentの成果のどちらも対象とし、旧Parentの再利用やParent配下での別Parent起動で交代を代用しない。Advisor・Reviewer・assistant・workerを案件全体のParentの代わりに起動しない。狭域・具体的な修正では元のrootまたはParentが継続し、この交代用起動を行わない。
+- 履歴継承を制御できる起動APIでは、新担当に旧担当の全履歴を渡さず、必要な原文・根拠・権限を起動メッセージに明示する。`fork_turns` を指定できる場合は `none` を用い、固定ロール識別子を選ぶ。利用中のAPIにない引数や役割名を推測して使わない。該当Parentを確保できない場合は共通フローに従って不足を報告する。
 - セキュリティ観点の確認を委任するときは、担当に `~/.codex/common/security-review.md` を読むよう伝える。既読で変更がなければ再読不要。
 
 ## Workerの選択

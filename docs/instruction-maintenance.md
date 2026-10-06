@@ -36,7 +36,7 @@
 
 | 担当 | 起動時に受領する共通本文 | 追加で読む時点 |
 | --- | --- | --- |
-| root | グローバル入口から `team/flow.md` | 担当選択前に製品別 `common/team.md` |
+| root | グローバル入口から `team/flow.md` | 必要な仕事・委任内容を定め、外部担当の編成を選ぶ時に製品別 `common/team.md` |
 | Parent | 専用設定から `team/flow.md` と `team/coordination.md` | child起動前に製品別 `common/team.md` |
 | Reviewer | 専用設定から `team/flow.md`、`team/child.md`、`team/reviewer.md` | 委任された案件の資料 |
 | Worker・Advisor | 専用設定から `team/flow.md`、`team/child.md`、担当別本文 | 委任された作業に必要な資料 |

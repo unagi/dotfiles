@@ -5,14 +5,14 @@
 {{ include ".chezmoitemplates/agent/team/flow.md" }}
 
 ## 進め方（基本）
-- rootは依頼全体の担当を決める前に `~/.codex/common/team.md` を読む。既読で変更がなければ再読不要。Parent/assistant/worker/Advisor/Reviewerは専用ロールの導線に従う。
+- rootは上記フローに従って必要な仕事と委任内容を定め、外部担当を使う場合に `~/.codex/common/team.md` で編成・起動方法を確認する。既読で変更がなければ再読不要。Parent/assistant/worker/Advisor/Reviewerは専用ロールの導線に従う。
 - 担当確定後、許可された範囲で現状把握：`git status` / 差分確認 / 関連ファイル検索。
 - 開発共通ガイドを先に確認：`cat ~/.codex/common/development.md`。
 - 計画段階で予定する作業手段の実現性を確認し、「安全」の「computer-useの計画・実行制御」に従う。
 - プロジェクト言語の特定：`pyproject.toml` / `package.json` / `Makefile` 等を確認
   → 該当する言語別指示だけを読む（`cat ~/.codex/languages/java.md` / `cat ~/.codex/languages/node.md` / `cat ~/.codex/languages/python.md`）。
 - プロジェクト用指示ファイルの整備・更新・レビューを依頼された場合は、`cat ~/.codex/common/project-instructions-guideline.md` を参照する。
-- 委任・再検討・独立レビューを扱う前に `~/.codex/common/team.md` を読む。既読で変更がなければ再読不要。
+- 外部担当の起動前に、定めた担当範囲と責任に対応する識別子・権限・起動方法を `~/.codex/common/team.md` で確認する。既読で変更がなければ再読不要。
 - 変更後は必ず：lint/test（プロジェクト標準）→差分要約→コミット案。
 
 {{ include ".chezmoitemplates/agent/rules/caution-levels.md" }}
