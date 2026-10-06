@@ -55,11 +55,11 @@ flowchart TD
   Astra --> AR[reviewer-astra / medium]
 ```
 
-rootは原依頼の目的・必要成果・範囲・受入条件と残る仕事を先に整理する。固定条件や指定資料で充足を照合でき、新たな原因・成立性・方針の判断が残らない限定作業は直接扱える。外部の助けが必要な場合に委任内容を定め、製品別 `common/team.md` で編成を選ぶ。直接対応だけで完結するために編成表を先読みする必要はない。担当権限と読む順序の正本は [共通フロー](../.chezmoitemplates/agent/team/flow.md) とする。
+rootは原依頼の目的・必要成果・範囲・受入条件と残る仕事を先に整理する。固定条件や指定資料で充足を照合でき、新たな原因・成立性・方針の判断が残らない限定作業は直接扱える。外部の助けが必要な場合に委任内容を定め、製品別 `common/team.md` で編成を選ぶ。直接対応だけで完結するために編成表を先読みする必要はない。担当権限と読む順序の正本は [root運用](../.chezmoitemplates/agent/team/root.md) とする。
 
 Parentへ渡す定型的で負担の小さい案件はSol / medium、小〜中規模の案件はSol / highまたはxhighを基本にし、案件の規模ではなく全体判断の難しさが際立つ具体的な高難度案件ではAstra / lowを選ぶ。難度と作業量がともに大きい案件では、第三の編成を作らず、計画レビューとユーザー承認を経て実作業へ進む。
 
-Parentはrootの全履歴から分離されているため、履歴分離だけを目的にworkerを起動しない。起動・引継ぎ・検査・再依頼を含めても完了時間または実効費用の改善が見込める独立した作業を委任する。rootのLuna補助はhigh固定。明示的なParent兼務時もLuna lowは使わない。Sol / high・xhigh ParentはLuna workerを基本とし、方針確定・境界明確・受入容易な局所作業ならSol / low workerも選べる。Astra ParentはSol low/highを使う。細部は [チーム連携](../.chezmoitemplates/agent/team/coordination.md) と [Codexチーム設定](../dot_codex/common/team.md.tmpl) を参照する。
+Parentはrootの全履歴から分離されているため、履歴分離だけを目的にworkerを起動しない。起動・引継ぎ・検査・再依頼を含めても完了時間または実効費用の改善が見込める独立した作業を委任する。rootのLuna補助はhigh固定。明示的なParent兼務時もLuna lowは使わない。Sol / high・xhigh ParentはLuna workerを基本とし、方針確定・境界明確・受入容易な局所作業ならSol / low workerも選べる。Astra ParentはSol low/highを使う。細部は [企画・統合](../.chezmoitemplates/agent/team/planning.md) と [Codexチーム設定](../dot_codex/common/team.md.tmpl) を参照する。
 
 ## 異なる二つの品質基準
 
@@ -70,13 +70,13 @@ Parentはrootの全履歴から分離されているため、履歴分離だけ�
 
 Parentはchildの受入時に要求を再解釈しない。指示が悪ければ指示の修正として扱う。Reviewerは細かな指摘数を成果にせず、結論や利用可能性を損なう問題に集中する。
 
-Parentがユーザーへ返す計画・最終成果は独立レビューを経る。計画を別途返さず完結する依頼に形式的な二段階レビューは追加しない。childの途中報告、rootの限定作業は一律対象外。AdvisorとReviewerは同じ設定でも別個体とし、助言履歴による誘導を避ける。見解相違が解消しなければParentがユーザーに確認する。ゲートの正本は [共通フロー](../.chezmoitemplates/agent/team/flow.md) とする。
+Parentがユーザーへ返す計画・最終成果は独立レビューを経る。計画を別途返さず完結する依頼に形式的な二段階レビューは追加しない。childの途中報告、rootの限定作業は一律対象外。AdvisorとReviewerは同じ設定でも別個体とし、助言履歴による誘導を避ける。見解相違が解消しなければParentがユーザーに確認する。レビューの進行は [企画・統合](../.chezmoitemplates/agent/team/planning.md)、共通境界は [原理原則](../.chezmoitemplates/agent/rules/core.md) を正本とする。
 
 ## 不足・不満への対応
 
 本人が正しい・十分だと判断していても、不足・不満には指摘の射程と具体性に応じて対応する。狭域・具体的に改善点が絞られている場合は、対応速度を重視して元担当が修正する。rootの直接回答はroot、Parentの成果は元Parentが継続し、説明だけで修正を終えない。修正の難度でこの分岐を変更しない。
 
-広域・抽象的で具体的な改善点を特定しきれない場合は、別個体へ交代し、視点を変えて原依頼への回答を抜本的に再構成する。本人の誤りの認定や不満の妥当性の判定を待たず、前回答の正しさを新担当の前提にしない。広域指摘を言換えに縮小して交代を避けず、射程・具体性を判断できない場合は指摘範囲を未確定として確認する。原依頼・対象回答・指摘原文・確認済みの根拠と権限を切り出して渡す。詳細は [共通フロー](../.chezmoitemplates/agent/team/flow.md) と [チーム連携](../.chezmoitemplates/agent/team/coordination.md) が正本である。
+広域・抽象的で具体的な改善点を特定しきれない場合は、別個体へ交代し、視点を変えて原依頼への回答を抜本的に再構成する。本人の誤りの認定や不満の妥当性の判定を待たず、前回答の正しさを新担当の前提にしない。広域指摘を言換えに縮小して交代を避けず、射程・具体性を判断できない場合は指摘範囲を未確定として確認する。原依頼・対象回答・指摘原文・確認済みの根拠と権限を切り出して渡す。詳細は [root運用](../.chezmoitemplates/agent/team/root.md) と [企画・統合](../.chezmoitemplates/agent/team/planning.md) が正本である。
 
 担当交代するCodex案件ではrootが適切な別Parentを起動する。旧Parentが配下に別Parentを起動する二重の担当構造にはせず、新Parentの成果は別個体のReviewerが評価する。Advisorだけで修復を終えたり、Reviewerを作成担当にしたりしない。固定ロールと実在する起動方法は [Codexチーム設定](../dot_codex/common/team.md.tmpl) で確認する。
 
@@ -102,8 +102,11 @@ Parentがユーザーへ返す計画・最終成果は独立レビューを経�
 
 ## 正本
 
-- [共通フロー](../.chezmoitemplates/agent/team/flow.md)：担当選択・レビュー・承認の順序
-- [チーム連携](../.chezmoitemplates/agent/team/coordination.md)：rootとParentの企画・委任・child受入・記録
+- [原理原則](../.chezmoitemplates/agent/rules/core.md)：全担当の常設境界
+- [root運用](../.chezmoitemplates/agent/team/root.md)：担当選択・引継ぎ・不足対応・承認仲介
+- [企画・統合](../.chezmoitemplates/agent/team/planning.md)：Parentの要求整理・設計・委任・child受入・検証計画・レビュー
+- [実作業導線](../.chezmoitemplates/agent/engineering/implementation.md)：workerと自ら実作業するParent/rootの条件読込
+- [操作手順](../.chezmoitemplates/agent/rules/operations.md)：操作・記録前の条件読込
 - [Codexチーム設定](../dot_codex/common/team.md.tmpl)：製品別の編成表・識別子・モデル対応
 - [Worker](../.chezmoitemplates/agent/team/worker.md)、[Advisor](../.chezmoitemplates/agent/team/advisor.md)、[Reviewer](../.chezmoitemplates/agent/team/reviewer.md)：担当別規範
 - [設定と決定根拠](codex-agent-model-selection.md)：暫定設定・変遷・受入ケース

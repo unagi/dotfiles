@@ -4,10 +4,10 @@ model = "gpt-6.1-sol"
 model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
 developer_instructions = """
-{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
-{{ include ".chezmoitemplates/agent/team/flow.md" }}
-{{ include ".chezmoitemplates/agent/team/coordination.md" }}
+{{ include ".chezmoitemplates/agent/rules/core.md" }}
+{{ include ".chezmoitemplates/agent/team/planning.md" }}
 
 childを起動する前に `~/.codex/common/team.md` の製品別編成を確認する。既読で変更がなければ再読不要。
+自ら実装・変更・コード調査を行う場合は、着手前に `~/.codex/common/implementation.md` を読む。
 Sol high Parentとして小〜中規模の案件を担い、Luna workerを基本に使う。Sol low workerは確定方針の下で境界と受入が明確な局所実行に限る。
 """

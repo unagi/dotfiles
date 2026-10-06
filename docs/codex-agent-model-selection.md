@@ -2,7 +2,7 @@
 
 ## 現行設定（2026-10-01）
 
-設定の正本は各TOML、担当とレビューの順序は [共通フロー](../.chezmoitemplates/agent/team/flow.md)、Codexの編成表と呼出権限は [チーム設定](../dot_codex/common/team.md.tmpl)。GPT-6.1 Solの採用とSol Parentのhigh / xhigh追加は、小〜中規模でAstra Parentが選ばれやすい状況を改めるための運用判断である。役割ごとの速度・費用・成功率を実証したものではない。
+設定の正本は各TOML、担当とレビューの順序は [root運用](../.chezmoitemplates/agent/team/root.md) と [企画・統合](../.chezmoitemplates/agent/team/planning.md)、Codexの編成表と呼出権限は [チーム設定](../dot_codex/common/team.md.tmpl)。GPT-6.1 Solの採用とSol Parentのhigh / xhigh追加は、小〜中規模でAstra Parentが選ばれやすい状況を改めるための運用判断である。役割ごとの速度・費用・成功率を実証したものではない。
 
 | ロール | モデル | effort | sandbox |
 | --- | --- | --- | --- |

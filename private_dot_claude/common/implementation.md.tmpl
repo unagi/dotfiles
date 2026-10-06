@@ -1,0 +1,20 @@
+# 実装作業
+
+{{ include ".chezmoitemplates/agent/engineering/implementation.md" }}
+
+## 開発ガイドの場所
+- 開発共通ガイド: `~/.claude/common/development.md`
+- 言語別ガイド: Java `~/.claude/languages/java.md`、Python `~/.claude/languages/python.md`、Node.js `~/.claude/languages/node.md`。対象に該当するものだけ読む。
+- 指示文書の整備・更新・レビューでは `~/.claude/common/project-instructions-guideline.md` を読む。
+
+## Claude Codeの実行手順
+
+### Bash実行
+- 連結コマンド（`;` `&&` `||`）を避け、独立したBash呼び出しに分割する。Claude Codeの権限システムでは連結コマンドが一単位として評価され、個別allowルールが無効になる場合がある。
+- カレントディレクトリは常にワークスペース内に維持する。`-C /path` や絶対パス指定が必要になった場合は、まず `cd` で作業場所を正す。
+
+### 権限プロンプトと失敗時
+- 権限プロンプトで拒否されたら即停止し、コマンド変形や別経路で回避しない。
+- 恒常的に必要な権限は `update-config` skill または `.claude/settings.json` で正規に追加する。連結コマンドで個別allowルールを無効化する迂回はしない。
+- 実装がうまくいかない場合は新規ファイル追加に逃げず、原因を見直す。同じフィードバックが2回来たらアプローチを変え、対症療法を繰り返さない。
+- 失敗への対応方針は新規ファイル追加ではなく既存ファイルの修正を優先する。実行開始後に想定外で止まった場合はその方針を自律実行せず、即時停止して必要な対応として報告する。

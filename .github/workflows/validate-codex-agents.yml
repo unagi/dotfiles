@@ -71,11 +71,10 @@ jobs:
               instructions = agent['developer_instructions']
               actual = set(include.findall(instructions))
               required = {
-                  '.chezmoitemplates/agent/rules/hypothesis.md',
-                  '.chezmoitemplates/agent/team/flow.md',
+                  '.chezmoitemplates/agent/rules/core.md',
               }
               if kind == 'parent':
-                  required.add('.chezmoitemplates/agent/team/coordination.md')
+                  required.add('.chezmoitemplates/agent/team/planning.md')
               else:
                   required.add('.chezmoitemplates/agent/team/child.md')
                   if kind != 'assistant':
@@ -90,8 +89,7 @@ jobs:
               kind = path.name.removesuffix('.md.tmpl')
               actual = set(include.findall(path.read_text()))
               required = {
-                  '.chezmoitemplates/agent/rules/hypothesis.md',
-                  '.chezmoitemplates/agent/team/flow.md',
+                  '.chezmoitemplates/agent/rules/core.md',
                   '.chezmoitemplates/agent/team/child.md',
               }
               if kind != 'assistant':

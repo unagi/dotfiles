@@ -32,14 +32,14 @@
 .codex/tmp
 .codex/version.json
 
-/README.md
-/LICENSE
-/AGENTS.md
-/GoogleIME
-/.github
+README.md
+LICENSE
+AGENTS.md
+GoogleIME
+.github
 
 # リポジトリ保守用ドキュメント
-/docs
+docs
 
 # エージェントの中間作業領域（配布しない）
-/.agent-tmp
+.agent-tmp

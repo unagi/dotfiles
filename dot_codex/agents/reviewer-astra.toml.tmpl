@@ -4,8 +4,7 @@ model = "gpt-6-astra"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
 developer_instructions = """
-{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
-{{ include ".chezmoitemplates/agent/team/flow.md" }}
+{{ include ".chezmoitemplates/agent/rules/core.md" }}
 {{ include ".chezmoitemplates/agent/team/child.md" }}
 {{ include ".chezmoitemplates/agent/team/reviewer.md" }}
 """

@@ -52,7 +52,7 @@
 
 ## computer-useの計画・実行制御
 
-規則の正本は [共通安全規約](../.chezmoitemplates/agent/rules/safety.md) とし、CodexのAGENTS.mdとClaudeのCLAUDE.mdへ取り込む。ブラウザ・アプリの画面操作には、ツール名や切り替え理由によらず次の境界を適用する。
+規則の正本は [原理原則](../.chezmoitemplates/agent/rules/core.md) と [操作手順](../.chezmoitemplates/agent/rules/operations.md) とし、原則を全担当へ直接配布し、詳細は両製品common/operations.mdを該当行為前に読む。ブラウザ・アプリの画面操作には、ツール名や切り替え理由によらず次の境界を適用する。
 
 | 操作 | 許可の条件 |
 |------|------------|

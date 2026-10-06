@@ -4,10 +4,11 @@ model = "gpt-6-luna"
 model_reasoning_effort = "low"
 sandbox_mode = "workspace-write"
 developer_instructions = """
-{{ include ".chezmoitemplates/agent/rules/hypothesis.md" }}
-{{ include ".chezmoitemplates/agent/team/flow.md" }}
+{{ include ".chezmoitemplates/agent/rules/core.md" }}
 {{ include ".chezmoitemplates/agent/team/child.md" }}
 {{ include ".chezmoitemplates/agent/team/worker.md" }}
+
+コード調査または変更を始める前に `~/.codex/common/implementation.md` を読み、対象別ガイドも確認する。
 
 明確な指示と容易に検査できる受入条件を前提に、迅速に実行する。
 """

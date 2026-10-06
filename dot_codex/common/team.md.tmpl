@@ -1,7 +1,5 @@
 # Codexチームの編成
 
-{{ include ".chezmoitemplates/agent/team/coordination.md" }}
-
 ## 起動者とロール
 
 | 起動者・用途 | ロール識別子 | モデル・effort |
@@ -18,16 +16,11 @@
 | Astra系Parentの相談・独立レビュー | `advisor-astra` / `reviewer-astra` | Astra medium |
 
 - Parentは他のParentを起動しない。Luna Parent、Sol medium Parent配下のSol worker、Sol系Parent配下のSol high worker、Astra系Parent配下のLuna workerは用意しない。
-- 小〜中規模の案件はSol high / xhigh Parentを基本とし、必要な全体推論の深さで選ぶ。Astra Parentは、分割しても重大な競合仮説や矛盾の統合判断が残り、Sol high / xhigh ParentとAdvisor・独立Reviewerでは補いにくい具体的な高難度に限定する。作業量や規模だけを理由にAstraを選ばず、mediumの失敗から順に各段階を再試行することも必須にしない。
-- rootが明示的にParentを兼務する場合は案件の系統に対応するworker・Advisor・Reviewerを使う。ただしrootからのLuna起動は兼務中もhigh固定で、`worker-luna-low` は独立して起動されたSol系Parent専用とする。
-- 設定値は各ロール定義に固定し、起動者が都度上書きしない。使用できるロールと起動方法は現在のツールの制約に従う。
-- 共通フローで担当交代に分岐した広域・抽象的な不足への別視点リトライでは、案件に適切な `parent-sol` / `parent-sol-high` / `parent-sol-xhigh` / `parent-astra` をrootが別個体として起動する。rootの直接回答と既存Parentの成果のどちらも対象とし、旧Parentの再利用やParent配下での別Parent起動で交代を代用しない。Advisor・Reviewer・assistant・workerを案件全体のParentの代わりに起動しない。狭域・具体的な修正では元のrootまたはParentが継続し、この交代用起動を行わない。
-- 履歴継承を制御できる起動APIでは、新担当に旧担当の全履歴を渡さず、必要な原文・根拠・権限を起動メッセージに明示する。`fork_turns` を指定できる場合は `none` を用い、固定ロール識別子を選ぶ。利用中のAPIにない引数や役割名を推測して使わない。該当Parentを確保できない場合は共通フローに従って不足を報告する。
-- セキュリティ観点の確認を委任するときは、担当に `~/.codex/common/security-review.md` を読むよう伝える。既読で変更がなければ再読不要。
-
-## Workerの選択
-
-- Luna lowは指示と受入条件が明確で、結果の検査が容易な仕事に使う。曖昧な入力や照合の多さなどで手戻りが懸念される場合はLuna highを選ぶ。指示の不足は先に直す。
-- Sol high / xhigh ParentもLunaを基本とする。方針が確定し、境界が明確で受入が容易な局所実行にはSol lowを選べる。難しい局所推論をSol lowへ渡さず、難しい作業の並列化を一般的な選択条件としない。
-- Sol lowは確定方針の下の局所実行、Sol highは境界が明確でも難しい因果分析や矛盾解消などの局所推論が残る場合に使う。作業量の多さやノイジーな指示だけでhighにしない。
-- workerの選択は起動・引継ぎ・検査・再依頼・再実行を含む完了までの時間と実効費用で判断する。effort差だけで節約を保証せず、手戻りを防ぐためのhigh使用を単価だけを理由に避けない。
+- 小〜中規模の案件はSol high / xhigh Parentを基本とし、全体推論の深さで選ぶ。Astra Parentは分割後にも重大な競合仮説や矛盾の統合判断が残り、Sol high / xhigh ParentとAdvisor・独立Reviewerでは補いにくい具体的な高難度に限定する。作業量だけでAstraを選ばず、mediumの失敗から段階的に昇格することも必須にしない。
+- rootがParentを兼務する場合は案件の系統に合うworker・Advisor・Reviewerを使う。rootの参照補助 `assistant-luna` はhigh固定で、`worker-luna-low` は独立して起動されたSol系Parent専用とする。
+- Luna lowは指示と受入条件が明確で、結果を容易に検査できる仕事に使う。曖昧な入力、照合の多さ、手戻りの懸念があればLuna highを選ぶ。Sol high / xhigh ParentもLuna workerを基本とする。
+- 方針確定後の境界が明確で受入が容易な局所実行にはSol low workerを選べる。難しい因果分析や矛盾解消などの局所推論が残る場合はSol high workerを使う。作業量の多さやノイジーな指示だけでhighにしない。
+- workerは起動・引継ぎ・検査・再依頼・再実行まで含む完了時間と実効費用で選ぶ。effort差だけで節約を保証せず、手戻りを防ぐhigh使用を単価だけで避けない。
+- 起動APIが履歴継承を制御できる場合、新担当には必要な原文・根拠・権限を明示し、全履歴は渡さない。`fork_turns` を指定できる場合は `none` を使う。利用中APIにない引数や役割名を推測しない。
+- ロールの設定値は各TOMLを正本とし、起動時にモデルやeffortを上書きしない。ツール上で指定したロールが利用できない場合は、不足と影響を報告する。
+- セキュリティ観点の確認を委任するときは、`~/.codex/common/security-review.md` を読むよう担当へ伝える。

@@ -1,0 +1,16 @@
+# 実装作業
+
+{{ include ".chezmoitemplates/agent/engineering/implementation.md" }}
+
+{{ include ".chezmoitemplates/agent/engineering/codex-reference.md" }}
+
+## 開発ガイドの場所
+- 開発共通ガイド: `~/.codex/common/development.md`
+- 言語別ガイド: Java `~/.codex/languages/java.md`、Python `~/.codex/languages/python.md`、Node.js `~/.codex/languages/node.md`。対象に該当するものだけ読む。
+- 指示文書の整備・更新・レビューでは `~/.codex/common/project-instructions-guideline.md` を読む。
+
+## Codex CLI固有の実行条件
+- ネットワークが必要なコマンド（curl/wget、git fetch/push、gh、npm install、pip、uv sync等）は実行前に昇格を求め、通常実行でネットワーク利用できると仮定しない。ファイル書き込みは作業ディレクトリまたは `$TMPDIR` 内を基本とし、外部への書き込みが必要なら事前に昇格を求める。
+- ネットワーク・権限エラー後のリトライや別経路回避はしない。`common/operations.md` に従って停止し、必要な権限と影響を説明する。
+- 今のスレッドで作成した専用作業ブランチへのcommitは個別確認不要。`main` 等の持続的ブランチへのcommit、push、PR作成、PRコメントは事前にユーザー承認を得る。
+- Web参照の方法と技術情報の確認条件は、実装作業中も `~/.codex/common/technical-reference.md` を正本として、参照前に確認する。
