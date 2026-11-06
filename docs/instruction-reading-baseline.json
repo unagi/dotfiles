@@ -1,0 +1,1348 @@
+{
+  "schema_version": 1,
+  "measurement_version": 1,
+  "cases": [
+    {
+      "id": "initial-dot_codex-advisor-astra",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/advisor-astra.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4671,
+      "unique_chars": 4671,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/advisor.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/advisor-astra.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-advisor-sol",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/advisor-sol.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4671,
+      "unique_chars": 4671,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/advisor.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/advisor-sol.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-assistant-luna",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/assistant-luna.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4507,
+      "unique_chars": 4507,
+      "duplicate_chars": 0,
+      "file_reads": 4,
+      "unique_files": 4,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/assistant-luna.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-assistant-terra",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/assistant-terra.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4515,
+      "unique_chars": 4515,
+      "duplicate_chars": 0,
+      "file_reads": 4,
+      "unique_files": 4,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/assistant-terra.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-parent-astra",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/parent-astra.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 6035,
+      "unique_chars": 6035,
+      "duplicate_chars": 0,
+      "file_reads": 4,
+      "unique_files": 4,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/planning.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/parent-astra.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-parent-sol-high",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/parent-sol-high.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 6071,
+      "unique_chars": 6071,
+      "duplicate_chars": 0,
+      "file_reads": 4,
+      "unique_files": 4,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/planning.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/parent-sol-high.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-parent-sol-xhigh",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/parent-sol-xhigh.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 6074,
+      "unique_chars": 6074,
+      "duplicate_chars": 0,
+      "file_reads": 4,
+      "unique_files": 4,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/planning.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/parent-sol-xhigh.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-parent-sol",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/parent-sol.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 6090,
+      "unique_chars": 6090,
+      "duplicate_chars": 0,
+      "file_reads": 4,
+      "unique_files": 4,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/planning.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/parent-sol.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-reviewer-astra",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/reviewer-astra.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4917,
+      "unique_chars": 4917,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/reviewer.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/reviewer-astra.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-reviewer-sol",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/reviewer-sol.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4917,
+      "unique_chars": 4917,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/reviewer.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/reviewer-sol.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-worker-luna-high",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/worker-luna-high.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4865,
+      "unique_chars": 4865,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/worker.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/worker-luna-high.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-worker-luna-low",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/worker-luna-low.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4868,
+      "unique_chars": 4868,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/worker.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/worker-luna-low.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-worker-sol-high",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/worker-sol-high.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4879,
+      "unique_chars": 4879,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/worker.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/worker-sol-high.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-worker-sol-low",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/worker-sol-low.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4859,
+      "unique_chars": 4859,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/worker.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/worker-sol-low.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-dot_codex-worker-terra",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/worker-terra.toml.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4951,
+      "unique_chars": 4951,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/worker.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/worker-terra.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-private_dot_claude-advisor",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "private_dot_claude/agents/advisor.md.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4674,
+      "unique_chars": 4674,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/advisor.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": "private_dot_claude/agents/advisor.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-private_dot_claude-assistant",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "private_dot_claude/agents/assistant.md.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4490,
+      "unique_chars": 4490,
+      "duplicate_chars": 0,
+      "file_reads": 4,
+      "unique_files": 4,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": "private_dot_claude/agents/assistant.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-private_dot_claude-reviewer",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "private_dot_claude/agents/reviewer.md.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4920,
+      "unique_chars": 4920,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/reviewer.md",
+          "occurrences": 1
+        },
+        {
+          "path": "private_dot_claude/agents/reviewer.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "initial-private_dot_claude-worker",
+      "conditions": "専用指示のみ。実行環境によるグローバル指示・会話履歴の継承は含めない。",
+      "reads": [
+        {
+          "path": "private_dot_claude/agents/worker.md.tmpl",
+          "reason": "独立起動時の専用本文"
+        }
+      ],
+      "total_chars": 4839,
+      "unique_chars": 4839,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/worker.md",
+          "occurrences": 1
+        },
+        {
+          "path": "private_dot_claude/agents/worker.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-root-direct",
+      "conditions": "固定条件による限定回答。委任・コード調査・操作・保存なし。",
+      "reads": [
+        {
+          "path": "dot_codex/AGENTS.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "dot_codex/common/root.md.tmpl",
+          "reason": "案件開始時"
+        }
+      ],
+      "total_chars": 5986,
+      "unique_chars": 5986,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/root.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/AGENTS.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/root.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-root-delegate",
+      "conditions": "委任と受領。Parent兼務・操作・保存なし。",
+      "reads": [
+        {
+          "path": "dot_codex/AGENTS.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "dot_codex/common/root.md.tmpl",
+          "reason": "案件開始時"
+        },
+        {
+          "path": "dot_codex/common/team.md.tmpl",
+          "reason": "委任先の選択"
+        }
+      ],
+      "total_chars": 8363,
+      "unique_chars": 8363,
+      "duplicate_chars": 0,
+      "file_reads": 6,
+      "unique_files": 6,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/root.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/AGENTS.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/root.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/team.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-parent-plan",
+      "conditions": "企画・統合とchild選択。API提案・実装・操作・保存なし。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/parent-sol.toml.tmpl",
+          "reason": "専用本文"
+        },
+        {
+          "path": "dot_codex/common/team.md.tmpl",
+          "reason": "委任先の選択"
+        }
+      ],
+      "total_chars": 8467,
+      "unique_chars": 8467,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/planning.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/parent-sol.toml.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/team.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-assistant-research",
+      "conditions": "指定された資料の参照と本文回答のみ。外部取得・操作・保存・API提案なし。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/assistant-luna.toml.tmpl",
+          "reason": "専用本文"
+        }
+      ],
+      "total_chars": 4507,
+      "unique_chars": 4507,
+      "duplicate_chars": 0,
+      "file_reads": 4,
+      "unique_files": 4,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/assistant-luna.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-advisor-consult",
+      "conditions": "指定された資料の参照と本文回答のみ。外部取得・操作・保存・API提案なし。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/advisor-sol.toml.tmpl",
+          "reason": "専用本文"
+        }
+      ],
+      "total_chars": 4671,
+      "unique_chars": 4671,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/advisor.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/advisor-sol.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-reviewer-general",
+      "conditions": "指定された資料の参照と本文回答のみ。外部取得・操作・保存・API提案なし。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/reviewer-sol.toml.tmpl",
+          "reason": "専用本文"
+        }
+      ],
+      "total_chars": 4917,
+      "unique_chars": 4917,
+      "duplicate_chars": 0,
+      "file_reads": 5,
+      "unique_files": 5,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/reviewer.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/reviewer-sol.toml.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-worker-code",
+      "conditions": "Node.jsの既定仕様内のコード変更と関連テスト・lint。テスト変更、Git変更操作、API調査、中間保存なし。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/worker-luna-low.toml.tmpl",
+          "reason": "専用本文"
+        },
+        {
+          "path": "dot_codex/common/implementation.md.tmpl",
+          "reason": "変更前"
+        },
+        {
+          "path": "dot_codex/common/development.md.tmpl",
+          "reason": "開発共通"
+        },
+        {
+          "path": "dot_codex/common/investigation.md.tmpl",
+          "reason": "関連コードの調査"
+        },
+        {
+          "path": "dot_codex/common/tdd.md.tmpl",
+          "reason": "関連テスト実行"
+        },
+        {
+          "path": "dot_codex/common/lint.md.tmpl",
+          "reason": "lint実行"
+        },
+        {
+          "path": "dot_codex/languages/node.md.tmpl",
+          "reason": "対象言語"
+        }
+      ],
+      "total_chars": 8959,
+      "unique_chars": 8959,
+      "duplicate_chars": 0,
+      "file_reads": 18,
+      "unique_files": 18,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/engineering/codex-reference.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/development.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/implementation.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/investigation.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/languages/node.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/lint.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/tdd.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/worker.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/worker-luna-low.toml.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/development.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/implementation.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/investigation.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/lint.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/tdd.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/languages/node.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-worker-document",
+      "conditions": "指示文書の変更と内容照合。コード変更・テスト・lint・Git変更操作・中間保存なし。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/worker-luna-low.toml.tmpl",
+          "reason": "専用本文"
+        },
+        {
+          "path": "dot_codex/common/implementation.md.tmpl",
+          "reason": "変更前"
+        },
+        {
+          "path": "dot_codex/common/development.md.tmpl",
+          "reason": "開発共通"
+        },
+        {
+          "path": "dot_codex/common/project-instructions-guideline.md.tmpl",
+          "reason": "指示文書の整備"
+        }
+      ],
+      "total_chars": 8477,
+      "unique_chars": 8477,
+      "duplicate_chars": 0,
+      "file_reads": 12,
+      "unique_files": 12,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/engineering/codex-reference.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/development.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/implementation.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/project-instructions-guideline.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/worker.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/worker-luna-low.toml.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/development.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/implementation.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/project-instructions-guideline.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-worker-ui",
+      "conditions": "Node.jsのUI変更と関連検証、画面操作による表示・操作確認。API調査・Git変更操作・中間保存なし。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/worker-terra.toml.tmpl",
+          "reason": "専用本文"
+        },
+        {
+          "path": "dot_codex/common/implementation.md.tmpl",
+          "reason": "変更前"
+        },
+        {
+          "path": "dot_codex/common/development.md.tmpl",
+          "reason": "開発共通"
+        },
+        {
+          "path": "dot_codex/common/investigation.md.tmpl",
+          "reason": "関連コードの調査"
+        },
+        {
+          "path": "dot_codex/common/tdd.md.tmpl",
+          "reason": "関連テスト実行"
+        },
+        {
+          "path": "dot_codex/common/lint.md.tmpl",
+          "reason": "lint実行"
+        },
+        {
+          "path": "dot_codex/languages/node.md.tmpl",
+          "reason": "対象言語"
+        },
+        {
+          "path": "dot_codex/common/design.md.tmpl",
+          "reason": "UI制作"
+        },
+        {
+          "path": "dot_codex/common/operations.md.tmpl",
+          "reason": "画面操作前"
+        }
+      ],
+      "total_chars": 13578,
+      "unique_chars": 13578,
+      "duplicate_chars": 0,
+      "file_reads": 22,
+      "unique_files": 22,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/engineering/codex-reference.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/design.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/development.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/implementation.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/investigation.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/languages/node.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/lint.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/engineering/tdd.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/rules/operations.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/worker.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/worker-terra.toml.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/design.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/development.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/implementation.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/investigation.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/lint.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/operations.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/tdd.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/languages/node.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "codex-reviewer-design",
+      "conditions": "提供された画面資料の批評。操作性は資料で確認できる範囲のみ。画面操作・保存なし。",
+      "reads": [
+        {
+          "path": "dot_codex/agents/reviewer-sol.toml.tmpl",
+          "reason": "専用本文"
+        },
+        {
+          "path": "dot_codex/common/design.md.tmpl",
+          "reason": "デザイン批評前"
+        }
+      ],
+      "total_chars": 6821,
+      "unique_chars": 6821,
+      "duplicate_chars": 0,
+      "file_reads": 7,
+      "unique_files": 7,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/engineering/design.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/child.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/reviewer.md",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/agents/reviewer-sol.toml.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "dot_codex/common/design.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    },
+    {
+      "id": "claude-root-plan",
+      "conditions": "案件開始時の必須読込。担当選択・実作業・操作・保存なし。",
+      "reads": [
+        {
+          "path": "private_dot_claude/CLAUDE.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "private_dot_claude/common/root.md.tmpl",
+          "reason": "案件開始時"
+        },
+        {
+          "path": "private_dot_claude/common/planning.md.tmpl",
+          "reason": "Parent兼務"
+        }
+      ],
+      "total_chars": 10935,
+      "unique_chars": 8937,
+      "duplicate_chars": 1998,
+      "file_reads": 8,
+      "unique_files": 7,
+      "files": [
+        {
+          "path": ".chezmoitemplates/agent/rules/core.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/interface.md",
+          "occurrences": 2
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/planning.md",
+          "occurrences": 1
+        },
+        {
+          "path": ".chezmoitemplates/agent/team/root.md",
+          "occurrences": 1
+        },
+        {
+          "path": "private_dot_claude/CLAUDE.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "private_dot_claude/common/planning.md.tmpl",
+          "occurrences": 1
+        },
+        {
+          "path": "private_dot_claude/common/root.md.tmpl",
+          "occurrences": 1
+        }
+      ]
+    }
+  ]
+}

@@ -114,7 +114,7 @@ chezmoi status
 ├── README.md                       # このファイル
 ├── dot_codex/                      # ~/.codex/ にデプロイされる
 │   ├── AGENTS.md.tmpl              # グローバル指示テンプレート
-│   ├── agents/                     # Codex custom agents（GPT-6系、判断負担に応じた13ロール）
+│   ├── agents/                     # Codex custom agents（GPT-6系、判断負担に応じた15ロール）
 │   ├── common/
 │   │   ├── development.md.tmpl
 │   │   ├── project-instructions-guideline.md.tmpl
@@ -143,7 +143,7 @@ chezmoi status
 以下は人向けの資料です。全体像をアウトラインと概念図で説明し、詳細は対応するエージェント向け指示・テンプレートへリンクしています。
 
 - [Codexサブエージェントの全体像と設計コンセプト](docs/codex-subagents.md)：役割の関係図、依頼から完了までの流れ、原文引継ぎと品質基準の分離
-- [現行のエージェント編成・モデル設定](docs/codex-agent-model-selection.md)：全13ロールの設定、選択表、移行記録
+- [現行のエージェント編成・モデル設定](docs/codex-agent-model-selection.md)：全15ロールの設定、選択表、移行記録
 
 ## セキュリティ
 
@@ -187,3 +187,11 @@ chezmoi apply --force
 ## ライセンス
 
 MIT License - 詳細は [LICENSE](LICENSE) を参照
+
+## Web・UI/UXデザイン
+
+[デザインガイドラインの位置づけ](docs/design-guidelines.md)と[共有正本](.chezmoitemplates/agent/engineering/design.md)を参照。両製品の `common/design.md` として、企画・制作・批評の前に必要な担当が読む。
+
+## 指示の保守と読込量
+
+[メンテナンス規約](docs/instruction-maintenance.md)に従い、`python3 scripts/measure-instructions.py` で基準値と比較する。[今回の整理結果](docs/instruction-reading-results.md)、[委任の記入例](docs/agent-interface-examples.md)を参照。旧市場データ台帳は[過去記録](docs/market-data-sources-history.md)として保存し、配布しない。

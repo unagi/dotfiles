@@ -9,6 +9,10 @@ on:
       - '.chezmoidata*'
       - '.chezmoidata/**'
       - '.github/workflows/validate-codex-agents.yml'
+      - 'scripts/**'
+      - 'docs/instruction-reading-*.json'
+      - 'docs/instruction-maintenance.md'
+      - '.chezmoiignore'
   push:
     paths:
       - 'dot_codex/**'
@@ -17,6 +21,10 @@ on:
       - '.chezmoidata*'
       - '.chezmoidata/**'
       - '.github/workflows/validate-codex-agents.yml'
+      - 'scripts/**'
+      - 'docs/instruction-reading-*.json'
+      - 'docs/instruction-maintenance.md'
+      - '.chezmoiignore'
   workflow_dispatch:
 
 permissions:
@@ -33,6 +41,20 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+      - name: Test instruction measurement
+        run: python3 -B -m unittest discover -s scripts -p 'test_*.py'
+      - name: Report instruction reading size
+        run: |
+          python3 scripts/measure-instructions.py > "$RUNNER_TEMP/instruction-reading.md"
+          cat "$RUNNER_TEMP/instruction-reading.md" >> "$GITHUB_STEP_SUMMARY"
+          python3 scripts/measure-instructions.py --format json > "$RUNNER_TEMP/instruction-reading.json"
+      - name: Upload instruction reading report
+        uses: actions/upload-artifact@v4
+        with:
+          name: instruction-reading
+          path: |
+            ${{ runner.temp }}/instruction-reading.md
+            ${{ runner.temp }}/instruction-reading.json
       - name: Validate team policy in source
         shell: python
         run: |
@@ -50,11 +72,13 @@ jobs:
               'worker-luna-high': ('gpt-6-luna', 'high', 'worker', 'workspace-write'),
               'worker-sol-low': ('gpt-6.1-sol', 'low', 'worker', 'workspace-write'),
               'worker-sol-high': ('gpt-6.1-sol', 'high', 'worker', 'workspace-write'),
+              'worker-terra': ('gpt-6.1-terra', 'medium', 'worker', 'workspace-write'),
               'advisor-sol': ('gpt-6.1-sol', 'xhigh', 'advisor', 'read-only'),
               'advisor-astra': ('gpt-6-astra', 'medium', 'advisor', 'read-only'),
               'reviewer-sol': ('gpt-6.1-sol', 'xhigh', 'reviewer', 'read-only'),
               'reviewer-astra': ('gpt-6-astra', 'medium', 'reviewer', 'read-only'),
               'assistant-luna': ('gpt-6-luna', 'high', 'assistant', 'read-only'),
+              'assistant-terra': ('gpt-6.1-terra', 'medium', 'assistant', 'read-only'),
           }
           found = set()
           include = re.compile(r'{{\s*include "([^"]+)"\s*}}')
@@ -72,6 +96,7 @@ jobs:
               actual = set(include.findall(instructions))
               required = {
                   '.chezmoitemplates/agent/rules/core.md',
+                  '.chezmoitemplates/agent/team/interface.md',
               }
               if kind == 'parent':
                   required.add('.chezmoitemplates/agent/team/planning.md')
@@ -90,11 +115,24 @@ jobs:
               actual = set(include.findall(path.read_text()))
               required = {
                   '.chezmoitemplates/agent/rules/core.md',
+                  '.chezmoitemplates/agent/team/interface.md',
                   '.chezmoitemplates/agent/team/child.md',
               }
               if kind != 'assistant':
                   required.add('.chezmoitemplates/agent/team/' + kind + '.md')
               assert actual == required, (path, actual)
+          for product in ('dot_codex', 'private_dot_claude'):
+              design = source / product / 'common/design.md.tmpl'
+              assert include.findall(design.read_text()) == ['.chezmoitemplates/agent/engineering/design.md'], design
+              for entry in ('root', 'planning'):
+                  path = source / product / 'common' / (entry + '.md.tmpl')
+                  refs = include.findall(path.read_text())
+                  assert '.chezmoitemplates/agent/team/interface.md' not in refs, path
+              for name, area in (('interface', 'team'), ('change-control', 'engineering'), ('code-change', 'engineering'), ('document-config', 'engineering')):
+                  path = source / product / 'common' / (name + '.md.tmpl')
+                  assert include.findall(path.read_text()) == [f'.chezmoitemplates/agent/{area}/{name}.md'], path
+          assert not (source / '.chezmoitemplates/agent/engineering/work-scope.md').exists()
+          assert not (source / 'dot_codex/common/market-data-sources.md.tmpl').exists()
           for folder in ('dot_codex', 'private_dot_claude', '.chezmoitemplates/agent'):
               for path in (source / folder).rglob('*'):
                   if not path.is_file():
@@ -110,7 +148,7 @@ jobs:
           assert not (source / 'dot_codex/common/sub-agent.md.tmpl').exists()
           assert (source / 'dot_codex/common/team.md.tmpl').is_file()
           assert (source / 'private_dot_claude/common/team.md.tmpl').is_file()
-          print('Validated 13 Codex roles, 4 Claude roles, model/effort, sandbox and includes')
+          print(f'Validated {len(found)} Codex roles, 4 Claude roles, model/effort, sandbox and includes')
       - name: Install chezmoi
         env:
           CHEZMOI_VERSION: '2.70.3'

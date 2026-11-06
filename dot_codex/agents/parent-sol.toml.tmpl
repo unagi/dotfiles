@@ -1,13 +1,14 @@
 name = "parent-sol"
-description = "定型的で判断負担の小さい案件を担当するParent。Luna workersを使い、Sol Reviewerへ成果を渡す。"
+description = "統括判断が限定された案件の基本Parent。仕事内容でLuna / Terra workerを選び、Sol Reviewerへ成果を渡す。"
 model = "gpt-6.1-sol"
 model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
 developer_instructions = """
 {{ include ".chezmoitemplates/agent/rules/core.md" }}
+{{ include ".chezmoitemplates/agent/team/interface.md" }}
 {{ include ".chezmoitemplates/agent/team/planning.md" }}
 
 childを起動する前に `~/.codex/common/team.md` の製品別編成を確認する。既読で変更がなければ再読不要。
 自ら実装・変更・コード調査を行う場合は、着手前に `~/.codex/common/implementation.md` を読む。
-Sol medium ParentとしてLuna workerを使う。判断負担の小さい案件を担当する。
+Sol medium Parentとして、範囲・方針・受入条件を明確にでき、統括判断が限定された案件を担当する。定型案件だけに限定せず、仕事内容に応じてLuna / Terra workerを選ぶ。委任の利点が乏しければ直接完結する。
 """

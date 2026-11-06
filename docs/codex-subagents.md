@@ -1,6 +1,6 @@
 # Codexエージェントチーム
 
-職能別ロールを廃止し、案件の負荷と判断の難しさに応じてParentを選ぶ。定型的で負担の小さい案件にはSol / medium、小〜中規模の案件にはSol / highまたはxhighを基本とし、全体判断が難しい具体的な高難度案件ではAstra / lowを候補にする。案件の規模だけでAstraを選ばない。現設定の根拠と変更経緯は [モデル選択資料](codex-agent-model-selection.md) に記録する。
+職能別ロールを廃止し、Parentに残る判断の深さに応じて選ぶ。統括判断が限定された案件はSol / mediumを基本とし、文章・画像・画面を中心とする局所実行にはTerra / medium workerを使える。深い全体判断にはSol / highまたはxhigh、特に難しい全体統合判断にはAstra / lowを候補にする。案件の規模や実行部分の難しさだけでParentをhigh以上にしない。現設定の根拠と変更経緯は [モデル選択資料](codex-agent-model-selection.md) に記録する。
 
 ## 階層と役割
 
@@ -23,23 +23,28 @@
 
 | 案件 | parent | worker | advisor / reviewer |
 | --- | --- | --- | --- |
-| 定型的・低負担 | Sol / medium | Luna / low または high | Sol / xhigh |
-| 小〜中規模（基本） | Sol / high または xhigh | Luna / low または high。方針確定・境界明確・受入容易な局所作業ならSol / lowも選択可能 | Sol / xhigh |
-| 全体判断が難しい具体的な高難度 | Astra / low | Sol / low または high | Astra / medium |
+| 統括判断が限定された案件（基本） | Sol / medium | Luna / low または high、Terra / medium | Sol / xhigh |
+| 深い全体判断が必要 | Sol / high または xhigh | Luna / low または high、Terra / medium。方針確定・境界明確・受入容易な局所作業ならSol / lowも選択可能 | Sol / xhigh |
+| 全体判断が難しい具体的な高難度 | Astra / low | Sol / low または high、Terra / medium | Astra / medium |
 
-advisorとreviewerは同じ設定でも別個体で担当する。root直轄の補助は `assistant-luna`（Luna / high）、相談は `advisor-sol`（Sol / xhigh）。全13ロールの識別子と設定は [モデル選択資料](codex-agent-model-selection.md) を参照する。
+advisorとreviewerは同じ設定でも別個体で担当する。root直轄の補助は、検索・抽出・要約に `assistant-luna`（Luna / high）、画像・画面・文書レイアウトの読解に `assistant-terra`（Terra / medium）を使う。どちらも読み取り専用とし、相談は `advisor-sol`（Sol / xhigh）。全15ロールの識別子と設定は [モデル選択資料](codex-agent-model-selection.md) を参照する。
 
 下図の矢印は起動・依頼の関係を示す。worker、advisor、reviewerの間に上下関係はない。
 
 ```mermaid
 flowchart TD
   root --> Assistant[assistant-luna / high]
+  root --> AssistantTerra[assistant-terra / medium]
   root --> rootAdvisor[advisor-sol / xhigh]
   root --> Sol[parent-sol / medium]
   root --> SolH[parent-sol-high]
   root --> SolX[parent-sol-xhigh]
   root --> Astra[parent-astra / low]
   Sol --> Luna["worker-luna-low / worker-luna-high"]
+  Sol --> Terra[worker-terra / medium]
+  SolH --> Terra
+  SolX --> Terra
+  Astra --> Terra
   SolH --> Luna
   SolH --> WorkerSolLow[worker-sol-low / conditional]
   SolX --> Luna
@@ -57,9 +62,9 @@ flowchart TD
 
 rootは原依頼の目的・必要成果・範囲・受入条件と残る仕事を先に整理する。固定条件や指定資料で充足を照合でき、新たな原因・成立性・方針の判断が残らない限定作業は直接扱える。外部の助けが必要な場合に委任内容を定め、製品別 `common/team.md` で編成を選ぶ。直接対応だけで完結するために編成表を先読みする必要はない。担当権限と読む順序の正本は [root運用](../.chezmoitemplates/agent/team/root.md) とする。
 
-Parentへ渡す定型的で負担の小さい案件はSol / medium、小〜中規模の案件はSol / highまたはxhighを基本にし、案件の規模ではなく全体判断の難しさが際立つ具体的な高難度案件ではAstra / lowを選ぶ。難度と作業量がともに大きい案件では、第三の編成を作らず、計画レビューとユーザー承認を経て実作業へ進む。
+Parentへ渡す案件は、範囲・方針・受入条件を明確にでき、統括判断が限定されていればSol / mediumを基本にする。定型案件に限定せず、文章力や画像理解が必要な実行をTerraへ渡せる場合も含む。要求間の競合、原因分析、複数成果の難しい統合が残る場合はSol / highまたはxhigh、さらに具体的な高難度の全体判断が残る場合はAstra / lowを選ぶ。難度と作業量がともに大きい案件では、第三の編成を作らず、計画レビューとユーザー承認を経て実作業へ進む。
 
-Parentはrootの全履歴から分離されているため、履歴分離だけを目的にworkerを起動しない。起動・引継ぎ・検査・再依頼を含めても完了時間または実効費用の改善が見込める独立した作業を委任する。rootのLuna補助はhigh固定。明示的なParent兼務時もLuna lowは使わない。Sol / high・xhigh ParentはLuna workerを基本とし、方針確定・境界明確・受入容易な局所作業ならSol / low workerも選べる。Astra ParentはSol low/highを使う。細部は [企画・統合](../.chezmoitemplates/agent/team/planning.md) と [Codexチーム設定](../dot_codex/common/team.md.tmpl) を参照する。
+Parentはrootの全履歴から分離されているため、履歴分離だけを目的にworkerを起動しない。起動・引継ぎ・検査・再依頼を含めても完了時間または実効費用の改善が見込める独立した作業を委任する。rootのLuna補助はhigh固定。明示的なParent兼務時もLuna lowは使わない。Sol系Parentは、機械的に検査できる作業にはLuna、文章・画像・画面を中心とする局所実行にはTerraを選ぶ。Sol / high・xhigh Parentは、方針確定・境界明確・受入容易な局所作業ならSol / low workerも選べる。Astra ParentはSol low/highに加え、同じ局所条件でTerraを使える。小さな案件で委任の負担が勝るならParentが直接完結する。細部は [企画・統合](../.chezmoitemplates/agent/team/planning.md) と [Codexチーム設定](../dot_codex/common/team.md.tmpl) を参照する。
 
 ## 異なる二つの品質基準
 
@@ -85,6 +90,12 @@ Parentがユーザーへ返す計画・最終成果は独立レビューを経�
 追加担当によるリトライは広域・抽象的な不足に限り、狭域・具体的な修正では元担当が継続する。必要な独立レビューでは、独立性を保てる既存Reviewerも再利用できる。通常の軽微な回答へ毎回追加担当を置く仕組みや、実行側による強制的な入力・終了制御の実装ではない。遵守や時間・費用の改善は未検証である。
 
 ## 情報と成果の流れ
+
+委任・回答の形式と項目の意味は [共通インターフェース](../.chezmoitemplates/agent/team/interface.md) を正本とする。指示6項目、回答5項目で原文・解釈・判断範囲・受入条件・証拠を区別する。全専用設定へ直接includeし、root・兼務Parentは初回委任前にcommon/interface.mdを読み、モデル・effort・呼出権限・レビュー条件は変更しない。
+
+記入例と設計参考は[委任・回答の記入例](agent-interface-examples.md)を参照。
+
+### 案件全体の流れ
 
 必要な原文・確定条件・権限をrootからParentへ渡し、Parentが実行可能な指示へ具体化する。workerは局所成果と根拠を返す。Parentは受入・統合・独立レビューを経て、短い結論と成果物へのリンクをrootへ返す。履歴に長大な出力を積むことを成果保存の代わりにしない。
 

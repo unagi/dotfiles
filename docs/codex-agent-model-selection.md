@@ -1,14 +1,15 @@
 # Codexモデル・effortの選択記録
 
-## 現行設定（2026-10-01）
+## 現行設定（2026-10-29）
 
-設定の正本は各TOML、担当とレビューの順序は [root運用](../.chezmoitemplates/agent/team/root.md) と [企画・統合](../.chezmoitemplates/agent/team/planning.md)、Codexの編成表と呼出権限は [チーム設定](../dot_codex/common/team.md.tmpl)。GPT-6.1 Solの採用とSol Parentのhigh / xhigh追加は、小〜中規模でAstra Parentが選ばれやすい状況を改めるための運用判断である。役割ごとの速度・費用・成功率を実証したものではない。
+設定の正本は各TOML、担当とレビューの順序は [root運用](../.chezmoitemplates/agent/team/root.md) と [企画・統合](../.chezmoitemplates/agent/team/planning.md)、Codexの編成表と呼出権限は [チーム設定](../dot_codex/common/team.md.tmpl)。GPT-6.1 Terraのassistant / workerを追加し、統括判断が限定された案件ではSol medium Parentを基本にする。high / xhigh Parentへ寄りやすい入口を改め、実行部分を仕事内容で分担する運用判断である。Terra mediumは暫定値であり、役割ごとの速度・費用・成功率を実証したものではない。
 
 | ロール | モデル | effort | sandbox |
 | --- | --- | --- | --- |
 | [advisor-astra](../dot_codex/agents/advisor-astra.toml.tmpl) | gpt-6-astra | medium | read-only |
 | [advisor-sol](../dot_codex/agents/advisor-sol.toml.tmpl) | gpt-6.1-sol | xhigh | read-only |
 | [assistant-luna](../dot_codex/agents/assistant-luna.toml.tmpl) | gpt-6-luna | high | read-only |
+| [assistant-terra](../dot_codex/agents/assistant-terra.toml.tmpl) | gpt-6.1-terra | medium | read-only |
 | [parent-astra](../dot_codex/agents/parent-astra.toml.tmpl) | gpt-6-astra | low | workspace-write |
 | [parent-sol](../dot_codex/agents/parent-sol.toml.tmpl) | gpt-6.1-sol | medium | workspace-write |
 | [parent-sol-high](../dot_codex/agents/parent-sol-high.toml.tmpl) | gpt-6.1-sol | high | workspace-write |
@@ -19,18 +20,31 @@
 | [worker-luna-low](../dot_codex/agents/worker-luna-low.toml.tmpl) | gpt-6-luna | low | workspace-write |
 | [worker-sol-high](../dot_codex/agents/worker-sol-high.toml.tmpl) | gpt-6.1-sol | high | workspace-write |
 | [worker-sol-low](../dot_codex/agents/worker-sol-low.toml.tmpl) | gpt-6.1-sol | low | workspace-write |
+| [worker-terra](../dot_codex/agents/worker-terra.toml.tmpl) | gpt-6.1-terra | medium | workspace-write |
 
 ## 現段階の解釈
 
 - **rootからLuna**：root自身のモデル識別を前提にできず、低effortの失敗を救済できる保証もないためhigh固定。主な目的は履歴負担の分離。rootがParentを兼務してもこの条件を変えない。
 - **Sol ParentからLuna**：明確な指示と容易な受入ならlow、照合や解釈で手戻りが懸念されるならhigh。軽量側と手戻り予防側の差を明確にするためlow/highの2階級を維持する。AAではmediumがlowよりhighに近いため、mediumを軽量側に採る優先度は低い。「lowとmediumが同等だからlow」という従来の根拠は採らない。medium自体を無価値とは扱わない。
 - **費用と手戻り**：LunaがSolより安いという前提で、高effortを単価だけで避けない。採用判断は指示・検査・再実行を含む総負担で行う。API価格の差をCodex利用枠の比率や実作業費用へ直接換算しない。
-- **Sol Parent / medium**：定型的で判断負担の小さい仕事を担う。Luna workerを基本とする。
-- **Sol Parent / high・xhigh**：小〜中規模の仕事の基本。全体の方針・受入・統合に要る推論の深さで選び、xhighを使うためにmediumやhighの失敗を順に経験する必要はない。Luna workerを基本とし、方針確定・境界明確・受入容易な局所実行だけSol low workerを選べる。難しい局所推論をSol lowに渡さない。
-- **Astra Parent / low**：分割後も重大な競合仮説・矛盾の統合判断が残り、Sol high / xhigh ParentとAdvisor・独立Reviewerで補いにくい具体的な高難度に限定する。規模や作業量だけを理由に選ばない。Sol low / high workerの現行選択肢は維持する。
+- **rootからTerra**：画像・画面・文書レイアウトの読解が中心ならassistant-terra / mediumを選ぶ。読み取り専用で、入力・保存などの変更操作は行わない。検索・抽出・要約用のassistant-luna / highは維持する。
+- **Sol Parent / medium**：範囲・方針・受入条件を明確にでき、Parentに残る統括判断が限定された案件の基本。定型案件に限定せず、文章力・画像理解を必要とする局所実行をTerraへ渡す案件も含む。Luna / Terraを仕事内容で選び、委任の利点が乏しければ直接完結する。
+- **Sol Parent / high・xhigh**：要求間の競合、原因分析、複数成果の難しい統合など、深い全体判断が残る場合に選ぶ。案件規模や局所実行の難しさだけで選ばず、xhighを使うためにmediumやhighの失敗を順に経験する必要もない。Luna / Terraを仕事内容で選び、方針確定・境界明確・受入容易な局所実行だけSol low workerを選べる。難しい局所推論をSol lowに渡さない。
+- **Terra worker / medium**：Sol系・Astra系Parentから、方針・範囲・受入条件が確定した文章修正、画像照合、画面操作、限定的なUI修正を受ける。機械的に検査できる作業はLuna、難しいコードの因果分析や整合判断はSol側で扱う。Luna失敗後の自動昇格先とせず、最初から仕事内容で選ぶ。必要なツール・アクセス権と保存結果の確認を別に確保する。
+- **Astra Parent / low**：分割後も重大な競合仮説・矛盾の統合判断が残り、Sol high / xhigh ParentとAdvisor・独立Reviewerで補いにくい具体的な高難度に限定する。規模や作業量だけを理由に選ばない。Sol low / high workerを維持し、文章・画像・画面を中心とする局所実行にはTerraも使える。
 - **worker委任の目的**：Parentはすでにrootの全履歴から分離され再利用も定められている。履歴分離だけでworkerを起動せず、起動・引継ぎ・検査・再依頼を含む完了時間または実効費用の改善を見込める独立作業を渡す。利点が乏しければParentが直接進める。難しい作業の並列化は一般的な選択理由として追加しない。
 - **Reviewer / Advisor**：Sol xhigh、Astra mediumを維持する。Reviewerは全体の論理とユーザー意図、Advisorは方針の成立条件と改善を扱い、同じ個体で兼務しない。Sol xhigh Parentと同じeffortでも、独立した入力と評価基準による役割の分離に意味がある。モデル・effort差だけで品質を保証しない。
 - 定義上選べるeffortと実用上の採用価値は別であり、effortと能力の線形関係は仮定しない。ロールに採らなかったeffortを一律に無価値と結論しない。
+
+## 2026-10-29の見直し根拠と限界
+
+以下の公式情報は2026-10-29に確認した。旧13ロールにassistant-terraとworker-terraを追加し、15ロールとした。既存のモデル・effort・sandbox、Advisor / Reviewerの分離、Sol medium配下のSol worker禁止、root兼務時のLuna high固定は維持する。
+
+- **公式の用途**：[モデル選択ガイド](https://developers.openai.com/api/docs/guides/model-selection)はTerraを、資料に基づく簡潔な文章、成果が明確なcomputer-use、限定的なコード修正の候補とする。これを画像・画面の読み取り専用assistantと、確定方針下のworkerへ対応付けた。Parentの統合・受入や独立レビューの優位を示すものではないため、Terra Parent / Advisor / Reviewerは追加しない。
+- **公式仕様と暫定effort**：[TerraのAPI仕様](https://developers.openai.com/api/docs/models/gpt-6.1-terra)ではmediumが既定で、複数effortを選べる。2ロールともmediumから始めるのは設定の種類を抑える運用判断であり、API既定値をCodexでの最適値と見なしたものではない。[公式モデル資料](https://learn.chatgpt.com/docs/models)によるCLIの必要バージョンは0.159.0以降。クライアント・ツール・権限の利用可能性は別に確認する。
+- **公式の費用情報**：[Standardクレジット単価](https://learn.chatgpt.com/docs/pricing)は、100万トークン当たり入力 / キャッシュ入力 / 出力がLunaで2.5 / 0.25 / 12.5、Terraで25 / 1.25 / 125、Sol 6.1で50 / 2.5 / 250。TerraはSolの半分だが、通常入力・出力はLunaの10倍であり、Lunaを一括置換しない。API単価や定額プランの利用枠、実際の総費用とは区別する。
+- **利用者の印象と運用判断**：Sol high / xhighがParentになりがちという利用者の印象を受け、「小〜中規模ではhigh / xhighを基本」から「統括判断が限定されていればmediumを基本」へ変更する。ジョブサイズに加え、Parentに残る要求解釈・方針・統合判断の深さを見る。文章や画面に関する実行の難しさをParentの難しさと同一視しない。
+- **期待と未確認事項**：Sol medium＋Terra workerは、適切に切り出せる案件でhigh以上のParentより速度・費用に利点があるという仮説である。起動・引継ぎ・受入・再実行・独立Reviewerを含む総所要時間、利用枠消費、品質は実測していない。委任の負担が勝る小さな案件はParentが直接完結する。日常の直し戻し、保存結果の正確さ、待ち時間・消費の負担感で見直し、比較実験や全件採点は義務化しない。
 
 ## 2026-10-01の見直し根拠と限界
 
@@ -95,6 +109,7 @@ high / xhigh ParentからSol low childへの実効節約幅、Sol high / xhigh P
 | 同日 利用者との判断確定 | Sol xhighを消極的選択として維持。独自比較実験の提案を撤回 | 統計取得と再現性の制約を踏まえ、満足度・使用感などの弱い指標で見直す。最適性の実証とは区別する |
 | 2026-10-01 合意・実装 | Sol系5ロールをGPT-6.1 Solへ更新し、Sol high / xhigh Parentを追加 | 小〜中規模ではSolを基本とし、Astra Parentを具体的高難度に限定。Sol high / xhigh Parentには条件付きでSol low workerを許可し、Lunaを基本に維持する |
 | 2026-10-06 合意・source更新 | 必要な仕事・委任内容の整理を編成参照より先にし、広域・抽象的な不足は別個体へ交代、狭域・具体的な不足は元担当で継続 | 本人の正誤認識でなく指摘の射程・具体性で分岐。ロール・モデル・effortは変更せず、Advisorのみの修復や二重Parentを避ける。実際の遵守・時間・費用は未検証 |
+| 2026-10-29 合意・source更新 | assistant-terra / mediumとworker-terra / mediumを追加。Sol medium Parentを統括判断が限定された案件の基本とし、全Sol系・Astra系ParentからTerra workerを選択可能にする | high / xhighへ寄りやすい入口を改め、局所実行の得意分野で分担する。既存のレビュー・権限境界は維持。速度・総費用・品質の優位とTerra mediumの最適性は未実証 |
 
 職能と旧一律二段階レビューを撤去したが、秘密情報保護・権限・実環境への反映境界は維持する。情報共有方式の詳細再編は保留TODO。
 
@@ -102,17 +117,22 @@ high / xhigh ParentからSol low childへの実効節約幅、Sol high / xhigh P
 
 | ケース | 期待する動作 |
 | --- | --- |
-| rootの限定的な参照補助 | assistant-luna/high。Parentを起動しない |
+| rootの検索・抽出・要約補助 | assistant-luna/high。Parentを起動しない |
+| rootの画像・画面・文書レイアウトの読解補助 | assistant-terra/medium。読み取り専用とし、変更操作は渡さない |
 | 指定資料からの抽出・固定条件の計算など、新たな判断が残らない限定作業 | rootが直接処理。必要成果・範囲・充足条件を先に定め、編成表の先読みや追加担当を必須にしない |
-| Parentへ渡す定型的で判断負担が小さい案件 | parent-sol / medium。workerが有効ならLunaを使う |
-| 小〜中規模の通常案件 | parent-sol-highまたはparent-sol-xhigh。全体推論の深さで選び、Lunaを基本に使う |
+| Parentへ渡す案件で、範囲・方針・受入条件を明確にでき統括判断が限定される | parent-sol / mediumを基本にし、workerが有効なら仕事内容でLuna / Terraを選ぶ。定型案件に限定しない |
+| 既存資料に基づく文章修正・指定画面への入力で、統括判断が限定される | parent-sol / medium＋worker-terra / medium。入力・保存が承認範囲内であることと、保存結果を確認する。実行の難しさだけでParentをhigh以上にしない |
+| 小さな成果でも要求間の競合や難しい原因分析・統合判断が残る | parent-sol-highまたはparent-sol-xhighを全体推論の深さで選ぶ。案件規模だけでmediumにしない |
+| Sol medium Parentで難しいコードの局所推論が残る | Terraへ押し付けず、Parentが扱うか方針・分担を見直す。Sol workerの禁止条件は維持する |
 | Sol high / xhigh Parentで方針確定・境界明確・受入容易な局所実行 | 完了時間または実効費用の改善が見込めればworker-sol-lowを使える |
 | Sol Parentで難しい局所推論が残る | worker-sol-lowへ押し付けず、Parentが扱うか方針・分担を見直す |
-| 具体的な高難度の全体統合判断が残る | parent-astra / low。worker-sol-low / highを従来どおり選べる |
+| 具体的な高難度の全体統合判断が残る | parent-astra / low。worker-sol-low / highを維持し、文章・画像・画面を中心とする局所実行にはworker-terraも選べる |
 | rootがSol系Parentを明示兼務 | Lunaはworker-luna-high。worker-luna-lowは使わない |
 | 難しい・大量 | 計画をレビュー・ユーザー承認後、実作業へ進む。第三の系統を作らない |
 | workerに渡しても起動・引継ぎ・検査・再依頼の負担が勝る | Parentが直接進める |
 | childが指示不足で失敗 | Parentが指示・受入条件を補う。自動的にモデル昇格しない |
+| 文章・画像・画面を中心とする局所実行が最初から明確 | 条件が合えば最初からworker-terraを選ぶ。Lunaの失敗を先に経験する必要はない |
+| Terraを選べるが必要なツール・アクセス権や保存結果の確認手段がない | モデルの能力で補えると仮定せず、不足と影響を依頼元へ返す |
 | Parentによるchild受入 | 委任指示への適合を評価。ユーザー意図を再定義しない |
 | Reviewerが成果を評価 | 原依頼・解釈・成果の整合を見る。軽微な指摘数で評価しない |
 | Advisorに相談済み | 別個体のReviewerを使い、助言会話を渡さない |

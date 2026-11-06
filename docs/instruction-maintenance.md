@@ -16,8 +16,11 @@
 | `.chezmoitemplates/agent/rules/operations.md` | 操作・記録をする担当 | computer-use、中間領域、権限拒否の具体手順。該当行為前に読む | role選択・企画設計、実装手順 |
 | `.chezmoitemplates/agent/engineering/` | 実装worker・自ら実作業をするParent/root | 開発共通ガイド、コード調査（`investigation.md`）、作業スコープ、Git、TDD、lint、指示文書整備、言語別ガイド。`security-review.md` の確認観点は各環境の `common/security-review.md.tmpl` へ配布 | 一般の安全・承認境界、チーム編成 |
 | `.chezmoitemplates/agent/team/root.md` | 会話root | 目的・範囲の整理、限定直接対応、担当選択、原文引継ぎ、狭域継続・広域交代、承認仲介、返却 | Parentの設計・受入の詳細、実装手順、編成識別子 |
+| `.chezmoitemplates/agent/engineering/design.md` と両製品の `common/design.md.tmpl` | Web・UI/UXの企画・制作・批評を行う担当。該当行為の前 | 利用の流れ、重要案の比較、視覚表現、実画面の評価。共有本文をcommonへ直接include | 一般の要求整理・実装・承認・チーム編成 |
+| `docs/design-guidelines.md` | デザイン指示の利用者・メンテナ | 設計意図、教材との対応・限界、受入ケース、正本への入口 | 通常業務の独自規則 |
 | `.chezmoitemplates/agent/team/planning.md` | Parent・兼務root | 要求整理・企画設計、分担・受入条件、検証計画、統合、独立レビュー、記録・再利用 | root専任運用、実装実行手順、製品別設定 |
 | `.chezmoitemplates/agent/team/child.md` | worker・Advisor・Reviewer・assistant | 末端担当の作業範囲、返却・記録、再委任禁止 | 案件全体の統合、rootの対応順序 |
+| 同ディレクトリの `interface.md` | 委任を送受信する全担当 | 指示・回答の共通形式、項目の意味・省略条件 | 担当選択、権限付与、レビュー条件 |
 | 同ディレクトリの `worker.md` | worker | 指示範囲内の局所判断・実行・検証 | ユーザー意図の再定義、案件全体の受入 |
 | 同ディレクトリの `advisor.md` | Advisor | 方針相談・成立条件・改善案 | 独立レビュー、ユーザー承認 |
 | 同ディレクトリの `reviewer.md` | Reviewer | 原依頼・解釈・成果の整合、ユーザーへ返せるかの判定 | childの工程管理、成果の作成 |
@@ -28,14 +31,21 @@
 | `private_dot_claude/agents/*.md.tmpl` | 起動側と該当ロール | Claudeの責務別assistant・worker・advisor・reviewerの設定と共通本文の取り込み | 旧職能ロールの復活、共通ゲートの再定義 |
 | `docs/codex-subagents.md` | 構造を知りたい利用者 | 全体像、情報の流れ、設計意図、正本へのリンク | 運用規則の独自追加、詳細手順の複製 |
 | `docs/codex-agent-model-selection.md` | 編成を確認・評価する利用者とメンテナ | 設定由来の比較表、評価・受入ケース、変更経緯 | 設定や権限の別の正本 |
+| `engineering/change-control.md` と両製品common | 変更担当・変更前 | 変更種別の承認条件、テスト・Gitへの導線 | 個別業務の実行手順 |
+| `engineering/code-change.md`・`document-config.md` と両製品common | 該当業務の担当・実作業前 | 業務別手順と必要ガイドへの導線 | 共通承認・レビューの再定義 |
+| `docs/agent-interface-examples.md` | 共通契約の利用者・保守担当 | 記入例と設計参考 | 運用規則の追加 |
+| `docs/market-data-sources-history.md` | 過去記録を確認する保守担当 | 旧台帳の保存。配布しない | 現在の取得経路・利用許可の指定 |
+| `docs/instruction-reading-results.md` | 整理結果を確認する保守担当 | 固定基準との比較結果、経路変更の説明、検証限界 | 規則の正本 |
 | 本書 | 指示を追加・変更・整理するメンテナ | 配置、重複、参照、変更・検証の基準 | 通常業務で読むべき行動規則 |
+| `scripts/measure-instructions.py`、`scripts/test_measure_instructions.py` | 保守担当・CI | 読込量の計測と計測器の検証 | 指示の権限や本文の変更 |
+| `docs/instruction-reading-cases.json`、`docs/instruction-reading-baseline.json` | 保守担当・レビュー担当 | 担当×業務の読込条件・経路、比較用基準値 | 実行時のルーティング規則 |
 | `README.md` | リポジトリ利用者 | 目的、構造、各資料への入口 | 上記各文書の詳細な再掲 |
 
 共有本文を変更するときは、include元を検索して双方への影響を確認する。製品固有の設定値・ツール権限は各環境の末端テンプレートで管理する。新しい種類の文書が必要なら、読者・読む契機・所有内容・参照元を先にこの表へ定める。
 
 ## 担当ごとの受領時点
 
-全担当は `rules/core.md` を直接受領する。Parentと末端担当への必要安全の配布は、グローバル指示を継承するかどうかに依存しない。汎用入口に実作業の詳細を常設しない。
+全担当は `rules/core.md` を直接受領する。委任の共通契約 `team/interface.md` は全専用設定と両製品の `common/interface.md.tmpl` から直接includeする。専用Parent・末端担当は起動時、root・兼務Parentは初回委任前に受領し、既読不変なら再読しない。root/planning入口へ共通契約を重複includeしない。Parentと末端担当への必要安全の配布は、グローバル指示を継承するかどうかに依存しない。汎用入口に実作業の詳細を常設しない。
 
 | 担当 | 起動時の専用本文 | 追加で読む時点 |
 | --- | --- | --- |
@@ -79,6 +89,32 @@ Codexの会話全体を担当するエージェントは、小文字の `root` �
 完了時は、正本の配置、削減した重複、保持した条件・例外、検証と未検証範囲を報告する。構文検査が通っただけで読みやすさや行動の改善を実証済みとしない。
 
 ## 運用上の確認
+
+### 指示の読込量を計測する
+
+指示本文・include・参照条件を変更するときは、次のコマンドで変更前後を比較する。Python 3.9以降の標準ライブラリだけを使い、chezmoiやテンプレート内の処理を実行しない。
+
+```sh
+python3 scripts/measure-instructions.py
+python3 scripts/measure-instructions.py --format json
+python3 -B -m unittest discover -s scripts -p 'test_*.py'
+```
+
+- 主指標は担当×業務の総読込文字数。初期読込は全専用ロールを別ケースにする。各ケースは独立して計測し、異なる担当へ同じ安全規約を配ることを重複削減の対象にしない。
+- Unicodeコードポイント数で数え、空白・改行を含む。改行はLFへ正規化し、トークン数・課金額・実測コンテキスト量とは呼ばない。案件資料・依頼文・ツール出力は対象外。グローバル指示や履歴の継承はケースで明記し、専用設定へ暗黙加算しない。
+- `include "相対パス"` を再帰展開する。Codexは改行直後から始まる三重引用符の `developer_instructions` 本文のみ、Claudeは先頭frontmatterを除く本文を数える。Codex本文のエスケープや他のテンプレート式等、未対応の構文はエラーにし、推定で通さない。
+- 総読込文字数は同じ本文の再登場も数える。固有本文文字数は同一sourceファイルの同じ区間を一度だけ数える。重複文字数はその差。同文でも異なるsourceに手書きされたものは自動重複判定しない。意味上の重複は別途レビューする。
+- ファイル読込回数は入口とinclude先の出現回数、固有ファイル数はその異なり数。実ツール呼出回数ではない。出力にはケース条件、読込理由、展開先一覧・出現回数を含める。
+- 自然言語の参照条件は自動解析しない。ケース定義に読込順と理由を明記する。既読不変で再読不要な参照は一度だけ列挙するが、複数入口に埋め込まれた同じ本文は重複として数える。
+- 新規ガイド・読込条件・ロールの追加や廃止時はケース定義も確認する。対象業務の意味を維持した経路変更と、業務・検証範囲を狭める変更を区別し、削減を過大評価しない。ケースの追加・削除・定義変更はレポートで明示される。
+- CIは計測エラー（欠落・循環・未対応構文等）を失敗にする。文字数増加には理由を付けてレビューし、増加だけでは失敗にしない。必要な安全・承認条件の欠落で数値を改善しない。一律上限・削減率は現時点で設けない。
+- 基準値は2026-11-06の整理前sourceを初期値とする。基準更新は計測方法・ケース条件・増減理由をレビューしてから、次の明示コマンドで行う。通常実行・CIでは更新しない。計測方法変更時はmeasurement_versionも変更し、旧値との単純比較を避ける。
+
+```sh
+python3 scripts/measure-instructions.py --write-baseline
+```
+
+基準値には本文そのものや端末固有絶対パスを保存しない。基準値更新の理由と前後差を変更説明に残す。計測器・テストは `scripts/`、ケースと基準値は `docs/` に置き、いずれも配布対象外とする。
 
 本書の追加だけで既存文書の整理完了とはしない。整理ごとに対象・保持条件・検証結果を確認する。共通の安全・承認境界はcore、担当選択・移管・承認仲介はroot、企画・受入・独立レビューはplanning、末端責務はchildと担当別本文、実作業はengineeringが所有する。全ロールは共通原則を明示的に取り込む。保守用docsを運用時の必須参照にしない。
 

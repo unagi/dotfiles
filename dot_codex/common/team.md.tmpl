@@ -4,23 +4,28 @@
 
 | 起動者・用途 | ロール識別子 | モデル・effort |
 | --- | --- | --- |
-| rootの参照補助 | `assistant-luna` | Luna high |
+| rootの検索・抽出・要約補助 | `assistant-luna` | Luna high |
+| rootの画像・画面・文書レイアウトの参照補助 | `assistant-terra` | Terra medium |
 | rootの相談 | `advisor-sol` | Sol xhigh |
-| rootから定型的で判断負担の小さい案件 | `parent-sol` | Sol medium |
-| rootから小〜中規模の通常案件 | `parent-sol-high` / `parent-sol-xhigh` | Sol high / xhigh |
+| rootから統括判断が限定された案件（基本） | `parent-sol` | Sol medium |
+| rootから深い全体判断が必要な案件 | `parent-sol-high` / `parent-sol-xhigh` | Sol high / xhigh |
 | rootから全体判断に具体的な高難度が残る案件 | `parent-astra` | Astra low |
 | Sol系Parentの作業 | `worker-luna-low` / `worker-luna-high` | Luna low / high |
+| Sol系・Astra系Parentの文章・画像・画面を中心とする局所作業 | `worker-terra` | Terra medium |
 | Sol high / xhigh Parentの限定的な局所作業 | `worker-sol-low` | Sol low |
 | Sol系Parentの相談・独立レビュー | `advisor-sol` / `reviewer-sol` | Sol xhigh |
 | Astra系Parentの作業 | `worker-sol-low` / `worker-sol-high` | Sol low / high |
 | Astra系Parentの相談・独立レビュー | `advisor-astra` / `reviewer-astra` | Astra medium |
 
 - Parentは他のParentを起動しない。Luna Parent、Sol medium Parent配下のSol worker、Sol系Parent配下のSol high worker、Astra系Parent配下のLuna workerは用意しない。
-- 小〜中規模の案件はSol high / xhigh Parentを基本とし、全体推論の深さで選ぶ。Astra Parentは分割後にも重大な競合仮説や矛盾の統合判断が残り、Sol high / xhigh ParentとAdvisor・独立Reviewerでは補いにくい具体的な高難度に限定する。作業量だけでAstraを選ばず、mediumの失敗から段階的に昇格することも必須にしない。
+- 範囲・方針・受入条件を明確にでき、Parentに残る統括判断が限定された案件はSol medium Parentを基本とする。文章力や画像理解が必要な実行をTerra workerへ切り出せるなら、その実行の難しさだけでParentをhigh以上にしない。要求間の競合、原因分析、複数成果の難しい統合など、深い全体判断が残る場合にSol high / xhighを選ぶ。案件の規模や作業量だけでhigh以上にせず、mediumの失敗から段階的に昇格することも必須にしない。
+- Astra Parentは分割後にも重大な競合仮説や矛盾の統合判断が残り、Sol high / xhigh ParentとAdvisor・独立Reviewerでは補いにくい具体的な高難度に限定する。作業量だけでAstraを選ばない。
 - rootがParentを兼務する場合は案件の系統に合うworker・Advisor・Reviewerを使う。rootの参照補助 `assistant-luna` はhigh固定で、`worker-luna-low` は独立して起動されたSol系Parent専用とする。
-- Luna lowは指示と受入条件が明確で、結果を容易に検査できる仕事に使う。曖昧な入力、照合の多さ、手戻りの懸念があればLuna highを選ぶ。Sol high / xhigh ParentもLuna workerを基本とする。
+- rootの参照補助は、検索・抽出・要約にはassistant-luna、画像・画面・文書レイアウトの読解が中心ならassistant-terraを選ぶ。assistant-terraは読み取り専用とし、入力や保存などの変更操作を渡さない。
+- Luna lowは指示と受入条件が明確で、結果を容易に検査できる仕事に使う。曖昧な入力、照合の多さ、手戻りの懸念があればLuna highを選ぶ。
+- 文章の読み手への適合、画像・画面の理解や操作を中心とする局所実行にはTerra workerを選ぶ。方針・範囲・受入条件を確定して渡し、保存結果などで確認できることを条件とする。限定的なUI修正も対象とするが、難しいコードの因果分析や複数箇所の整合判断はSol側で扱う。Luna失敗後の自動昇格先にはせず、最初から仕事内容で選ぶ。モデル選択と必要なツール・アクセス権の確保は区別する。
 - 方針確定後の境界が明確で受入が容易な局所実行にはSol low workerを選べる。難しい因果分析や矛盾解消などの局所推論が残る場合はSol high workerを使う。作業量の多さやノイジーな指示だけでhighにしない。
-- workerは起動・引継ぎ・検査・再依頼・再実行まで含む完了時間と実効費用で選ぶ。effort差だけで節約を保証せず、手戻りを防ぐhigh使用を単価だけで避けない。
+- workerは起動・引継ぎ・検査・再依頼・再実行まで含む完了時間と実効費用で選ぶ。委任の利点が乏しい小さな案件はParentが直接完結する。effort差だけで節約を保証せず、手戻りを防ぐhigh使用を単価だけで避けない。
 - 起動APIが履歴継承を制御できる場合、新担当には必要な原文・根拠・権限を明示し、全履歴は渡さない。`fork_turns` を指定できる場合は `none` を使う。利用中APIにない引数や役割名を推測しない。
 - ロールの設定値は各TOMLを正本とし、起動時にモデルやeffortを上書きしない。ツール上で指定したロールが利用できない場合は、不足と影響を報告する。
 - セキュリティ観点の確認を委任するときは、`~/.codex/common/security-review.md` を読むよう担当へ伝える。
