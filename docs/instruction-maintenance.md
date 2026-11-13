@@ -32,7 +32,7 @@
 | `docs/codex-subagents.md` | 構造を知りたい利用者 | 全体像、情報の流れ、設計意図、正本へのリンク | 運用規則の独自追加、詳細手順の複製 |
 | `docs/codex-agent-model-selection.md` | 編成を確認・評価する利用者とメンテナ | 設定由来の比較表、評価・受入ケース、変更経緯 | 設定や権限の別の正本 |
 | `engineering/change-control.md` と両製品common | 変更担当・変更前 | 変更種別の承認条件、テスト・Gitへの導線 | 個別業務の実行手順 |
-| `engineering/code-change.md`・`document-config.md` と両製品common | 該当業務の担当・実作業前 | 業務別手順と必要ガイドへの導線 | 共通承認・レビューの再定義 |
+| `engineering/code-change.md`・`document-config.md` と両製品common | 該当業務の担当・実作業前 | 業務別手順と必要ガイドへの導線。言語ガイドの具体的な配布先パスは製品別code-change入口が所有 | 共通承認・レビューの再定義 |
 | `docs/agent-interface-examples.md` | 共通契約の利用者・保守担当 | 記入例と設計参考 | 運用規則の追加 |
 | `docs/market-data-sources-history.md` | 過去記録を確認する保守担当 | 旧台帳の保存。配布しない | 現在の取得経路・利用許可の指定 |
 | `docs/instruction-reading-results.md` | 整理結果を確認する保守担当 | 固定基準との比較結果、経路変更の説明、検証限界 | 規則の正本 |
