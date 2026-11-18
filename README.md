@@ -144,6 +144,7 @@ chezmoi status
 
 - [Codexサブエージェントの全体像と設計コンセプト](docs/codex-subagents.md)：役割の関係図、依頼から完了までの流れ、原文引継ぎと品質基準の分離
 - [現行のエージェント編成・モデル設定](docs/codex-agent-model-selection.md)：全15ロールの設定、選択表、移行記録
+- [Codexのモデル更新手順](docs/instruction-maintenance.md#codexのモデル更新手順)
 
 ## セキュリティ
 

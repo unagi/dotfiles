@@ -1,25 +1,27 @@
 # Codexモデル・effortの選択記録
 
-## 現行設定（2026-10-29）
+## 現行設定（2026-11-18）
 
-設定の正本は各TOML、担当とレビューの順序は [root運用](../.chezmoitemplates/agent/team/root.md) と [企画・統合](../.chezmoitemplates/agent/team/planning.md)、Codexの編成表と呼出権限は [チーム設定](../dot_codex/common/team.md.tmpl)。GPT-6.1 Terraのassistant / workerを追加し、統括判断が限定された案件ではSol medium Parentを基本にする。high / xhigh Parentへ寄りやすい入口を改め、実行部分を仕事内容で分担する運用判断である。Terra mediumは暫定値であり、役割ごとの速度・費用・成功率を実証したものではない。
+Sol系7ロールとAstra系3ロールをGPT-6.2へ暫定更新した。統括判断が限定された案件ではSol medium Parentを基本にし、実行部分は仕事内容で分担する。Terra mediumも暫定値とする。
+
+設定の正本は各TOML。担当とレビューの順序、編成・呼出権限、選定から検証までの手順はそれぞれの運用資料を参照する。[root運用](../.chezmoitemplates/agent/team/root.md)・[企画・統合](../.chezmoitemplates/agent/team/planning.md)・[チーム設定](../dot_codex/common/team.md.tmpl)・[モデル更新手順](instruction-maintenance.md#codexのモデル更新手順)
 
 | ロール | モデル | effort | sandbox |
 | --- | --- | --- | --- |
-| [advisor-astra](../dot_codex/agents/advisor-astra.toml.tmpl) | gpt-6-astra | medium | read-only |
-| [advisor-sol](../dot_codex/agents/advisor-sol.toml.tmpl) | gpt-6.1-sol | xhigh | read-only |
+| [advisor-astra](../dot_codex/agents/advisor-astra.toml.tmpl) | gpt-6.2-astra | medium | read-only |
+| [advisor-sol](../dot_codex/agents/advisor-sol.toml.tmpl) | gpt-6.2-sol | xhigh | read-only |
 | [assistant-luna](../dot_codex/agents/assistant-luna.toml.tmpl) | gpt-6-luna | high | read-only |
 | [assistant-terra](../dot_codex/agents/assistant-terra.toml.tmpl) | gpt-6.1-terra | medium | read-only |
-| [parent-astra](../dot_codex/agents/parent-astra.toml.tmpl) | gpt-6-astra | low | workspace-write |
-| [parent-sol](../dot_codex/agents/parent-sol.toml.tmpl) | gpt-6.1-sol | medium | workspace-write |
-| [parent-sol-high](../dot_codex/agents/parent-sol-high.toml.tmpl) | gpt-6.1-sol | high | workspace-write |
-| [parent-sol-xhigh](../dot_codex/agents/parent-sol-xhigh.toml.tmpl) | gpt-6.1-sol | xhigh | workspace-write |
-| [reviewer-astra](../dot_codex/agents/reviewer-astra.toml.tmpl) | gpt-6-astra | medium | read-only |
-| [reviewer-sol](../dot_codex/agents/reviewer-sol.toml.tmpl) | gpt-6.1-sol | xhigh | read-only |
+| [parent-astra](../dot_codex/agents/parent-astra.toml.tmpl) | gpt-6.2-astra | low | workspace-write |
+| [parent-sol](../dot_codex/agents/parent-sol.toml.tmpl) | gpt-6.2-sol | medium | workspace-write |
+| [parent-sol-high](../dot_codex/agents/parent-sol-high.toml.tmpl) | gpt-6.2-sol | high | workspace-write |
+| [parent-sol-xhigh](../dot_codex/agents/parent-sol-xhigh.toml.tmpl) | gpt-6.2-sol | xhigh | workspace-write |
+| [reviewer-astra](../dot_codex/agents/reviewer-astra.toml.tmpl) | gpt-6.2-astra | medium | read-only |
+| [reviewer-sol](../dot_codex/agents/reviewer-sol.toml.tmpl) | gpt-6.2-sol | xhigh | read-only |
 | [worker-luna-high](../dot_codex/agents/worker-luna-high.toml.tmpl) | gpt-6-luna | high | workspace-write |
 | [worker-luna-low](../dot_codex/agents/worker-luna-low.toml.tmpl) | gpt-6-luna | low | workspace-write |
-| [worker-sol-high](../dot_codex/agents/worker-sol-high.toml.tmpl) | gpt-6.1-sol | high | workspace-write |
-| [worker-sol-low](../dot_codex/agents/worker-sol-low.toml.tmpl) | gpt-6.1-sol | low | workspace-write |
+| [worker-sol-high](../dot_codex/agents/worker-sol-high.toml.tmpl) | gpt-6.2-sol | high | workspace-write |
+| [worker-sol-low](../dot_codex/agents/worker-sol-low.toml.tmpl) | gpt-6.2-sol | low | workspace-write |
 | [worker-terra](../dot_codex/agents/worker-terra.toml.tmpl) | gpt-6.1-terra | medium | workspace-write |
 
 ## 現段階の解釈
@@ -35,6 +37,17 @@
 - **worker委任の目的**：Parentはすでにrootの全履歴から分離されている。履歴分離だけでworkerを起動せず、起動・引継ぎ・検査・再依頼を含む完了時間または実効費用の改善を見込める独立作業を渡す。新しい仕事では目的・範囲・判断難度から担当を選び直し、既存担当の存在だけで再利用しない。継続・訂正には引き続き適合する元担当を使う。正本は [root運用](../.chezmoitemplates/agent/team/root.md) と [企画・統合](../.chezmoitemplates/agent/team/planning.md)。利点が乏しければParentが直接進める。難しい作業の並列化は一般的な選択理由として追加しない。
 - **Reviewer / Advisor**：Sol xhigh、Astra mediumを維持する。Reviewerは全体の論理とユーザー意図、Advisorは方針の成立条件と改善を扱い、同じ個体で兼務しない。Sol xhigh Parentと同じeffortでも、独立した入力と評価基準による役割の分離に意味がある。モデル・effort差だけで品質を保証しない。
 - 定義上選べるeffortと実用上の採用価値は別であり、effortと能力の線形関係は仮定しない。ロールに採らなかったeffortを一律に無価値と結論しない。
+
+## 2026-11-18の更新判断と限界
+
+| 旧モデル → 新モデル | 対象ロール・effort | 判定 |
+| --- | --- | --- |
+| `gpt-6.1-sol` → `gpt-6.2-sol` | rootから起動するParent（medium / high / xhigh）、既存の編成で許可されたworker（low / high）、Advisor・Reviewer（xhigh） | 暫定採用 |
+| `gpt-6-astra` → `gpt-6.2-astra` | 高難度の統合を担うParent（low）、Astra系のAdvisor・Reviewer（medium） | 暫定採用 |
+
+- **互換性**。2026-11-18に公式資料を確認した。両モデルは11月17日にCodexへ提供され、CLI 0.170.0の公開カタログではいずれも最低CLI版は0.166.0。既存のeffort、テキスト・画像入力、マルチエージェントの方式、旧モデルと同じ既定コンテキスト（Sol 500,000、Astra 272,000）を確認した。作業環境で確認したCLIは `0.169.0-alpha.11.1`。[Codexモデル資料](https://learn.chatgpt.com/docs/models)・[CLI 0.170.0のモデルカタログ](https://github.com/openai/codex/blob/rust-v0.170.0/codex-rs/models-manager/models.json)
+- **採用根拠**。Solの既存ロールに対応する日常のコーディング・複数段階の作業と、Astraの既存ロールに対応する難しいコード・統合作業が公式の推奨用途に合う。公式評価では旧世代から品質・効率の改善が報告されている。CodexのStandardクレジット単価は旧Solと同額、Astraは入出力が20%減、キャッシュ入力が60%減。Lunaは定型処理の低コスト枠、Terraは文章・視覚・画面操作の枠として維持する。[公式発表](https://openai.com/index/introducing-gpt-6-2-astra-sol/)・[Codexの利用枠とクレジット単価](https://learn.chatgpt.com/docs/pricing)
+- **確認範囲と復帰条件**。利用アカウントでの起動、代表案件での品質・待ち時間・手戻り・利用枠消費は未確認。Parentからの子ロール起動、Advisorの成立条件の指摘、独立Reviewerの要求照合を代表ケースとする。起動失敗や受入条件を満たさない結果が出た場合は、環境・権限・指示・モデルを切り分け、必要に応じて表の旧モデルへ復帰し、TOML・CI期待値・現行表をそろえる。effort、ロール識別子、sandbox、呼出経路は従来の設定を引き継ぐ。
 
 ## 2026-10-29の見直し根拠と限界
 
