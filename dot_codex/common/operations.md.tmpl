@@ -1,7 +1,3 @@
 # 共通安全・操作手順
 
 {{ include ".chezmoitemplates/agent/rules/operations.md" }}
-
-## Codexの実行条件
-- ネットワークが必要なコマンド（curl/wget、git fetch/push、gh、npm install、pip、uv sync等）は実行前に昇格を求め、通常実行でネットワーク利用できると仮定しない。ファイル書き込みは作業ディレクトリまたは `$TMPDIR` 内を基本とし、外部への書き込みが必要なら事前に昇格を求める。
-- ネットワーク・権限エラー後のリトライや別経路回避はしない。`common/operations.md` に従って停止し、必要な権限と影響を説明する。
