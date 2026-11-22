@@ -1,4 +1,4 @@
-# 委任・回答の記入例
+# エージェント間通信の記入例
 
 正本は[共通インターフェース](../.chezmoitemplates/agent/team/interface.md)。
 
@@ -6,61 +6,75 @@
 
 以下は形式の説明であり、新たな権限や承認を与えない。
 
-#### 参照のみの短い調査
+#### rootからParentへの方針検討
 
 ```text
-目的・成果：指定資料からタイムアウトの既定値を回答する。
-原依頼・前提：原文「この資料での既定値を調べて」。解釈：推奨値の提案は含めない。
-対象・境界：共有済み資料v1の設定節。参照のみ。
-判断の範囲：記述の抽出を任せる。矛盾があれば両方示す。
-受入条件・検証：A1：値と出典箇所を示す。担当が原文と照合する。
-入力・返却先：共有済み資料v1。本文で返却。
-
-状態：完了。
-結論・成果：既定値は30秒。資料v1の設定節。
-受入条件への回答：A1：充足 — 同節に既定値30秒と記載。
-検証：設定節の原文を照合済み。
-残事項・依頼：なし。
+Purpose and deliverable: Recommend a review format that helps users see what needs their decision.
+Original request and context: User quote:「レビューが長くて、結局どこを見るべきか分からない。改善案を考えて」. Confirmed: proposal only. Root's interpretation: make decisions easy to find while keeping material risks visible. Working hypothesis: evidence and decision requests are currently mixed.
+Scope and authorization: Read-only. Use review guidelines v1 and the two shared examples.
+Decision latitude: Test the working hypothesis and identify other causes if supported. Choose which alternatives merit comparison. Recommend one direction with its tradeoffs. Changes require a separate instruction.
+Acceptance and verification: A1: Identify the cause using the examples. A2: Recommend a format and show where a decision, a material risk, and detailed evidence would appear. The Parent verifies both against the guidelines and examples.
+Inputs and handoff: Review guidelines v1 and examples A and B. Reply in this thread.
 ```
 
-#### 変更と検証を伴う委任
+Parentは目的を引き継ぎ、決定事項が後ろに埋もれる仮説と、短い要約で重大リスクが落ちる仮説を比較する。照合を分担するときは次のように範囲を切り出す。
 
 ```text
-目的・成果：設定説明の誤記を修正する。
-原依頼・前提：原文「説明を30秒に直して」。確定条件：実装の既定値は30秒。
-対象・境界：docs/settings.mdのみ変更。実装・他担当の変更は対象外。
-判断の範囲：周辺の表現調整は可。仕様変更は依頼元へ戻す。
-受入条件・検証：A1：既定値の説明が30秒。A2：対象外変更なし。担当が差分を確認。
-入力・返却先：依頼時の作業ツリーと資料v1。差分と結果を本文で返却。
-
-状態：完了。
-結論・成果：説明を修正。対象は返却時の作業ツリー差分。
-受入条件への回答：A1：充足 — 説明を30秒へ修正。A2：充足 — 指定ファイルの該当行のみ変更。
-検証：差分確認済み。実行時動作のテストは文書のみの変更のため未実施。
-残事項・依頼：なし。
+Purpose and deliverable: Return a two-row evidence table for examples A and B.
+Scope and authorization: Read-only. Inspect examples A and B and the material-risk rule in review guidelines v1.
+Decision latitude: Identify where each example states the release decision and any blocking risk. Flag ambiguous wording to the Parent.
+Acceptance and verification: For each row, give the decision location, the visible risk or a supported omission, and paragraph references. Recheck each reference.
 ```
 
-#### 一部完了後の不足
-
-上の依頼に「A3：非公開資料v2との一致を担当が確認」を追加した例。
+Parentが候補の列挙だけで返した場合、rootは元のA2に照らして不足を具体的に伝える。
 
 ```text
-状態：未完了・依頼元の対応待ち。
-結論・成果：A1・A2の修正と確認は完了。変更は作業ツリーに保持。
-受入条件への回答：A1・A2：充足 — 前記差分。A3：未確認。
-検証：差分確認済み。資料v2へのアクセスは拒否され、照合未実施。
-残事項・依頼：権限／情報不足でA3を確認できない。資料v2の該当本文の提供を依頼する。
+Follow-up on A2 of the review format request: The options are clear. Recommend one based on both examples, and show where it puts the decision, blocking risks, and detailed evidence. Keep the read-only scope and explain any tradeoff that would change the recommendation.
 ```
 
-#### 同じ担当への再依頼と再レビュー
+Parentからrootへの結果例。
 
 ```text
-目的・成果：前の委任のA3を完了する。
-原依頼・前提：資料v2の該当本文を追加提供。その他の条件は元依頼を継続。
-対象・境界：前回返却時の作業ツリー。既存修正を維持。
-判断の範囲：元依頼どおり。
-受入条件・検証：A3を照合し、変更があればA1・A2への影響も確認。
-入力・返却先：提供本文と前回差分。本文で返却。
+Status: Complete.
+Conclusion and deliverable: Lead with the decision and its material risks. Put the supporting evidence below. In example A, the release decision appeared after nine findings. In example B, a summary moved the decision up but omitted a blocking risk.
+Acceptance: A1: Met, both examples show where the decision or risk was lost. A2: Met, the proposal gives each item a place and keeps the existing risk disclosure requirement.
+Verification: Checked the order of both examples and the risk rule in review guidelines v1.
+Open items and requests: No trial with live reviews. The proposal is ready for a direction decision.
+```
+
+#### Parentからworkerへの局所変更と検証
+
+```text
+Purpose and deliverable: Correct the documented timeout default.
+Original request and context: User quote:「説明を30秒に直して」. Confirmed: the implementation default is 30 seconds.
+Scope and authorization: Edit the timeout paragraph in docs/settings.md. Preserve other contributors' changes. Runtime changes are out of scope.
+Decision latitude: Adjust surrounding wording for clarity. Raise any behavior discrepancy with the Parent.
+Acceptance and verification: A1: The paragraph states 30 seconds. A2: Your diff is limited to that paragraph. Check both against reference v1 and the diff.
+Inputs and handoff: Current workspace and reference v1. Return the diff location and checks in this thread.
+
+Status: Complete.
+Conclusion and deliverable: Corrected the timeout paragraph in docs/settings.md in the returned worktree.
+Acceptance: A1: Met, the paragraph now gives 30 seconds. A2: Met, my diff touches only that paragraph.
+Verification: Compared the paragraph with reference v1 and inspected the diff. Runtime testing was omitted for this documentation change.
+Open items and requests: None.
+```
+
+#### 一部完了後の質問
+
+上の依頼に、非公開資料v2との一致を確認するA3が加わった例。
+
+```text
+Status: Incomplete, awaiting requester action.
+Conclusion and deliverable: A1 and A2 are complete. The edit is in the worktree.
+Acceptance: A1 and A2: Met, see the diff and verification above. A3: Unverified.
+Verification: Inspected the diff. Access to reference v2 was denied, so I could not compare its timeout paragraph.
+Open items and requests: Can you share the timeout paragraph from v2? A3 depends on it. If v2 specifies a different default, I will report the discrepancy to you for a decision.
+```
+
+#### 同じ担当への訂正と再確認
+
+```text
+Correction to the timeout documentation request, targeting the worktree you returned: Use reference v2 for A3. User quote:「先ほどの資料は旧版です。最新版はv2です」. Reference v2 states: “The default timeout is 30 seconds.” Compare it with the existing edit and report the result. If it conflicts with the confirmed default, raise it with me. Keep the original edit scope and acceptance criteria A1 and A2.
 ```
 
 回答はA3の結果と前回からの差分を示す。独立レビューが必要なら、Parentは原依頼・確定条件・解釈・修正後の対象版・成果・検証を独立Reviewerへ渡す。評価完了・要修正は有効な回答だが、成果の通過を意味しない。対象版や必要証拠が不足すれば、委任された評価が未完了なら対応待ちとし、判定不能の理由と不足を返す。

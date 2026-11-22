@@ -12,15 +12,15 @@
 | --- | --- | --- | --- |
 | リポジトリ直下の `AGENTS.md` | このリポジトリの作業担当 | source編集・検証・配布の境界、保守ルールへの入口 | 配布先での業務手順、保守ルール全文 |
 | `dot_codex/AGENTS.md.tmpl`、`private_dot_claude/CLAUDE.md.tmpl` | 各環境の通常エージェント | 常時必要な原則と制約、詳細指示を読む契機・参照先 | 階層別の詳細フロー、編成一覧、変更経緯 |
-| `.chezmoitemplates/agent/rules/core.md` | 全担当 | 常設の原理原則、承認・範囲・安全・根拠、詳細を読む境界 | 案件運用の手順、実装詳細 |
+| `.chezmoitemplates/agent/rules/core.md` | 全担当 | 常設の原理原則、使用言語、人への説明、承認・範囲・安全・根拠、詳細を読む境界 | 案件運用の手順、実装詳細 |
 | `.chezmoitemplates/agent/rules/operations.md` | 操作・記録をする担当 | computer-use、中間領域、権限拒否の具体手順。該当行為前に読む | role選択・企画設計、実装手順 |
 | `.chezmoitemplates/agent/engineering/` | 実装worker・自ら実作業をするParent/root | 開発共通ガイド、コード調査（`investigation.md`）、作業スコープ、Git、TDD、lint、指示文書整備、言語別ガイド。`security-review.md` の確認観点は各環境の `common/security-review.md.tmpl` へ配布 | 一般の安全・承認境界、チーム編成 |
-| `.chezmoitemplates/agent/team/root.md` | 会話root | 目的・範囲の整理、限定直接対応、担当選択、原文引継ぎ、狭域継続・広域交代、承認仲介、返却 | Parentの設計・受入の詳細、実装手順、編成識別子 |
+| `.chezmoitemplates/agent/team/root.md` | 会話root | 意図の整理、会話・限定照合、担当選択、実質的な仕事の委任、指示の具体化と是正、狭域継続・広域交代、承認仲介、返却 | Parentの調査・設計・受入、実装手順、編成識別子 |
 | `.chezmoitemplates/agent/engineering/design.md` と両製品の `common/design.md.tmpl` | Web・UI/UXの企画・制作・批評を行う担当。該当行為の前 | 利用の流れ、重要案の比較、視覚表現、実画面の評価。共有本文をcommonへ直接include | 一般の要求整理・実装・承認・チーム編成 |
 | `docs/design-guidelines.md` | デザイン指示の利用者・メンテナ | 設計意図、教材との対応・限界、受入ケース、正本への入口 | 通常業務の独自規則 |
-| `.chezmoitemplates/agent/team/planning.md` | Parent・兼務root | 要求整理・企画設計、分担・受入条件、検証計画、統合、独立レビュー、記録・再利用 | root専任運用、実装実行手順、製品別設定 |
-| `.chezmoitemplates/agent/team/child.md` | worker・Advisor・Reviewer・assistant | 末端担当の作業範囲、返却・記録、再委任禁止 | 案件全体の統合、rootの対応順序 |
-| 同ディレクトリの `interface.md` | 委任を送受信する全担当 | 指示・回答の共通形式、項目の意味・省略条件 | 担当選択、権限付与、レビュー条件 |
+| `.chezmoitemplates/agent/team/planning.md` | Parent・兼務root | 確定条件を引き継いだ調査・仮説検証・設計、分担・受入条件、検証計画、統合、独立レビュー、記録・再利用 | rootの意図整理、実装実行手順、製品別設定 |
+| `.chezmoitemplates/agent/team/child.md` | worker・Advisor・Reviewer・assistant | 指定範囲への集中、矛盾・実現困難等の返却、再委任禁止 | 案件全体の要求整理・統合、共通の報告書式 |
+| 同ディレクトリの `interface.md` | エージェント間で通信する全担当 | 英語の委任・報告・質問・訂正の共通契約、原文の扱い、項目の意味・省略条件 | 人への回答形式、担当選択、権限付与、レビュー条件 |
 | 同ディレクトリの `worker.md` | worker | 指示範囲内の局所判断・実行・検証 | ユーザー意図の再定義、案件全体の受入 |
 | 同ディレクトリの `advisor.md` | Advisor | 方針相談・成立条件・改善案 | 独立レビュー、ユーザー承認 |
 | 同ディレクトリの `reviewer.md` | Reviewer | 原依頼・解釈・成果の整合、ユーザーへ返せるかの判定 | childの工程管理、成果の作成 |
@@ -31,9 +31,10 @@
 | `private_dot_claude/agents/*.md.tmpl` | 起動側と該当ロール | Claudeの責務別assistant・worker・advisor・reviewerの設定と共通本文の取り込み | 旧職能ロールの復活、共通ゲートの再定義 |
 | `docs/codex-subagents.md` | 構造を知りたい利用者 | 全体像、情報の流れ、設計意図、正本へのリンク | 運用規則の独自追加、詳細手順の複製 |
 | `docs/codex-agent-model-selection.md` | 編成を確認・評価する利用者とメンテナ | 設定由来の比較表、評価・受入ケース、変更経緯 | 設定や権限の別の正本 |
+| `docs/codex-model-selection-guidelines.md` | モデルや担当を見直すメンテナ | 仕事の種類別の評価軸、委任を含む総負担、根拠の扱い | 現行設定、採用履歴、変更手順、通常業務の担当選択 |
 | `engineering/change-control.md` と両製品common | 変更担当・変更前 | 変更種別の承認条件、テスト・Gitへの導線 | 個別業務の実行手順 |
 | `engineering/code-change.md`・`document-config.md` と両製品common | 該当業務の担当・実作業前 | 業務別手順と必要ガイドへの導線。言語ガイドの具体的な配布先パスは製品別code-change入口が所有 | 共通承認・レビューの再定義 |
-| `docs/agent-interface-examples.md` | 共通契約の利用者・保守担当 | 記入例と設計参考 | 運用規則の追加 |
+| `docs/agent-interface-examples.md` | 共通契約の利用者・保守担当 | エージェント間通信の記入例と設計参考 | 運用規則の追加 |
 | `docs/market-data-sources-history.md` | 過去記録を確認する保守担当 | 旧台帳の保存。配布しない | 現在の取得経路・利用許可の指定 |
 | `docs/instruction-reading-results.md` | 整理結果を確認する保守担当 | 固定基準との比較結果、経路変更の説明、検証限界 | 規則の正本 |
 | 本書 | 指示を追加・変更・整理するメンテナ | 配置、重複、参照、変更・検証の基準 | 通常業務で読むべき行動規則 |
@@ -45,7 +46,7 @@
 
 ## 担当ごとの受領時点
 
-全担当は `rules/core.md` を直接受領する。委任の共通契約 `team/interface.md` は全専用設定と両製品の `common/interface.md.tmpl` から直接includeする。専用Parent・末端担当は起動時、root・兼務Parentは初回委任前に受領し、既読不変なら再読しない。root/planning入口へ共通契約を重複includeしない。Parentと末端担当への必要安全の配布は、グローバル指示を継承するかどうかに依存しない。汎用入口に実作業の詳細を常設しない。
+全担当は `rules/core.md` を直接受領する。エージェント間の共通契約 `team/interface.md` は全専用設定と両製品の `common/interface.md.tmpl` から直接includeする。専用Parent・末端担当は起動時、root・兼務Parentは初回委任前に受領し、既読不変なら再読しない。root/planning入口へ共通契約を重複includeしない。Parentと末端担当への必要安全の配布は、グローバル指示を継承するかどうかに依存しない。汎用入口に実作業の詳細を常設しない。
 
 | 担当 | 起動時の専用本文 | 追加で読む時点 |
 | --- | --- | --- |
@@ -54,7 +55,7 @@
 | Worker | core、team/child.md、team/worker.md | 実作業前にcommon/implementation.md、対象の開発・言語・TDD/lint/Git等 |
 | Reviewer・Advisor・assistant | core、team/child.md、担当別本文 | 委任された案件資料・必要な個別規約。実装詳細は一括配布しない |
 
-Parent兼務rootは企画前にcommon/planning.md、rootの限定実作業でもcommon/implementation.mdを読む。ClaudeではrootがParentを兼務する。操作・記録の前はcommon/operations.mdを確認する。既読不変なら再読不要。必読資料が取得できなければ該当行為を進めない。
+Parent兼務rootは企画前にcommon/planning.mdを読む。ClaudeではrootがParentを兼務する。実作業・操作・記録などの行為前に読む資料はcoreから案内し、専用ロールに重ねて記載しない。既読不変なら再読不要。必読資料が取得できなければ該当行為を進めない。
 
 ## 用語の表記
 
@@ -124,7 +125,7 @@ python3 scripts/measure-instructions.py --write-baseline
 
 1. 新モデルの公開・旧モデルの廃止予定・利用条件の変更・実運用での問題を見直しの契機とする。対象ロールと担当業務、現行のモデル・effort、選び直す理由を [TOMLテンプレート](../dot_codex/agents/) と [チーム設定](../dot_codex/common/team.md.tmpl) から整理する。
 2. [Codexのモデル資料](https://learn.chatgpt.com/docs/models) と [変更履歴](https://learn.chatgpt.com/docs/changelog) で、対象クライアントでの提供、正式なモデルID、プラン・ワークスペース条件を確認する。対応effortや最低CLI版は、対象版の一次資料や [Codexの公開モデルカタログ](https://github.com/openai/codex/blob/main/codex-rs/models-manager/models.json) の該当リリースタグで照合する。APIでの提供、クライアントの対応、利用環境のアカウントでの起動可否はそれぞれ記録する。
-3. 候補ごとにロールの用途と必要なツール、入力形式、コンテキスト、権限を照合する。同じ系統の後継は現行effortを起点とする。非対応の場合は候補値を根拠付きで比較し、選定根拠が足りなければそのロールを保留する。別系統への移行や担当変更は、代表案件で必要な品質と総負担を先に定め、変更の影響を評価する。担当や権限の変更が承認範囲を超える場合は確認する。
+3. 候補ごとにロールの用途と必要なツール、入力形式、コンテキスト、権限を照合する。同じ系統の後継は現行effortを起点とする。非対応の場合は候補値を根拠付きで比較し、選定根拠が足りなければそのロールを保留する。[モデル選定基準](codex-model-selection-guidelines.md)に沿って、代表案件で必要な品質と総負担を定め、候補を評価する。担当や権限の変更が承認範囲を超える場合は確認する。
 
 ### ロールごとに判断する
 
@@ -143,11 +144,6 @@ python3 scripts/measure-instructions.py --write-baseline
 
 ### 決定根拠を残す
 
-- 現段階の解釈・根拠・変遷は [モデル選択資料](codex-agent-model-selection.md) に集約する。
-- 定義上選べるeffortと、担当業務で実用上選ぶ価値のあるeffortを区別する。高effortによる能力向上を線形と仮定しない。
-- 見直しごとに日付、旧設定、新設定、対象の呼出元・仕事、採用理由、反証・限界、未確認事項を残す。過去の結論を根拠ごと消さず、変更履歴として要約する。
-- 根拠を公式仕様・公開ベンチマーク・フォーラムの経験談・利用者の観測・運用上の判断に分ける。出典URL、確認日、比較条件を残し、確認できなかったことを測定事実にしない。
-- 価格はAPI単価、Codexの利用枠、実測の総費用を区別する。初回の速度・単価だけでなく、指示・受入・再作業の負担も考慮する。未取得の数値を推定で埋めない。
-- 公開ベンチマークによる弱い支持、実運用での満足、最適性の実証を区別する。総合点から個別ロールの品質を直接保証せず、設定維持を消極的に選ぶ場合も代案を採らない理由を残す。
-- 案件ごとの条件差と測定負担を踏まえ、再現性のある統計比較を運用上の設定判断の前提にしない。満足度、指摘の納得感、意図の理解、手戻り感、待ち時間・費用の負担感などの弱い指標を使う。採点や全件記録を義務化せず、具体例と判断理由を必要な範囲で残す。
-- 使用感の変化をモデル単独の性能差と断定しない。指示や分担の影響も考慮し、問題の顕在化や有用な公開情報を契機に見直す。比較試験の未実施だけを理由に設定を保留・変更し続けない。
+- 現行設定と判断の変遷は[選択記録](codex-agent-model-selection.md)に集約する。
+- 見直しごとに日付、旧設定、新設定、対象の呼出元・仕事、採用または維持の理由、反証・限界、未確認事項を記録する。過去の結論と理由は履歴に残す。
+- [モデル選定基準](codex-model-selection-guidelines.md)の根拠区分に沿って、出典URL、確認日、比較条件、次の見直しの契機を記録する。

@@ -4,7 +4,7 @@
 
 Sol系7ロールとAstra系3ロールをGPT-6.2へ暫定更新した。統括判断が限定された案件ではSol medium Parentを基本にし、実行部分は仕事内容で分担する。Terra mediumも暫定値とする。
 
-設定の正本は各TOML。担当とレビューの順序、編成・呼出権限、選定から検証までの手順はそれぞれの運用資料を参照する。[root運用](../.chezmoitemplates/agent/team/root.md)・[企画・統合](../.chezmoitemplates/agent/team/planning.md)・[チーム設定](../dot_codex/common/team.md.tmpl)・[モデル更新手順](instruction-maintenance.md#codexのモデル更新手順)
+設定の正本は各TOML。担当とレビューの順序、編成・呼出権限、選定基準と更新手順はそれぞれの資料を参照する。[root運用](../.chezmoitemplates/agent/team/root.md)・[企画・統合](../.chezmoitemplates/agent/team/planning.md)・[チーム設定](../dot_codex/common/team.md.tmpl)・[モデル選定基準](codex-model-selection-guidelines.md)・[モデル更新手順](instruction-maintenance.md#codexのモデル更新手順)
 
 | ロール | モデル | effort | sandbox |
 | --- | --- | --- | --- |
@@ -133,10 +133,15 @@ high / xhigh ParentからSol low childへの実効節約幅、Sol high / xhigh P
 | ケース | 期待する動作 |
 | --- | --- |
 | rootの検索・抽出・要約補助 | assistant-luna/high。Parentを起動しない |
-| 原因分析に使ったParentが残っている状態で、別の限定的なパス照合を依頼された | 新しい仕事として担当・モデルを再評価する。直接対応条件を満たせばrootが扱い、参照補助を使うならassistant-luna/high。既存Parentを話題の関連だけで再利用しない |
+| 原因分析に使ったParentが残っている状態で、別件の委任に必要な資料パスを照合する | rootが必要範囲だけ照合する。参照補助を使うならassistant-luna/high。既存Parentを話題の関連だけで再利用しない |
 | 同じ成果への追加情報・訂正で、元担当の仕事内容・モデル・権限が引き続き適合する | 元担当へ必要な差分を渡して継続する。新しい仕事の選定規則を理由に毎回新担当を起動しない |
 | rootの画像・画面・文書レイアウトの読解補助 | assistant-terra/medium。読み取り専用とし、変更操作は渡さない |
-| 指定資料からの抽出・固定条件の計算など、新たな判断が残らない限定作業 | rootが直接処理。必要成果・範囲・充足条件を先に定め、編成表の先読みや追加担当を必須にしない |
+| 会話中に確認済みの根拠の意味を質問された | rootが直接説明する。編成表や追加担当は不要 |
+| 範囲は狭いが、新たに資料を調べて結論を出す、または成果物を作成・変更する依頼 | 独立したCodexのrootは目的・成果・範囲と完了条件を整理してParentへ委任する。Claudeの兼務rootはParentとして実質的な仕事を進め、適した局所作業はchildに渡せる |
+| ユーザーが「レビューが長くて、どこを見ればいいか分からない」と改善案を依頼 | rootは日本語原文を引用し、英語で目的、暫定の解釈、完了条件、裁量を渡す。Parentは根拠と照合して有力案と推奨を示す。rootは判断材料と重大リスクを先に日本語で伝える。提案段階の承認範囲を守る |
+| Parentが具体的な文書修正を委任し、workerに確認用の資料が不足 | Parentは英語で対象箇所、所有範囲、局所裁量、受入条件と確認方法を伝える。workerは局所作業を進め、済んだ確認と資料で変わる判断を英語でParentに返す。Parentは資料や訂正を渡し、再確認を受け入れる |
+| Parentが調査中に、rootが伝えた要件と確認済みの資料との矛盾に気づいた | Parentは別の要件を決めず、根拠・影響・現時点の見立てをrootへ返す。独立して進められる調査を進め、rootがユーザー意図と要件を確定する |
+| Parentの報告が比較候補の列挙で終わり、実行可能な推奨が不足 | rootは不足した成果と判断軸を英語で補って対応を求める。実質的な比較と推奨はParentが担う。人に確認が必要なら有力案と判断が変わる条件を添える |
 | Parentへ渡す案件で、範囲・方針・受入条件を明確にでき統括判断が限定される | parent-sol / mediumを基本にし、workerが有効なら仕事内容でLuna / Terraを選ぶ。定型案件に限定しない |
 | 既存資料に基づく文章修正・指定画面への入力で、統括判断が限定される | parent-sol / medium＋worker-terra / medium。入力・保存が承認範囲内であることと、保存結果を確認する。実行の難しさだけでParentをhigh以上にしない |
 | 小さな成果でも要求間の競合や難しい原因分析・統合判断が残る | parent-sol-highまたはparent-sol-xhighを全体推論の深さで選ぶ。案件規模だけでmediumにしない |
