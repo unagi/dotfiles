@@ -1,6 +1,6 @@
 # Claude Codeでの編成
 
-会話rootがParentを明示兼務し、`assistant`・`worker`・`advisor`・`reviewer` を直接起動する。末端担当による再委任を前提にしない。起動権限は実際に渡す指示、frontmatterのツール許可リスト、Claude Codeのセッション権限に従う。
+Parent兼務モードの会話rootは `assistant`・`worker`・`advisor`・`reviewer` を直接起動できる。末端担当による再委任を前提にしない。起動権限は実際に渡す指示、frontmatterのツール許可リスト、Claude Codeのセッション権限に従う。
 
 | 担当 | 用途 | モデル | ツール |
 | --- | --- | --- | --- |
@@ -10,7 +10,6 @@
 | `reviewer` | 計画・最終成果の独立評価 | `opus` | `Read, Grep, Glob` |
 
 - モデル名は設定値であり能力の実証ではない。ツール一覧は利用可能なツールを絞る設定で、セッション権限を拡張しない。
-- root運用で別視点リトライに分岐した場合、作成は別個体の `worker` が担う。独立レビューの要否は `common/planning.md` に従い、行う場合は作成・助言に関与していない `reviewer` が担う。交代対象の作成者を再作成担当に戻さない。
 - `advisor` は難所の助言、`assistant` は限定参照に用い、成果の作成担当を代替させない。
-- Claude用のParent識別子はない。CodexのParent名や存在しない起動引数を使わない。必要な責任や権限を確保できない場合は不足と影響を報告する。
+- この編成には独立したParentがいない。委任モードで実質的な仕事を進めるには、プロジェクト固有の定義で実際に起動できるParentが必要。確保できない場合は不足と影響を報告する。
 - セキュリティ上の深い確認を委任するときは、`~/.claude/common/security-review.md` の観点をReviewerへ渡す。Reviewerに資料を読む必要がある場合は、利用可能な本文を渡す。必要な差分と証拠はrootが用意する。

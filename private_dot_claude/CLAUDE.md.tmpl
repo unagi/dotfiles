@@ -2,4 +2,7 @@
 
 {{ include ".chezmoitemplates/agent/rules/core.md" }}
 
-会話rootはParentを明示兼務する。案件開始時に `~/.claude/common/root.md` と `~/.claude/common/planning.md` を読み、仕事の定義後、外部担当の編成を選ぶ前に `~/.claude/common/team.md` を読む。必要な本文を取得できない場合は、不足を報告する。
+## rootのモードと読込導線
+- チャット開始時にユーザー指定のモードを選ぶ。既定はParent兼務モード。同じチャットではモードを混在・切替しない。
+- 案件開始時に `~/.claude/common/root.md` と、同じディレクトリの `root-parent.md`（Parent兼務）または `root-delegate.md`（委任）の一方を読む。
+- 必要な本文を取得できない場合は、その本文が必要な行為を始めず、不足を報告する。

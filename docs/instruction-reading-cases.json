@@ -192,6 +192,20 @@
       ]
     },
     {
+      "id": "codex-root-common",
+      "conditions": "グローバル入口と共通本文の読込まで。開始時の計測区間で、選んだモードの本文は後続ケースに含める。",
+      "reads": [
+        {
+          "path": "dot_codex/AGENTS.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "dot_codex/common/root.md.tmpl",
+          "reason": "案件開始時の共通本文"
+        }
+      ]
+    },
+    {
       "id": "codex-root-direct",
       "conditions": "固定条件による限定回答。委任・コード調査・操作・保存なし。",
       "reads": [
@@ -201,7 +215,11 @@
         },
         {
           "path": "dot_codex/common/root.md.tmpl",
-          "reason": "案件開始時"
+          "reason": "案件開始時の共通本文"
+        },
+        {
+          "path": "dot_codex/common/root-delegate.md.tmpl",
+          "reason": "開始時に固定した委任モード"
         }
       ]
     },
@@ -215,15 +233,101 @@
         },
         {
           "path": "dot_codex/common/root.md.tmpl",
-          "reason": "案件開始時"
+          "reason": "案件開始時の共通本文"
         },
         {
-          "path": "dot_codex/common/interface.md.tmpl",
-          "reason": "初回委任前。root本文からの条件付き参照"
+          "path": "dot_codex/common/root-delegate.md.tmpl",
+          "reason": "開始時に固定した委任モード"
         },
         {
           "path": "dot_codex/common/team.md.tmpl",
-          "reason": "委任先の選択"
+          "reason": "責任・委任内容を定めた後の担当と起動方法の確認"
+        },
+        {
+          "path": "dot_codex/common/interface.md.tmpl",
+          "reason": "初回委任前"
+        }
+      ]
+    },
+    {
+      "id": "codex-root-delegate-recovery",
+      "conditions": "委任成果への広域・抽象的な指摘を受け、別Parentに引き継ぐ。初回委任で読んだ本文は再読しない。操作・保存なし。",
+      "reads": [
+        {
+          "path": "dot_codex/AGENTS.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "dot_codex/common/root.md.tmpl",
+          "reason": "案件開始時の共通本文"
+        },
+        {
+          "path": "dot_codex/common/root-delegate.md.tmpl",
+          "reason": "開始時に固定した委任モード"
+        },
+        {
+          "path": "dot_codex/common/team.md.tmpl",
+          "reason": "責任・委任内容を定めた後の担当と起動方法の確認"
+        },
+        {
+          "path": "dot_codex/common/interface.md.tmpl",
+          "reason": "初回委任前"
+        },
+        {
+          "path": "dot_codex/common/recovery.md.tmpl",
+          "reason": "ユーザーが委任成果への不満を示した時点"
+        }
+      ]
+    },
+    {
+      "id": "codex-root-parent-plan",
+      "conditions": "Parent兼務で企画を開始するまで。child起動・実作業・操作・保存なし。",
+      "reads": [
+        {
+          "path": "dot_codex/AGENTS.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "dot_codex/common/root.md.tmpl",
+          "reason": "案件開始時の共通本文"
+        },
+        {
+          "path": "dot_codex/common/root-parent.md.tmpl",
+          "reason": "開始時に固定したParent兼務モード"
+        },
+        {
+          "path": "dot_codex/common/planning.md.tmpl",
+          "reason": "Parent兼務で実質的な企画を始める前"
+        }
+      ]
+    },
+    {
+      "id": "codex-root-parent-child",
+      "conditions": "Parent兼務で企画し、childを起動して成果を受領する。実作業・操作・保存なし。child自身の専用本文は別ケース。",
+      "reads": [
+        {
+          "path": "dot_codex/AGENTS.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "dot_codex/common/root.md.tmpl",
+          "reason": "案件開始時の共通本文"
+        },
+        {
+          "path": "dot_codex/common/root-parent.md.tmpl",
+          "reason": "開始時に固定したParent兼務モード"
+        },
+        {
+          "path": "dot_codex/common/planning.md.tmpl",
+          "reason": "Parent兼務で実質的な企画を始める前"
+        },
+        {
+          "path": "dot_codex/common/team.md.tmpl",
+          "reason": "責任・委任内容を定めた後の担当と起動方法の確認"
+        },
+        {
+          "path": "dot_codex/common/interface.md.tmpl",
+          "reason": "初回委任前"
         }
       ]
     },
@@ -404,8 +508,8 @@
       ]
     },
     {
-      "id": "claude-root-plan",
-      "conditions": "案件開始時の必須読込。担当選択・実作業・操作・保存なし。",
+      "id": "claude-root-common",
+      "conditions": "グローバル入口と共通本文の読込まで。開始時の計測区間で、選んだモードの本文は後続ケースに含める。",
       "reads": [
         {
           "path": "private_dot_claude/CLAUDE.md.tmpl",
@@ -413,11 +517,107 @@
         },
         {
           "path": "private_dot_claude/common/root.md.tmpl",
-          "reason": "案件開始時"
+          "reason": "案件開始時の共通本文"
+        }
+      ]
+    },
+    {
+      "id": "claude-root-plan",
+      "conditions": "Parent兼務で企画を開始するまで。child起動・実作業・操作・保存なし。",
+      "reads": [
+        {
+          "path": "private_dot_claude/CLAUDE.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "private_dot_claude/common/root.md.tmpl",
+          "reason": "案件開始時の共通本文"
+        },
+        {
+          "path": "private_dot_claude/common/root-parent.md.tmpl",
+          "reason": "開始時に固定したParent兼務モード"
         },
         {
           "path": "private_dot_claude/common/planning.md.tmpl",
-          "reason": "Parent兼務"
+          "reason": "Parent兼務で実質的な企画を始める前"
+        }
+      ]
+    },
+    {
+      "id": "claude-root-parent-child",
+      "conditions": "Parent兼務で企画し、childを起動して成果を受領する。実作業・操作・保存なし。child自身の専用本文は別ケース。",
+      "reads": [
+        {
+          "path": "private_dot_claude/CLAUDE.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "private_dot_claude/common/root.md.tmpl",
+          "reason": "案件開始時の共通本文"
+        },
+        {
+          "path": "private_dot_claude/common/root-parent.md.tmpl",
+          "reason": "開始時に固定したParent兼務モード"
+        },
+        {
+          "path": "private_dot_claude/common/planning.md.tmpl",
+          "reason": "Parent兼務で実質的な企画を始める前"
+        },
+        {
+          "path": "private_dot_claude/common/team.md.tmpl",
+          "reason": "責任・委任内容を定めた後の担当と起動方法の確認"
+        },
+        {
+          "path": "private_dot_claude/common/interface.md.tmpl",
+          "reason": "初回委任前"
+        }
+      ]
+    },
+    {
+      "id": "claude-root-parent-recovery",
+      "conditions": "兼務root自身が作成した成果を全体から見直す指摘を受け、新しい委任モードのチャットへの引継ぎを用意する。現チャットでの委任・操作・保存なし。",
+      "reads": [
+        {
+          "path": "private_dot_claude/CLAUDE.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "private_dot_claude/common/root.md.tmpl",
+          "reason": "案件開始時の共通本文"
+        },
+        {
+          "path": "private_dot_claude/common/root-parent.md.tmpl",
+          "reason": "開始時に固定したParent兼務モード"
+        },
+        {
+          "path": "private_dot_claude/common/planning.md.tmpl",
+          "reason": "Parent兼務で実質的な企画を始める前"
+        },
+        {
+          "path": "private_dot_claude/common/recovery.md.tmpl",
+          "reason": "ユーザーが兼務rootの成果への不満を示した時点"
+        }
+      ]
+    },
+    {
+      "id": "claude-root-delegate-unavailable",
+      "conditions": "開始時に委任モードを指定。実質的な仕事のため編成を確認するが、独立したParentがなく、担当不足を報告する。委任・操作・保存なし。",
+      "reads": [
+        {
+          "path": "private_dot_claude/CLAUDE.md.tmpl",
+          "reason": "グローバル入口"
+        },
+        {
+          "path": "private_dot_claude/common/root.md.tmpl",
+          "reason": "案件開始時の共通本文"
+        },
+        {
+          "path": "private_dot_claude/common/root-delegate.md.tmpl",
+          "reason": "開始時に固定した委任モード"
+        },
+        {
+          "path": "private_dot_claude/common/team.md.tmpl",
+          "reason": "責任・委任内容を定めた後のParent有無の確認"
         }
       ]
     }

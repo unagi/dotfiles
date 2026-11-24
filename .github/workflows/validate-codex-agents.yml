@@ -130,11 +130,11 @@ jobs:
           for product in ('dot_codex', 'private_dot_claude'):
               design = source / product / 'common/design.md.tmpl'
               assert include.findall(design.read_text()) == ['.chezmoitemplates/agent/engineering/design.md'], design
-              for entry in ('root', 'planning'):
-                  path = source / product / 'common' / (entry + '.md.tmpl')
-                  refs = include.findall(path.read_text())
-                  assert '.chezmoitemplates/agent/team/interface.md' not in refs, path
-              for name, area in (('interface', 'team'), ('change-control', 'engineering'), ('code-change', 'engineering'), ('document-config', 'engineering')):
+              team_entries = ('root', 'root-delegate', 'root-parent', 'recovery', 'planning', 'interface')
+              engineering_entries = ('change-control', 'code-change', 'document-config')
+              entries = [(name, 'team') for name in team_entries]
+              entries += [(name, 'engineering') for name in engineering_entries]
+              for name, area in entries:
                   path = source / product / 'common' / (name + '.md.tmpl')
                   assert include.findall(path.read_text()) == [f'.chezmoitemplates/agent/{area}/{name}.md'], path
           assert not (source / '.chezmoitemplates/agent/engineering/work-scope.md').exists()

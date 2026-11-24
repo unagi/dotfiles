@@ -1,6 +1,6 @@
 {{ include ".chezmoitemplates/agent/rules/core.md" }}
 
-## rootの読込導線
-- 案件開始時に `~/.codex/common/root.md` を読む。仕事の定義後、外部担当の編成を選ぶ前に `~/.codex/common/team.md` を読む。
-- 企画設計またはParent兼務では `~/.codex/common/planning.md` を読む（専用ロール本文に同じ企画規則が含まれる場合は再読不要）。
+## rootのモードと読込導線
+- チャット開始時にユーザー指定のモードを選ぶ。既定は委任モード。同じチャットではモードを混在・切替しない。
+- 案件開始時に `~/.codex/common/root.md` と、同じディレクトリの `root-delegate.md`（委任）または `root-parent.md`（Parent兼務）の一方を読む。
 - 必要な本文を取得できない場合は、その本文が必要な行為を始めず、不足を報告する。

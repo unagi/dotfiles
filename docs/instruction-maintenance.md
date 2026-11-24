@@ -15,7 +15,10 @@
 | `.chezmoitemplates/agent/rules/core.md` | 全担当 | 常設の原理原則、使用言語、人への説明、承認・範囲・安全・根拠、詳細を読む境界 | 案件運用の手順、実装詳細 |
 | `.chezmoitemplates/agent/rules/operations.md` | 操作・記録をする担当 | computer-use、中間領域、権限拒否の具体手順。該当行為前に読む | role選択・企画設計、実装手順 |
 | `.chezmoitemplates/agent/engineering/` | 実装worker・自ら実作業をするParent/root | 開発共通ガイド、コード調査（`investigation.md`）、作業スコープ、Git、TDD、lint、指示文書整備、言語別ガイド。`security-review.md` の確認観点は各環境の `common/security-review.md.tmpl` へ配布 | 一般の安全・承認境界、チーム編成 |
-| `.chezmoitemplates/agent/team/root.md` | 会話root | 意図の整理、会話・限定照合、担当選択、実質的な仕事の委任、指示の具体化と是正、狭域継続・広域交代、承認仲介、返却 | Parentの調査・設計・受入、実装手順、編成識別子 |
+| `.chezmoitemplates/agent/team/root.md` | 会話root。案件開始時 | 意図、課題と仮説の根拠、確定条件・完了条件、承認、ユーザーへの報告、復旧本文への導線 | モード固有の分担、復旧の詳細、編成識別子 |
+| `.chezmoitemplates/agent/team/root-delegate.md` | 委任モードの会話root。モード選択時 | 直接扱う範囲、Parentの選定・指示・進捗確認・受入、初回委任と編成への導線 | Parentの実質的な調査・設計・制作、モード選択、復旧の詳細 |
+| `.chezmoitemplates/agent/team/root-parent.md` | Parent兼務モードの会話root。モード選択時 | planningへの導線、兼務で責任を持てる範囲、現在のモードで進めにくい場合の新チャットへの引継ぎ | planningの手順の再掲、製品別編成、復旧の詳細 |
+| `.chezmoitemplates/agent/team/recovery.md` | 回答・成果の不足、不満、再試行の依頼がユーザーの発言に現れたときの会話root。root本文から参照 | 指摘の範囲、元担当による修正、別個体による再作成、モード別の引継ぎ | 通常時の担当選定・進捗確認、独立レビュー手順 |
 | `.chezmoitemplates/agent/engineering/design.md` と両製品の `common/design.md.tmpl` | Web・UI/UXの企画・制作・批評を行う担当。該当行為の前 | 利用の流れ、重要案の比較、視覚表現、実画面の評価。共有本文をcommonへ直接include | 一般の要求整理・実装・承認・チーム編成 |
 | `docs/design-guidelines.md` | デザイン指示の利用者・メンテナ | 設計意図、教材との対応・限界、受入ケース、正本への入口 | 通常業務の独自規則 |
 | `.chezmoitemplates/agent/team/planning.md` | Parent・兼務root | 確定条件を引き継いだ調査・仮説検証・設計、分担・受入条件、検証計画、統合、独立レビュー、記録・再利用 | rootの意図整理、実装実行手順、製品別設定 |
@@ -25,7 +28,7 @@
 | 同ディレクトリの `advisor.md` | Advisor | 方針相談・成立条件・改善案 | 独立レビュー、ユーザー承認 |
 | 同ディレクトリの `reviewer.md` | Reviewer | 原依頼・解釈・成果の整合、ユーザーへ返せるかの判定 | childの工程管理、成果の作成 |
 | 各環境の `common/team.md.tmpl` | root・起動担当 | 製品別編成表・識別子・モデル対応・起動制約 | 共通案件運用の全文、承認ゲート再定義 |
-| 各環境の `common/root.md.tmpl`・`planning.md.tmpl` | root・企画担当 | 対応する共有運用正本の配布と製品固有事項 | 実装詳細 |
+| 各環境の `common/root.md.tmpl`・`root-delegate.md.tmpl`・`root-parent.md.tmpl`・`recovery.md.tmpl`・`planning.md.tmpl` | root・企画担当。各本文の読込条件に従う | 対応する共有運用正本の直接includeと製品固有事項 | 複数モードや復旧本文の一括include、実装詳細 |
 | 各環境の `common/implementation.md.tmpl` と実作業・操作用テンプレート | 該当行為の担当 | 実作業/操作の正本配布、行為前の参照先・製品固有手順 | 全担当への実装詳細の常設 |
 | `dot_codex/agents/*.toml.tmpl` | 起動側と該当ロール | モデル・effort等の設定、固有の目的・入出力・制約、共通本文の取り込み | 取り込む共通本文の言い換え、rootに対する長い行動指示 |
 | `private_dot_claude/agents/*.md.tmpl` | 起動側と該当ロール | Claudeの責務別assistant・worker・advisor・reviewerの設定と共通本文の取り込み | 旧職能ロールの復活、共通ゲートの再定義 |
@@ -50,12 +53,12 @@
 
 | 担当 | 起動時の専用本文 | 追加で読む時点 |
 | --- | --- | --- |
-| root | グローバル入口のcoreと短い導線 | 案件開始時にcommon/root.md。責任・委任内容確定後、外部起動が必要ならcommon/team.md |
+| root | グローバル入口のcore、製品別の既定モードと開始時の選択 | 案件開始時に `common/root.md` と選んだモードの本文1件。復旧は `root.md` の条件に該当したときだけ `common/recovery.md` |
 | Parent | coreとteam/planning.md | child起動前にcommon/team.md。自らコード調査・実装・検証する前はcommon/implementation.mdと必要資料 |
 | Worker | core、team/child.md、team/worker.md | 実作業前にcommon/implementation.md、対象の開発・言語・TDD/lint/Git等 |
 | Reviewer・Advisor・assistant | core、team/child.md、担当別本文 | 委任された案件資料・必要な個別規約。実装詳細は一括配布しない |
 
-Parent兼務rootは企画前にcommon/planning.mdを読む。ClaudeではrootがParentを兼務する。実作業・操作・記録などの行為前に読む資料はcoreから案内し、専用ロールに重ねて記載しない。既読不変なら再読不要。必読資料が取得できなければ該当行為を進めない。
+会話rootはグローバル入口でモードを固定する。既定はCodexが委任モード、ClaudeがParent兼務モードで、開始時のユーザー指定を優先する。委任モードでは責任・委任内容を定めてから編成を確認する。Parent兼務モードでは実質的な企画・作業前に `common/planning.md` を読み、child起動時の参照はplanningに従う。実作業・操作・記録などの行為前に読む資料はcoreから案内し、専用ロールに重ねて記載しない。既読不変なら再読不要。必読資料が取得できなければ該当行為を進めない。
 
 ## 用語の表記
 
@@ -117,7 +120,7 @@ python3 scripts/measure-instructions.py --write-baseline
 
 基準値には本文そのものや端末固有絶対パスを保存しない。基準値更新の理由と前後差を変更説明に残す。計測器・テストは `scripts/`、ケースと基準値は `docs/` に置き、いずれも配布対象外とする。
 
-本書の追加だけで既存文書の整理完了とはしない。整理ごとに対象・保持条件・検証結果を確認する。共通の安全・承認境界はcore、担当選択・移管・承認仲介はroot、企画・受入・独立レビューはplanning、末端責務はchildと担当別本文、実作業はengineeringが所有する。全ロールは共通原則を明示的に取り込む。保守用docsを運用時の必須参照にしない。
+本書の追加だけで既存文書の整理完了とはしない。整理ごとに対象・保持条件・検証結果を確認する。共通の安全・承認境界はcore、会話rootの課題設定と承認仲介はroot、Parentの選定と受入はroot-delegate、兼務と引継ぎはroot-parent、指摘後の修正・交代はrecovery、企画・child受入・独立レビューはplanning、末端責務はchildと担当別本文、実作業はengineeringが所有する。全ロールは共通原則を明示的に取り込む。保守用docsを運用時の必須参照にしない。
 
 ## Codexのモデル更新手順
 
